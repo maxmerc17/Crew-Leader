@@ -43,6 +43,58 @@ struct Block: Identifiable, Codable, Hashable {
 }
 
 extension Block {
+    struct Data {
+        var blockNumber : String = ""
+        var chatFreq : String = ""// make enum
+        var roadChannelFreq : String = ""// make enum
+        var towerTelChannel : String = ""// make enum
+        var lat : String = ""
+        var long : String = ""
+        var numWorkers : Int = 0
+        var workStartDate : Date = Date.now
+        var workFinishDate : Date = Date.now
+        var client : String = ""// make enum
+        var crewLeader : Person = Person(data: Person.Data())
+        var firstAidAttendant : Person = Person(data: Person.Data())
+        var supervisor : Person = Person(data: Person.Data())
+    }
+    
+    init(data: Data) {
+        id = UUID()
+        blockNumber = data.blockNumber
+        chatFreq = data.chatFreq
+        roadChannelFreq = data.roadChannelFreq
+        towerTelChannel = data.towerTelChannel
+        lat = data.lat
+        long = data.long
+        numWorkers = data.numWorkers
+        workStartDate = data.workStartDate
+        workFinishDate = data.workFinishDate
+        client = data.client
+        crewLeader = data.crewLeader
+        firstAidAttendant = data.firstAidAttendant
+        supervisor = data.supervisor
+    }
+    
+    mutating func update(data: Data){
+        blockNumber = data.blockNumber
+        chatFreq = data.chatFreq
+        roadChannelFreq = data.roadChannelFreq
+        towerTelChannel = data.towerTelChannel
+        lat = data.lat
+        long = data.long
+        numWorkers = data.numWorkers
+        workStartDate = data.workStartDate
+        workFinishDate = data.workFinishDate
+        client = data.client
+        crewLeader = data.crewLeader
+        firstAidAttendant = data.firstAidAttendant
+        supervisor = data.supervisor
+    }
+}
+
+
+extension Block {
     static let sampleData : [Block] =
         [
         Block(

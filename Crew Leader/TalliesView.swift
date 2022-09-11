@@ -11,6 +11,8 @@ struct TalliesView: View {
     @State var isPresentingNewTallyView : Bool = false
     @State var tallies : [DailyTally] = DailyTally.sampleData
     
+    @State var newTally : DailyTally = DailyTally(data: DailyTally.Data())
+    
     //@State var newTally : DailyTally
     
     var body: some View {
@@ -29,9 +31,9 @@ struct TalliesView: View {
                 }
             }
             .sheet(isPresented: $isPresentingNewTallyView){
-                //NavigatinView(){
-                 //   NewTallyView()
-                //}
+                NavigationView(){
+                    NewTallyView(newTally: $newTally)
+                }
                 /*NavigationView {
                     DetailEditView(data: $newScrumData)
                         .toolbar {

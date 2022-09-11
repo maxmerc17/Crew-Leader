@@ -30,7 +30,6 @@ struct DailyTallyView: View {
                         }
                     }
                     
-                    
                     Section("Planters"){
                         ForEach(tally.blocks[selectedBlock]?.individualTallies ?? []) {
                             individualTally in

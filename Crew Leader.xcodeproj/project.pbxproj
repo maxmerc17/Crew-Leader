@@ -26,6 +26,9 @@
 		85EF068B28CE5C45008D006A /* DailyTallyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EF068A28CE5C45008D006A /* DailyTallyView.swift */; };
 		85EF068D28CE6462008D006A /* BlockSwitchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EF068C28CE6462008D006A /* BlockSwitchView.swift */; };
 		85EF068F28CE695A008D006A /* utilites.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EF068E28CE695A008D006A /* utilites.swift */; };
+		85EF069128CE8B2F008D006A /* NewTallyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EF069028CE8B2F008D006A /* NewTallyView.swift */; };
+		85EF069328CEA95A008D006A /* AddSpeciesContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EF069228CEA95A008D006A /* AddSpeciesContainer.swift */; };
+		85EF069528CEAB07008D006A /* AddSpeciesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EF069428CEAB07008D006A /* AddSpeciesView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,6 +71,9 @@
 		85EF068A28CE5C45008D006A /* DailyTallyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyTallyView.swift; sourceTree = "<group>"; };
 		85EF068C28CE6462008D006A /* BlockSwitchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockSwitchView.swift; sourceTree = "<group>"; };
 		85EF068E28CE695A008D006A /* utilites.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = utilites.swift; sourceTree = "<group>"; };
+		85EF069028CE8B2F008D006A /* NewTallyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTallyView.swift; sourceTree = "<group>"; };
+		85EF069228CEA95A008D006A /* AddSpeciesContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSpeciesContainer.swift; sourceTree = "<group>"; };
+		85EF069428CEAB07008D006A /* AddSpeciesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSpeciesView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,6 +135,9 @@
 				85EF068628CE4467008D006A /* CardView.swift */,
 				85EF068A28CE5C45008D006A /* DailyTallyView.swift */,
 				85EF068C28CE6462008D006A /* BlockSwitchView.swift */,
+				85EF069028CE8B2F008D006A /* NewTallyView.swift */,
+				85EF069228CEA95A008D006A /* AddSpeciesContainer.swift */,
+				85EF069428CEAB07008D006A /* AddSpeciesView.swift */,
 			);
 			path = "Crew Leader";
 			sourceTree = "<group>";
@@ -301,16 +310,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				85EF069528CEAB07008D006A /* AddSpeciesView.swift in Sources */,
 				85EF068F28CE695A008D006A /* utilites.swift in Sources */,
 				85EF068D28CE6462008D006A /* BlockSwitchView.swift in Sources */,
 				85EF067D28CBCD86008D006A /* Person.swift in Sources */,
 				85EF068B28CE5C45008D006A /* DailyTallyView.swift in Sources */,
 				85EF068328CBD68E008D006A /* DailyTally.swift in Sources */,
+				85EF069128CE8B2F008D006A /* NewTallyView.swift in Sources */,
 				85EF068128CBD35B008D006A /* Block.swift in Sources */,
 				85EF067A28CBCA49008D006A /* template_view.swift in Sources */,
 				85EF068728CE4467008D006A /* CardView.swift in Sources */,
 				85EF068528CE402C008D006A /* PlanterTallyView.swift in Sources */,
 				85EF067F28CBD054008D006A /* Crew.swift in Sources */,
+				85EF069328CEA95A008D006A /* AddSpeciesContainer.swift in Sources */,
 				8545286028CBC63B00DF64F2 /* ContentView.swift in Sources */,
 				85EF068928CE52F8008D006A /* Species.swift in Sources */,
 				8545285E28CBC63B00DF64F2 /* Crew_LeaderApp.swift in Sources */,
