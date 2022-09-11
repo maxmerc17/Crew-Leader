@@ -33,27 +33,6 @@ struct DailyTally : Identifiable {
     }
 }
 
-extension DailyTally {
-    static let sampleData: [DailyTally] =
-    [
-        DailyTally(id: UUID(),
-                   date: Date.now,
-                   contract: "Canfor",
-                   supervisor: Person.sampleSupervisor,
-                   crew: Crew.sampleData,
-                   commission: 0.15,
-                   blocks: [Block.sampleData[0] : DailyBlockTally.sampleData[0], Block.sampleData[1] : DailyBlockTally.sampleData[1]]),
-        
-        DailyTally(id: UUID(),
-                   date: Date.now,
-                   contract: "Canfor",
-                   supervisor: Person.sampleSupervisor,
-                   crew: Crew.sampleData,
-                   commission: 0.15,
-                   blocks: [Block.sampleData[0] : DailyBlockTally.sampleData[0], Block.sampleData[1] : DailyBlockTally.sampleData[1]])
-    ]
-}
-
 struct DailyBlockTally : Identifiable {
     var id : UUID
     var species : [Species]
@@ -80,10 +59,6 @@ struct DailyBlockTally : Identifiable {
     }
 }
 
-extension DailyBlockTally {
-    static let sampleData = [ DailyBlockTally(id: UUID(), species: Array(Species.sampleData[0...3]), individualTallies: DailyPlanterTally.sampleData), DailyBlockTally(id: UUID(), species: Array(Species.sampleData[0...3]), individualTallies: DailyPlanterTally.sampleData) ]
-}
-
 struct DailyPlanterTally : Identifiable {
     var id : UUID
     var planter : Person
@@ -100,6 +75,111 @@ struct DailyPlanterTally : Identifiable {
         self.treesPerSpecies = treesPerSpecies
     }
 }
+
+
+extension DailyTally {
+    struct Data {
+        var date = Date.now
+        var contract = "Canfor"
+        var supervisor = Person.sampleSupervisor
+        var crew = Crew(data: Crew.Data())
+        var commission = 0.15
+        var blocks : [Block : DailyBlockTally] = [:]
+    }
+    
+    init(data: Data){
+        id = UUID()
+        date = data.date
+        contract = data.contract
+        supervisor = data.supervisor
+        crew = data.crew
+        commission = data.commission
+        blocks = data.blocks
+    }
+    
+    mutating func update(data: Data) {
+        date = data.date
+        contract = data.contract
+        supervisor = data.supervisor
+        crew = data.crew
+        commission = data.commission
+        blocks = data.blocks
+    }
+}
+
+
+extension DailyBlockTally {
+    
+    struct Data {
+        var species : [Species] = []
+        var individualTallies : [DailyPlanterTally] = []
+    }
+    
+    init(data: Data){
+        id = UUID()
+        species = data.species
+        individualTallies = data.individualTallies
+    }
+    
+    mutating func update(data: Data){
+        species = data.species
+        individualTallies = data.individualTallies
+    }
+    
+}
+
+
+extension DailyPlanterTally {
+    struct Data {
+        var planter : Person
+        var treesPerSpecies : [Species : Int]
+    }
+    
+    init(data: Data) {
+        id = UUID()
+        planter = data.planter
+        treesPerSpecies = data.treesPerSpecies
+    }
+    
+    mutating func update(data: Data){
+        planter = data.planter
+        treesPerSpecies = data.treesPerSpecies
+    }
+}
+
+
+
+extension DailyTally {
+    static let sampleData: [DailyTally] = [
+        DailyTally(id: UUID(),
+                   date: Date.now,
+                   contract: "Canfor",
+                   supervisor: Person.sampleSupervisor,
+                   crew: Crew.sampleData,
+                   commission: 0.15,
+                   blocks: [Block.sampleData[0] : DailyBlockTally.sampleData[0], Block.sampleData[1] : DailyBlockTally.sampleData[1]]),
+        
+        DailyTally(id: UUID(),
+                   date: Date.now,
+                   contract: "Canfor",
+                   supervisor: Person.sampleSupervisor,
+                   crew: Crew.sampleData,
+                   commission: 0.15,
+                   blocks: [Block.sampleData[0] : DailyBlockTally.sampleData[0], Block.sampleData[1] : DailyBlockTally.sampleData[1]])
+    ]
+}
+
+extension DailyBlockTally {
+    static let sampleData = [
+        DailyBlockTally(id: UUID(),
+                        species: Array(Species.sampleData[0...3]),
+                        individualTallies: DailyPlanterTally.sampleData),
+        DailyBlockTally(id: UUID(),
+                        species: Array(Species.sampleData[0...3]),
+                        individualTallies: DailyPlanterTally.sampleData)
+    ]
+}
+
 
 extension DailyPlanterTally {
     static let sampleData : [DailyPlanterTally] = [

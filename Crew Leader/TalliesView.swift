@@ -11,6 +11,8 @@ struct TalliesView: View {
     @State var isPresentingNewTallyView : Bool = false
     @State var tallies : [DailyTally] = DailyTally.sampleData
     
+    //@State var newTally : DailyTally
+    
     var body: some View {
         NavigationView {
             List {
@@ -19,12 +21,37 @@ struct TalliesView: View {
                         CardView(tally: tally)
                     }
                 }
-            }.navigationTitle("Tallies")
-                .toolbar {
-                    Button(action: {isPresentingNewTallyView = true}){
-                        Image(systemName: "plus")
-                    }
+            }
+            .navigationTitle("Tallies")
+            .toolbar {
+                Button(action: {isPresentingNewTallyView = true}){
+                    Image(systemName: "plus")
                 }
+            }
+            .sheet(isPresented: $isPresentingNewTallyView){
+                //NavigatinView(){
+                 //   NewTallyView()
+                //}
+                /*NavigationView {
+                    DetailEditView(data: $newScrumData)
+                        .toolbar {
+                            ToolbarItem(placement: .cancellationAction) {
+                                Button("Dismiss") {
+                                    isPresentingNewScrumView = false
+                                    newScrumData = DailyScrum.Data()
+                                }
+                            }
+                            ToolbarItem(placement: .confirmationAction) {
+                                Button("Add") {
+                                    let newScrum = DailyScrum(data: newScrumData)
+                                    scrums.append(newScrum)
+                                    isPresentingNewScrumView = false
+                                    newScrumData = DailyScrum.Data()
+                                }
+                            }
+                        }
+                }*/
+            }
         }
         
     }

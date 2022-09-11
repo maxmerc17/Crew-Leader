@@ -7,6 +7,9 @@
 
 import SwiftUI
 
+// TODO: I don't like how I index the player in the individual tallies list -- maybe use a dictionary like the other views
+// TODO: you add in the question marks because children can be nil .. good idea because children can be nil, but in some instances if the child is nil it is an error -- add checks in these areas(?)
+
 struct PlanterTallyView: View {
     @State var tally : DailyTally
     @State var blocks : [Block]
