@@ -6,12 +6,11 @@
 //
 import SwiftUI
 
-struct DetailView: View {
+struct DailyTallyView: View {
     @State var tally : DailyTally
     @State var selectedBlock : Block
     
     var body: some View {
-        NavigationView(){
             VStack(){
                 BlockSwitchView(blocks: Array(tally.blocks.keys), selectedBlock: $selectedBlock)
                 
@@ -20,33 +19,38 @@ struct DetailView: View {
                         Text("\(tally.blocks[selectedBlock]?.treesPlanted ?? 0)")
                     }
                     
-                    ForEach(Array(tally.blocks[selectedBlock]?.treesPlantedPerSpecies ?? [:]), id: \.key){
-                        species, planted in
-                            Section("\(species.name) planted"){
-                                Text("\(planted)")
-                            }
+                    Section("Species Count"){
+                        ForEach(Array(tally.blocks[selectedBlock]?.treesPlantedPerSpecies ?? [:]), id: \.key){
+                            species, planted in
+                                HStack {
+                                    Label("\(species.name)", systemImage: "leaf")
+                                    Spacer()
+                                    Text("\(planted) trees")
+                                }
+                        }
                     }
+                    
                     
                     Section("Planters"){
                         ForEach(tally.blocks[selectedBlock]?.individualTallies ?? []) {
                             individualTally in
-                            //NavigationLink(destination: IndiviualTallyView)
-                            Text("\(individualTally.planter.lastName), \(individualTally.planter.firstName)")
+                            NavigationLink(destination: PlanterTallyView(tally: tally, blocks: Array(tally.blocks.keys), selectedBlock: selectedBlock, planterTally: individualTally)){
+                                Text("\(individualTally.planter.lastName), \(individualTally.planter.firstName)")
+                            }
+                            
                         }
                     }
                     
                 }
                 
                 Spacer()
-            }
-        }.navigationTitle("\(utilities.formatDate(date: tally.date))")
-        
-    }
+            }.navigationTitle("\(utilities.formatDate(date: tally.date))")
+        }
 }
 
-struct DetailView_Previews: PreviewProvider {
+struct DailyTallyView_Previews: PreviewProvider {
     static var previews: some View {
-        DetailView(tally: DailyTally.sampleData[0], selectedBlock: Array(DailyTally.sampleData[0].blocks.keys)[0])
+        DailyTallyView(tally: DailyTally.sampleData[0], selectedBlock: Array(DailyTally.sampleData[0].blocks.keys)[0])
     }
 }
 

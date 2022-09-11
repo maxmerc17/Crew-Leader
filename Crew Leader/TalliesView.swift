@@ -15,7 +15,7 @@ struct TalliesView: View {
         NavigationView {
             List {
                 ForEach(tallies) { tally in
-                    NavigationLink (destination: DetailView(tally: tally, selectedBlock: Array(tally.blocks.keys)[0])){
+                    NavigationLink (destination: DailyTallyView(tally: tally, selectedBlock: Array(tally.blocks.keys)[0])){
                         CardView(tally: tally)
                     }
                 }

@@ -8,31 +8,40 @@
 import SwiftUI
 
 struct PlanterTallyView: View {
-    @State var Pli048_boxes : String = ""
-    @State var Pli048_bundles : String = ""
-    @State var Sx051_boxes : String = ""
-    @State var Sx051_bundles : String = ""
-    @State var total_bundles : Int = 5
+    @State var tally : DailyTally
+    @State var blocks : [Block]
+    @State var selectedBlock : Block
+    @State var planterTally : DailyPlanterTally
     
     var body: some View {
-        VStack {
-            Form {
-                Section("Pli048"){
-                    TextField("Total Boxes Planted", text: $Pli048_boxes)
-                    Section("Partials - \(total_bundles) bundles total"){
+        NavigationView(){
+            VStack(){
+                BlockSwitchView(blocks: blocks, selectedBlock: $selectedBlock)
+                
+                Form {
+                    Section("Trees planted"){
+                        Text("\(tally.blocks[selectedBlock]?.individualTallies.first(where: {$0.planter == planterTally.planter})?.treesPlanted ?? 0)")
                     }
+                    Section("Species") {
+                        ForEach(Array(tally.blocks[selectedBlock]?.individualTallies.first(where: {$0.planter == planterTally.planter})?.treesPerSpecies ?? [:]), id: \.key){
+                            species, planted in
+                            HStack {
+                                Label("\(species.name)", systemImage: "leaf")
+                                Spacer()
+                                Text("\(planted) trees")
+                            }
+                        }
+                    }
+                    
                 }
-                Section("Sx051"){
-                    TextField("Boxes", text: $Sx051_boxes)
-                    TextField("Bundles", text: $Sx051_bundles)
-                }
+                Spacer()
             }
-        }.navigationTitle("Tallies")
+        }.navigationTitle("\(utilities.formatDate(date: tally.date)) - \(planterTally.planter.fullName)")
     }
 }
 
 struct PlanterTallyView_Previews: PreviewProvider {
     static var previews: some View {
-        PlanterTallyView()
+        PlanterTallyView(tally: DailyTally.sampleData[0], blocks: Array(DailyTally.sampleData[0].blocks.keys), selectedBlock: Array(DailyTally.sampleData[0].blocks.keys)[0], planterTally: DailyPlanterTally.sampleData[0])
     }
 }
