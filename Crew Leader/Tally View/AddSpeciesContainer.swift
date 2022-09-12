@@ -7,6 +7,9 @@
 
 import SwiftUI
 
+// TODO: have the first block on the list automatically selected - displaying it's content
+// TODO: add a transition where the block data slides in when different blocks are selected
+
 extension AnyTransition {
     static var moveAndFade: AnyTransition {
         .asymmetric(
@@ -19,7 +22,7 @@ extension AnyTransition {
 struct AddSpeciesContainer: View {
     @Binding var newTallyData : DailyTally.Data
     @Binding var blocks : [Block]
-    @State var selectedBlock : Block = Block(data: Block.Data())//blocks[0]
+    @State var selectedBlock : Block = Block(data: Block.Data())
 
     var body: some View {
         VStack {

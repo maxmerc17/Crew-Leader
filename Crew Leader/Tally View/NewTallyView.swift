@@ -7,13 +7,16 @@
 
 import SwiftUI
 
+//TODO: make picker default an item in the list that can be added right away
+// TODO: add checking so someone can't add a block to the list twice
+// TODO: add create new block button - create a block if it doesn't yet exist
+
 struct NewTallyView: View {
     @Binding var newTallyData : DailyTally.Data
     
-    @State var selectedBlock : Block = Block(data: Block.Data())
-    @State var selectedDate : Date = Date.now
+    @State var selectedBlock : Block = Block(data: Block.Data()) // for picker
     
-    @State var blocksList : [Block] = []
+    @State var blocksList : [Block] = [] // list of blocks for tally
     
     func newBlockClicked(){
         if selectedBlock.blockNumber != "" {
@@ -29,7 +32,7 @@ struct NewTallyView: View {
                     HStack{
                         Label("Date", systemImage: "calendar")
                         Spacer()
-                        DatePicker(selection: $selectedDate, displayedComponents: .date, label: { Text("")})
+                        DatePicker(selection: $newTallyData.date, displayedComponents: .date, label: { Text("")})
                     }
                 }
                 Section("Blocks"){
@@ -44,8 +47,6 @@ struct NewTallyView: View {
                             }
                         }
                         Spacer()
-                        
-                        
                     }
                     HStack {
                         Spacer()
@@ -56,8 +57,14 @@ struct NewTallyView: View {
                     }
                 }
             }
-            Divider()
-            AddSpeciesContainer(newTallyData: $newTallyData, blocks: $blocksList)
+            VStack{
+                Divider()
+                AddSpeciesContainer(newTallyData: $newTallyData, blocks: $blocksList)
+                NavigationLink(destination: EnterTallyView(newTallyData: $newTallyData)){
+                    Text("Crew Tallies")
+                } // TODO: verify that the correct amout of information has been inputted to enter crew tallies (leave button disabled until required info is inputted)
+            }
+            
         }
         
     }

@@ -29,6 +29,7 @@
 		85EF069128CE8B2F008D006A /* NewTallyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EF069028CE8B2F008D006A /* NewTallyView.swift */; };
 		85EF069328CEA95A008D006A /* AddSpeciesContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EF069228CEA95A008D006A /* AddSpeciesContainer.swift */; };
 		85EF069528CEAB07008D006A /* AddSpeciesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EF069428CEAB07008D006A /* AddSpeciesView.swift */; };
+		85EF069828CF9319008D006A /* EnterTallyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EF069728CF9319008D006A /* EnterTallyView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +75,7 @@
 		85EF069028CE8B2F008D006A /* NewTallyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTallyView.swift; sourceTree = "<group>"; };
 		85EF069228CEA95A008D006A /* AddSpeciesContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSpeciesContainer.swift; sourceTree = "<group>"; };
 		85EF069428CEAB07008D006A /* AddSpeciesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSpeciesView.swift; sourceTree = "<group>"; };
+		85EF069728CF9319008D006A /* EnterTallyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterTallyView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -184,6 +186,7 @@
 				85EF069028CE8B2F008D006A /* NewTallyView.swift */,
 				85EF069228CEA95A008D006A /* AddSpeciesContainer.swift */,
 				85EF069428CEAB07008D006A /* AddSpeciesView.swift */,
+				85EF069728CF9319008D006A /* EnterTallyView.swift */,
 			);
 			path = "Tally View";
 			sourceTree = "<group>";
@@ -332,6 +335,7 @@
 				85EF067F28CBD054008D006A /* Crew.swift in Sources */,
 				85EF069328CEA95A008D006A /* AddSpeciesContainer.swift in Sources */,
 				8545286028CBC63B00DF64F2 /* ContentView.swift in Sources */,
+				85EF069828CF9319008D006A /* EnterTallyView.swift in Sources */,
 				85EF068928CE52F8008D006A /* Species.swift in Sources */,
 				8545285E28CBC63B00DF64F2 /* Crew_LeaderApp.swift in Sources */,
 				85EF067828CBCA2B008D006A /* TalliesView.swift in Sources */,

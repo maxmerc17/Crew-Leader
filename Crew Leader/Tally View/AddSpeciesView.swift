@@ -5,6 +5,8 @@
 //  Created by Max Mercer on 2022-09-11.
 //
 
+//TODO: make picker default an item in the list that can be added right away
+
 import SwiftUI
 
 struct AddSpeciesView: View {

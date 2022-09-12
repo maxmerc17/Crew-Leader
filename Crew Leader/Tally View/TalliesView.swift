@@ -5,15 +5,15 @@
 //  Created by Max Mercer on 2022-09-09.
 //
 
+// TODO: add error checking on the add function to make sure everything is added correctly
+
 import SwiftUI
 
 struct TalliesView: View {
-    @State var isPresentingNewTallyView : Bool = false
     @State var tallies : [DailyTally] = DailyTally.sampleData
     
+    @State var isPresentingNewTallyView : Bool = false
     @State var newTallyData : DailyTally.Data = DailyTally.Data()
-    
-    //@State var newTally : DailyTally
     
     var body: some View {
         NavigationView {
@@ -41,7 +41,7 @@ struct TalliesView: View {
                                 }
                             }
                             ToolbarItem(placement: .confirmationAction) {
-                                Button("Add") {
+                                Button("Save") {
                                     let newTally = DailyTally(data: newTallyData)
                                     tallies.append(newTally)
                                     isPresentingNewTallyView = false
@@ -51,25 +51,6 @@ struct TalliesView: View {
                         }
                     
                 }
-                /*NavigationView {
-                    DetailEditView(data: $newScrumData)
-                        .toolbar {
-                            ToolbarItem(placement: .cancellationAction) {
-                                Button("Dismiss") {
-                                    isPresentingNewScrumView = false
-                                    newScrumData = DailyScrum.Data()
-                                }
-                            }
-                            ToolbarItem(placement: .confirmationAction) {
-                                Button("Add") {
-                                    let newScrum = DailyScrum(data: newScrumData)
-                                    scrums.append(newScrum)
-                                    isPresentingNewScrumView = false
-                                    newScrumData = DailyScrum.Data()
-                                }
-                            }
-                        }
-                }*/
             }
         }
         
