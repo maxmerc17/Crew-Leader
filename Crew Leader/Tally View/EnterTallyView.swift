@@ -12,6 +12,7 @@ struct EnterTallyView: View {
     @State var selectedPlanter : Person = Person.sampleData[0]
     @State var selectedBlock : Block = Block(data: Block.Data())
     
+    @State var partialData : Partial.Data = Partial.Data()
     @State var partials : [Partial] = []
     @State var isPresentingCreatePartialView : Bool = false
     
@@ -40,12 +41,12 @@ struct EnterTallyView: View {
                         
                 }
             }
-        }.popup(isPresented: $isPresentingCreatePartialView){
-            CreatePartialView(isPresentingCreatePartialView: $isPresentingCreatePartialView)
+        }.popover(isPresented: $isPresentingCreatePartialView){
+            CreatePartialView(isPresentingCreatePartialView: $isPresentingCreatePartialView, partialData: $partialData)
         }.toolbar(){
             ToolbarItem(placement: .primaryAction){
                 Button("New Partial"){
-                    
+                    isPresentingCreatePartialView = true
                 }
             }
         }
