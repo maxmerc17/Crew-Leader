@@ -11,7 +11,7 @@ struct TalliesView: View {
     @State var isPresentingNewTallyView : Bool = false
     @State var tallies : [DailyTally] = DailyTally.sampleData
     
-    @State var newTally : DailyTally = DailyTally(data: DailyTally.Data())
+    @State var newTallyData : DailyTally.Data = DailyTally.Data()
     
     //@State var newTally : DailyTally
     
@@ -32,7 +32,24 @@ struct TalliesView: View {
             }
             .sheet(isPresented: $isPresentingNewTallyView){
                 NavigationView(){
-                    NewTallyView(newTally: $newTally)
+                    NewTallyView(newTallyData: $newTallyData)
+                        .toolbar(){
+                            ToolbarItem(placement: .cancellationAction) {
+                                Button("Dismiss") {
+                                    isPresentingNewTallyView = false
+                                    newTallyData = DailyTally.Data()
+                                }
+                            }
+                            ToolbarItem(placement: .confirmationAction) {
+                                Button("Add") {
+                                    let newTally = DailyTally(data: newTallyData)
+                                    tallies.append(newTally)
+                                    isPresentingNewTallyView = false
+                                    newTallyData = DailyTally.Data()
+                                }
+                            }
+                        }
+                    
                 }
                 /*NavigationView {
                     DetailEditView(data: $newScrumData)

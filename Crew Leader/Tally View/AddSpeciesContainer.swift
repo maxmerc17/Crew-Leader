@@ -17,7 +17,7 @@ extension AnyTransition {
 }
 
 struct AddSpeciesContainer: View {
-    @Binding var newTally : DailyTally
+    @Binding var newTallyData : DailyTally.Data
     @Binding var blocks : [Block]
     @State var selectedBlock : Block = Block(data: Block.Data())//blocks[0]
 
@@ -39,7 +39,7 @@ struct AddSpeciesContainer: View {
             }.padding()
             
             if selectedBlock.blockNumber != ""{
-                AddSpeciesView(newTally: $newTally, selectedBlock: $selectedBlock).transition(.move(edge: .trailing))
+                AddSpeciesView(newTallyData: $newTallyData, selectedBlock: $selectedBlock).transition(.move(edge: .trailing))
             }
             
         }.onAppear(){
@@ -50,7 +50,7 @@ struct AddSpeciesContainer: View {
 
 struct AddSpeciesContainer_Previews: PreviewProvider {
     static var previews: some View {
-        AddSpeciesContainer(newTally: .constant(DailyTally(data: DailyTally.Data())),
+        AddSpeciesContainer(newTallyData: .constant(DailyTally.Data()),
                             blocks: .constant(Array(DailyTally.sampleData[0].blocks.keys)))
     }
 }

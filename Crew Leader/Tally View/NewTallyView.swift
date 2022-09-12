@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct NewTallyView: View {
-    @Binding var newTally : DailyTally
+    @Binding var newTallyData : DailyTally.Data
     
     @State var selectedBlock : Block = Block(data: Block.Data())
     @State var selectedDate : Date = Date.now
@@ -18,7 +18,7 @@ struct NewTallyView: View {
     func newBlockClicked(){
         if selectedBlock.blockNumber != "" {
             blocksList.append(selectedBlock)
-            newTally.blocks[selectedBlock] = DailyBlockTally(data: DailyBlockTally.Data())
+            newTallyData.blocks[selectedBlock] = DailyBlockTally(data: DailyBlockTally.Data())
         }
         // else have pop up saying to select a block
     }
@@ -57,7 +57,7 @@ struct NewTallyView: View {
                 }
             }
             Divider()
-            AddSpeciesContainer(newTally: $newTally, blocks: $blocksList)
+            AddSpeciesContainer(newTallyData: $newTallyData, blocks: $blocksList)
         }
         
     }
@@ -65,6 +65,6 @@ struct NewTallyView: View {
 
 struct NewTallyView_Previews: PreviewProvider {
     static var previews: some View {
-        NewTallyView(newTally: .constant(DailyTally(data: DailyTally.Data())))
+        NewTallyView(newTallyData: .constant(DailyTally.Data()))
     }
 }
