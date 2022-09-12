@@ -30,6 +30,11 @@
 		85EF069328CEA95A008D006A /* AddSpeciesContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EF069228CEA95A008D006A /* AddSpeciesContainer.swift */; };
 		85EF069528CEAB07008D006A /* AddSpeciesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EF069428CEAB07008D006A /* AddSpeciesView.swift */; };
 		85EF069828CF9319008D006A /* EnterTallyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EF069728CF9319008D006A /* EnterTallyView.swift */; };
+		85EF069A28CFAEF9008D006A /* Partial.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EF069928CFAEF9008D006A /* Partial.swift */; };
+		85EF069C28CFB055008D006A /* EnterSpeciesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EF069B28CFB055008D006A /* EnterSpeciesView.swift */; };
+		85EF069E28CFB54E008D006A /* PartialCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EF069D28CFB54E008D006A /* PartialCardView.swift */; };
+		85EF06A028CFBCCE008D006A /* PopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EF069F28CFBCCE008D006A /* PopupView.swift */; };
+		85EF06A228CFBF7C008D006A /* CreatePartialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EF06A128CFBF7C008D006A /* CreatePartialView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,6 +81,11 @@
 		85EF069228CEA95A008D006A /* AddSpeciesContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSpeciesContainer.swift; sourceTree = "<group>"; };
 		85EF069428CEAB07008D006A /* AddSpeciesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSpeciesView.swift; sourceTree = "<group>"; };
 		85EF069728CF9319008D006A /* EnterTallyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterTallyView.swift; sourceTree = "<group>"; };
+		85EF069928CFAEF9008D006A /* Partial.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Partial.swift; sourceTree = "<group>"; };
+		85EF069B28CFB055008D006A /* EnterSpeciesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterSpeciesView.swift; sourceTree = "<group>"; };
+		85EF069D28CFB54E008D006A /* PartialCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartialCardView.swift; sourceTree = "<group>"; };
+		85EF069F28CFBCCE008D006A /* PopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupView.swift; sourceTree = "<group>"; };
+		85EF06A128CFBF7C008D006A /* CreatePartialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePartialView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,6 +144,7 @@
 				8545286328CBC63C00DF64F2 /* Preview Content */,
 				85EF067928CBCA49008D006A /* template_view.swift */,
 				85EF068C28CE6462008D006A /* BlockSwitchView.swift */,
+				85EF069F28CFBCCE008D006A /* PopupView.swift */,
 			);
 			path = "Crew Leader";
 			sourceTree = "<group>";
@@ -172,6 +183,7 @@
 				85EF068228CBD68E008D006A /* DailyTally.swift */,
 				85EF068828CE52F8008D006A /* Species.swift */,
 				85EF068E28CE695A008D006A /* utilites.swift */,
+				85EF069928CFAEF9008D006A /* Partial.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -187,6 +199,9 @@
 				85EF069228CEA95A008D006A /* AddSpeciesContainer.swift */,
 				85EF069428CEAB07008D006A /* AddSpeciesView.swift */,
 				85EF069728CF9319008D006A /* EnterTallyView.swift */,
+				85EF069B28CFB055008D006A /* EnterSpeciesView.swift */,
+				85EF069D28CFB54E008D006A /* PartialCardView.swift */,
+				85EF06A128CFBF7C008D006A /* CreatePartialView.swift */,
 			);
 			path = "Tally View";
 			sourceTree = "<group>";
@@ -323,17 +338,22 @@
 			files = (
 				85EF069528CEAB07008D006A /* AddSpeciesView.swift in Sources */,
 				85EF068F28CE695A008D006A /* utilites.swift in Sources */,
+				85EF069A28CFAEF9008D006A /* Partial.swift in Sources */,
 				85EF068D28CE6462008D006A /* BlockSwitchView.swift in Sources */,
 				85EF067D28CBCD86008D006A /* Person.swift in Sources */,
 				85EF068B28CE5C45008D006A /* DailyTallyView.swift in Sources */,
 				85EF068328CBD68E008D006A /* DailyTally.swift in Sources */,
 				85EF069128CE8B2F008D006A /* NewTallyView.swift in Sources */,
+				85EF06A228CFBF7C008D006A /* CreatePartialView.swift in Sources */,
 				85EF068128CBD35B008D006A /* Block.swift in Sources */,
 				85EF067A28CBCA49008D006A /* template_view.swift in Sources */,
 				85EF068728CE4467008D006A /* CardView.swift in Sources */,
+				85EF06A028CFBCCE008D006A /* PopupView.swift in Sources */,
+				85EF069E28CFB54E008D006A /* PartialCardView.swift in Sources */,
 				85EF068528CE402C008D006A /* PlanterTallyView.swift in Sources */,
 				85EF067F28CBD054008D006A /* Crew.swift in Sources */,
 				85EF069328CEA95A008D006A /* AddSpeciesContainer.swift in Sources */,
+				85EF069C28CFB055008D006A /* EnterSpeciesView.swift in Sources */,
 				8545286028CBC63B00DF64F2 /* ContentView.swift in Sources */,
 				85EF069828CF9319008D006A /* EnterTallyView.swift in Sources */,
 				85EF068928CE52F8008D006A /* Species.swift in Sources */,

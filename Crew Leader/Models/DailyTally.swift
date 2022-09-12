@@ -36,23 +36,23 @@ struct DailyTally : Identifiable {
 struct DailyBlockTally : Identifiable {
     var id : UUID
     var species : [Species]
-    var individualTallies : [DailyPlanterTally]
+    var individualTallies : [Person : DailyPlanterTally]
     var treesPlanted : Int {
         return individualTallies.reduce(0) { partialResult, tally in
-            partialResult + tally.treesPlanted
+            partialResult + tally.value.treesPlanted
         }
     }
     var treesPlantedPerSpecies : [Species : Int] {
         var dict : [Species : Int] = [:]
         for species in species {
             dict[species] = individualTallies.reduce(0) { partialResult, tally in
-                partialResult + (tally.treesPerSpecies[species] ?? 0)
+                partialResult + (tally.value.treesPerSpecies[species] ?? 0)
             }
         }
         return dict
     }
     
-    init(id: UUID, species: [Species], individualTallies: [DailyPlanterTally]) {
+    init(id: UUID, species: [Species], individualTallies: [Person : DailyPlanterTally]) {
         self.id = id
         self.species = species
         self.individualTallies = individualTallies
@@ -61,7 +61,6 @@ struct DailyBlockTally : Identifiable {
 
 struct DailyPlanterTally : Identifiable {
     var id : UUID
-    var planter : Person
     var treesPerSpecies : [Species : Int] // is a dictionary
     var treesPlanted : Int {
         return treesPerSpecies.reduce(0) { partialResult, species in
@@ -71,7 +70,6 @@ struct DailyPlanterTally : Identifiable {
     
     init(id: UUID, planter: Person, treesPerSpecies: [Species : Int]) {
         self.id = id
-        self.planter = planter
         self.treesPerSpecies = treesPerSpecies
     }
 }
@@ -112,7 +110,7 @@ extension DailyBlockTally {
     
     struct Data {
         var species : [Species] = []
-        var individualTallies : [DailyPlanterTally] = []
+        var individualTallies : [Person : DailyPlanterTally] = [:]
     }
     
     init(data: Data){
@@ -131,18 +129,15 @@ extension DailyBlockTally {
 
 extension DailyPlanterTally {
     struct Data {
-        var planter : Person
-        var treesPerSpecies : [Species : Int]
+        var treesPerSpecies : [Species : Int] = [:]
     }
     
     init(data: Data) {
         id = UUID()
-        planter = data.planter
         treesPerSpecies = data.treesPerSpecies
     }
     
     mutating func update(data: Data){
-        planter = data.planter
         treesPerSpecies = data.treesPerSpecies
     }
 }
@@ -173,10 +168,16 @@ extension DailyBlockTally {
     static let sampleData = [
         DailyBlockTally(id: UUID(),
                         species: Array(Species.sampleData[0...3]),
-                        individualTallies: DailyPlanterTally.sampleData),
+                        individualTallies:[
+                            Person.sampleData[0] : DailyPlanterTally.sampleData[0],
+                            Person.sampleData[1] : DailyPlanterTally.sampleData[1]
+                        ]),
         DailyBlockTally(id: UUID(),
                         species: Array(Species.sampleData[0...3]),
-                        individualTallies: DailyPlanterTally.sampleData)
+                        individualTallies: [
+                            Person.sampleData[2] : DailyPlanterTally.sampleData[2],
+                            Person.sampleData[3] : DailyPlanterTally.sampleData[3]
+                        ])
     ]
 }
 

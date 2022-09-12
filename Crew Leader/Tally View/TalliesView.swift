@@ -41,7 +41,7 @@ struct TalliesView: View {
                                 }
                             }
                             ToolbarItem(placement: .confirmationAction) {
-                                Button("Save") {
+                                Button("Add") {
                                     let newTally = DailyTally(data: newTallyData)
                                     tallies.append(newTally)
                                     isPresentingNewTallyView = false
@@ -49,11 +49,9 @@ struct TalliesView: View {
                                 }
                             }
                         }
-                    
                 }
             }
         }
-        
     }
 }
 

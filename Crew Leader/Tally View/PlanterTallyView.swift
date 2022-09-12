@@ -7,13 +7,13 @@
 
 import SwiftUI
 
-// TODO: I don't like how I index the player in the individual tallies list -- maybe use a dictionary like the other views
 // TODO: you add in the question marks because children can be nil .. good idea because children can be nil, but in some instances if the child is nil it is an error -- add checks in these areas(?)
 
 struct PlanterTallyView: View {
     @State var tally : DailyTally
     @State var blocks : [Block]
     @State var selectedBlock : Block
+    @State var planter : Person
     @State var planterTally : DailyPlanterTally
     
     var body: some View {
@@ -23,10 +23,10 @@ struct PlanterTallyView: View {
                 
                 Form {
                     Section("Trees planted"){
-                        Text("\(tally.blocks[selectedBlock]?.individualTallies.first(where: {$0.planter == planterTally.planter})?.treesPlanted ?? 0)")
+                        Text("\(tally.blocks[selectedBlock]?.individualTallies[planter]?.treesPlanted ?? 0)")
                     }
                     Section("Species") {
-                        ForEach(Array(tally.blocks[selectedBlock]?.individualTallies.first(where: {$0.planter == planterTally.planter})?.treesPerSpecies ?? [:]), id: \.key){
+                        ForEach(Array(tally.blocks[selectedBlock]?.individualTallies[planter]?.treesPerSpecies ?? [:]), id: \.key){
                             species, planted in
                             HStack {
                                 Label("\(species.name)", systemImage: "leaf")
@@ -39,12 +39,17 @@ struct PlanterTallyView: View {
                 }
                 Spacer()
             }
-        }.navigationTitle("\(utilities.formatDate(date: tally.date)) - \(planterTally.planter.fullName)")
+        }.navigationTitle("\(utilities.formatDate(date: tally.date)) - \(planter.fullName)")
     }
 }
 
 struct PlanterTallyView_Previews: PreviewProvider {
     static var previews: some View {
-        PlanterTallyView(tally: DailyTally.sampleData[0], blocks: Array(DailyTally.sampleData[0].blocks.keys), selectedBlock: Array(DailyTally.sampleData[0].blocks.keys)[0], planterTally: DailyPlanterTally.sampleData[0])
+        PlanterTallyView(
+            tally: DailyTally.sampleData[0],
+            blocks: Array(DailyTally.sampleData[0].blocks.keys),
+            selectedBlock: Array(DailyTally.sampleData[0].blocks.keys)[0],
+            planter: Person.sampleData[0],
+            planterTally: DailyPlanterTally.sampleData[0])
     }
 }

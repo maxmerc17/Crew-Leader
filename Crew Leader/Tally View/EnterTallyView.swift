@@ -12,8 +12,12 @@ struct EnterTallyView: View {
     @State var selectedPlanter : Person = Person.sampleData[0]
     @State var selectedBlock : Block = Block(data: Block.Data())
     
+    @State var partials : [Partial] = []
+    @State var isPresentingCreatePartialView : Bool = false
+    
+    
     var body: some View {
-        ScrollView {
+        VStack {
             HStack(alignment: .center) {
                 Button(action: {}){
                     Text("<")
@@ -29,10 +33,21 @@ struct EnterTallyView: View {
             }.padding()
             
             BlockSwitchView(blocks: Array(newTallyData.blocks.keys), selectedBlock: $selectedBlock)
-            
-            /*Form {
-                ForEach(newTallyData.blocks[selectedBlock].)
-            }*/
+            Form{
+                ForEach(Array(newTallyData.blocks[selectedBlock]?.species ?? [])){
+                        species in
+                    EnterSpeciesView(newTallyData: $newTallyData, planter: selectedPlanter, species: species, block: selectedBlock, partials: $partials)
+                        
+                }
+            }
+        }.popup(isPresented: $isPresentingCreatePartialView){
+            CreatePartialView(isPresentingCreatePartialView: $isPresentingCreatePartialView)
+        }.toolbar(){
+            ToolbarItem(placement: .primaryAction){
+                Button("New Partial"){
+                    
+                }
+            }
         }
     }
 }

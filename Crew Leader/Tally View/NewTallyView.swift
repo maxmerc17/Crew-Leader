@@ -21,7 +21,13 @@ struct NewTallyView: View {
     func newBlockClicked(){
         if selectedBlock.blockNumber != "" {
             blocksList.append(selectedBlock)
-            newTallyData.blocks[selectedBlock] = DailyBlockTally(data: DailyBlockTally.Data())
+            
+            var dbt = DailyBlockTally(data: DailyBlockTally.Data())
+            for i in 0...5{
+                dbt.individualTallies[Person.sampleData[i]] = DailyPlanterTally(data: DailyPlanterTally.Data())
+            }
+            
+            newTallyData.blocks[selectedBlock] = dbt
         }
         // else have pop up saying to select a block
     }

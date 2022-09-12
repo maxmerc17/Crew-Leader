@@ -14,11 +14,13 @@ struct AddSpeciesView: View {
     @Binding var selectedBlock : Block
     
     @State var selectedSpecies : Species = Species(data: Species.Data())
-    @State var speciesList : [Species] = []//Species.sampleData
+    //@State var speciesList : [Species] = []//Species.sampleData
     
     func newSpeciesClicked(){
         //speciesList.append(selectedSpecies)
-        newTallyData.blocks[selectedBlock]?.species.append(selectedSpecies)
+        if selectedSpecies.name != "" {
+            newTallyData.blocks[selectedBlock]?.species.append(selectedSpecies)
+        }
     }
     
     var body: some View {

@@ -33,10 +33,10 @@ struct DailyTallyView: View {
                 }
                 
                 Section("Planters"){
-                    ForEach(tally.blocks[selectedBlock]?.individualTallies ?? []) {
-                        individualTally in
-                        NavigationLink(destination: PlanterTallyView(tally: tally, blocks: Array(tally.blocks.keys), selectedBlock: selectedBlock, planterTally: individualTally)){
-                            Text("\(individualTally.planter.lastName), \(individualTally.planter.firstName)")
+                    ForEach(Array(tally.blocks[selectedBlock]?.individualTallies ?? [:]), id: \.key) {
+                        planter, individualTally in
+                        NavigationLink(destination: PlanterTallyView(tally: tally, blocks: Array(tally.blocks.keys), selectedBlock: selectedBlock, planter: planter ,planterTally: individualTally)){
+                            Text("\(planter.lastName), \(planter.firstName)")
                         }
                         
                     }
