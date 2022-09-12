@@ -124,20 +124,14 @@
 		8545285C28CBC63B00DF64F2 /* Crew Leader */ = {
 			isa = PBXGroup;
 			children = (
+				85EF069628CF895B008D006A /* Tally View */,
 				85EF067B28CBCD70008D006A /* Models */,
 				8545285D28CBC63B00DF64F2 /* Crew_LeaderApp.swift */,
 				8545285F28CBC63B00DF64F2 /* ContentView.swift */,
 				8545286128CBC63C00DF64F2 /* Assets.xcassets */,
 				8545286328CBC63C00DF64F2 /* Preview Content */,
-				85EF067728CBCA2B008D006A /* TalliesView.swift */,
 				85EF067928CBCA49008D006A /* template_view.swift */,
-				85EF068428CE402C008D006A /* PlanterTallyView.swift */,
-				85EF068628CE4467008D006A /* CardView.swift */,
-				85EF068A28CE5C45008D006A /* DailyTallyView.swift */,
 				85EF068C28CE6462008D006A /* BlockSwitchView.swift */,
-				85EF069028CE8B2F008D006A /* NewTallyView.swift */,
-				85EF069228CEA95A008D006A /* AddSpeciesContainer.swift */,
-				85EF069428CEAB07008D006A /* AddSpeciesView.swift */,
 			);
 			path = "Crew Leader";
 			sourceTree = "<group>";
@@ -178,6 +172,20 @@
 				85EF068E28CE695A008D006A /* utilites.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		85EF069628CF895B008D006A /* Tally View */ = {
+			isa = PBXGroup;
+			children = (
+				85EF067728CBCA2B008D006A /* TalliesView.swift */,
+				85EF068428CE402C008D006A /* PlanterTallyView.swift */,
+				85EF068628CE4467008D006A /* CardView.swift */,
+				85EF068A28CE5C45008D006A /* DailyTallyView.swift */,
+				85EF069028CE8B2F008D006A /* NewTallyView.swift */,
+				85EF069228CEA95A008D006A /* AddSpeciesContainer.swift */,
+				85EF069428CEAB07008D006A /* AddSpeciesView.swift */,
+			);
+			path = "Tally View";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

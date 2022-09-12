@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Block: Identifiable, Codable, Hashable {
+struct Block: Identifiable, Codable, Hashable, Comparable {
     var id: UUID
     var blockNumber : String
     var chatFreq : String // make enum
@@ -38,6 +38,12 @@ struct Block: Identifiable, Codable, Hashable {
         self.crewLeader = crewLeader
         self.firstAidAttendant = firstAidAttendant
         self.supervisor = supervisor
+    }
+    
+    static func < (lhs: Block, rhs: Block) -> Bool {
+        if lhs.blockNumber < rhs.blockNumber{
+            return true
+        }else{ return false }
     }
 
 }

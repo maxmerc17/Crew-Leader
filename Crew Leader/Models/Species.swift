@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Species : Hashable, Identifiable {
+struct Species : Hashable, Identifiable, Comparable {
     var id : UUID
     var name : String
     var numTrees : Int
@@ -21,6 +21,12 @@ struct Species : Hashable, Identifiable {
         self.name = name
         self.numTrees = numTrees
         self.treesPerBundle = treesPerBundle
+    }
+    
+    static func < (lhs: Species, rhs: Species) -> Bool {
+        if lhs.name < rhs.name{
+            return true
+        }else{ return false }
     }
 }
 

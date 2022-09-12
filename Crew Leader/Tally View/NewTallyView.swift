@@ -13,16 +13,15 @@ struct NewTallyView: View {
     @State var selectedBlock : Block = Block(data: Block.Data())
     @State var selectedDate : Date = Date.now
     
-    @State var blocksList : [Block] = []//Block.sampleData
-    
-    @State var toggleSelectedBlock : Block = Block(data: Block.Data())
+    @State var blocksList : [Block] = []
     
     func newBlockClicked(){
-        blocksList.append(selectedBlock)
+        if selectedBlock.blockNumber != "" {
+            blocksList.append(selectedBlock)
+            newTally.blocks[selectedBlock] = DailyBlockTally(data: DailyBlockTally.Data())
+        }
+        // else have pop up saying to select a block
     }
-    
-    
-    
     var body: some View {
         VStack(alignment: .leading) {
             Form {
@@ -56,11 +55,9 @@ struct NewTallyView: View {
                         Spacer()
                     }
                 }
-            
-                AddSpeciesContainer(blocks: $blocksList, selectedBlock: $toggleSelectedBlock)
-           
-                
             }
+            Divider()
+            AddSpeciesContainer(newTally: $newTally, blocks: $blocksList)
         }
         
     }

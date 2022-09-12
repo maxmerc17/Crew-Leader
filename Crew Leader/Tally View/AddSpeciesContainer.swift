@@ -7,9 +7,19 @@
 
 import SwiftUI
 
+extension AnyTransition {
+    static var moveAndFade: AnyTransition {
+        .asymmetric(
+            insertion: .move(edge: .trailing).combined(with: .opacity),
+            removal: .scale.combined(with: .opacity)
+        )
+    }
+}
+
 struct AddSpeciesContainer: View {
+    @Binding var newTally : DailyTally
     @Binding var blocks : [Block]
-    @Binding var selectedBlock : Block
+    @State var selectedBlock : Block = Block(data: Block.Data())//blocks[0]
 
     var body: some View {
         VStack {
@@ -28,13 +38,19 @@ struct AddSpeciesContainer: View {
                 }
             }.padding()
             
-            //AddSpeciesView()
+            if selectedBlock.blockNumber != ""{
+                AddSpeciesView(newTally: $newTally, selectedBlock: $selectedBlock).transition(.move(edge: .trailing))
+            }
+            
+        }.onAppear(){
+            //selectedBlock = blocks[0]
         }
     }
 }
 
 struct AddSpeciesContainer_Previews: PreviewProvider {
     static var previews: some View {
-        AddSpeciesContainer(blocks: .constant(Array(DailyTally.sampleData[0].blocks.keys)), selectedBlock: .constant(Array(DailyTally.sampleData[0].blocks.keys)[0]))
+        AddSpeciesContainer(newTally: .constant(DailyTally(data: DailyTally.Data())),
+                            blocks: .constant(Array(DailyTally.sampleData[0].blocks.keys)))
     }
 }
