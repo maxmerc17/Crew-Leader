@@ -11,6 +11,7 @@ struct AddBlocksView: View {
     @Binding var newTallyData : DailyTally.Data
     
     @State var selectedBlock : Block = Block.sampleData[0] // for picker
+    @State var showAlert = false
     
     var blocksList : [Block] {
         get {
@@ -19,11 +20,16 @@ struct AddBlocksView: View {
     }
     
     func newBlockClicked(){
-        var dbt = DailyBlockTally(data: DailyBlockTally.Data())
-        for member in Crew.sampleCrew.members{
-            dbt.individualTallies[member] = DailyPlanterTally(data: DailyPlanterTally.Data())
+        if !blocksList.contains(selectedBlock) {
+            var dbt = DailyBlockTally(data: DailyBlockTally.Data())
+            for member in Crew.sampleCrew.members{
+                dbt.individualTallies[member] = DailyPlanterTally(data: DailyPlanterTally.Data())
+            }
+            newTallyData.blocks[selectedBlock] = dbt
+        } else {
+            showAlert = true
         }
-        newTallyData.blocks[selectedBlock] = dbt
+            
     }
     
     var body: some View {
@@ -47,6 +53,11 @@ struct AddBlocksView: View {
                 }
                 Spacer()
             }
+        }.alert(isPresented: $showAlert) {
+            Alert(
+                title: Text("Cannot Add Selected Block To List"),
+                message: Text("The selected block is already in the list.")
+            )
         }
     }
 }

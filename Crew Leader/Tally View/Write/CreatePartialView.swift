@@ -11,8 +11,9 @@ import SwiftUI
 
 struct CreatePartialView: View {
     @Binding var newTallyData : DailyTally.Data
-    @Binding var isPresentingCreatePartialView : Bool
     @Binding var newPartialData : Partial.Data
+    
+    @Binding var isPresentingCreatePartialView : Bool
     
     @State var selectedSpecies : Species
     @State var selectedBlock : Block
@@ -38,6 +39,8 @@ struct CreatePartialView: View {
     func onOkay() {
         // add verification
         if (areAllBundlesClaimed() && (newPartialData.people.count > 1)){
+            newPartialData.species = selectedSpecies
+            newPartialData.block = selectedBlock
             let newPartial = Partial(data: newPartialData)
             partials.append(newPartial)
             newPartialData = Partial.Data()
@@ -128,8 +131,13 @@ struct CreatePartialView: View {
             }.onAppear(){
                 newPartialData.people[selectedPlanter] = 0
                 newPartialData.people[Crew.sampleData.members.first(where: {$0 != selectedPlanter})!] = 0
+            }.alert(isPresented: $isShowingError) {
+                Alert(
+                    title: Text("Invalid Input"),
+                    message: Text("All bundles must be claimed amoungst two or more planters.")
+                )
             }
-            .popup(isPresented: $isShowingError) {
+            /*.popup(isPresented: $isShowingError) {
                 ZStack{
                     Color.gray.frame(width: UIScreen.main.bounds.size.width*0.6, height: UIScreen.main.bounds.size.height*0.6).cornerRadius(45)
                     VStack(alignment: .center) {
@@ -137,7 +145,7 @@ struct CreatePartialView: View {
                         Text("All bundles must be claimed amoungst two or more planters.").font(.caption)
                     }.padding().frame(width: UIScreen.main.bounds.size.width*0.6, height: UIScreen.main.bounds.size.height*0.6).foregroundColor(.white)
                 }
-            }
+            }*/
         }
     }
 }

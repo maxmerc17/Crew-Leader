@@ -63,6 +63,7 @@ struct DailyBlockTally : Identifiable {
 
 struct DailyPlanterTally : Identifiable {
     var id : UUID
+    var boxesPerSpecies : [Species : Int]
     var treesPerSpecies : [Species : Int] // is a dictionary
     var treesPlanted : Int {
         return treesPerSpecies.reduce(0) { partialResult, species in
@@ -70,8 +71,9 @@ struct DailyPlanterTally : Identifiable {
         } // sums per species
     }
     
-    init(id: UUID, planter: Person, treesPerSpecies: [Species : Int]) {
+    init(id: UUID, boxesPerSpecies : [Species : Int], treesPerSpecies: [Species : Int]) {
         self.id = id
+        self.boxesPerSpecies = boxesPerSpecies
         self.treesPerSpecies = treesPerSpecies
     }
 }
@@ -131,15 +133,18 @@ extension DailyBlockTally {
 
 extension DailyPlanterTally {
     struct Data {
+        var boxesPerSpecies : [Species : Int] = [:]
         var treesPerSpecies : [Species : Int] = [:]
     }
     
     init(data: Data) {
         id = UUID()
+        boxesPerSpecies = data.boxesPerSpecies
         treesPerSpecies = data.treesPerSpecies
     }
     
     mutating func update(data: Data){
+        boxesPerSpecies = data.boxesPerSpecies
         treesPerSpecies = data.treesPerSpecies
     }
 }
@@ -186,12 +191,12 @@ extension DailyBlockTally {
 
 extension DailyPlanterTally {
     static let sampleData : [DailyPlanterTally] = [
-        DailyPlanterTally(id: UUID(), planter: Person.sampleData[0], treesPerSpecies: [Species.sampleData[0] : 500, Species.sampleData[1] : 300, Species.sampleData[2] : 600, Species.sampleData[3]: 300]),
-        DailyPlanterTally(id: UUID(), planter: Person.sampleData[1], treesPerSpecies: [Species.sampleData[0] : 500, Species.sampleData[1] : 300, Species.sampleData[2] : 600, Species.sampleData[3]: 300]),
-        DailyPlanterTally(id: UUID(), planter: Person.sampleData[2], treesPerSpecies: [Species.sampleData[0] : 500, Species.sampleData[1] : 300, Species.sampleData[2] : 600, Species.sampleData[3]: 300]),
-        DailyPlanterTally(id: UUID(), planter: Person.sampleData[3], treesPerSpecies: [Species.sampleData[0] : 500, Species.sampleData[1] : 300, Species.sampleData[2] : 600, Species.sampleData[3]: 300]),
-        DailyPlanterTally(id: UUID(), planter: Person.sampleData[4], treesPerSpecies: [Species.sampleData[0] : 500, Species.sampleData[1] : 300, Species.sampleData[2] : 600, Species.sampleData[3]: 300]),
-        DailyPlanterTally(id: UUID(), planter: Person.sampleData[5], treesPerSpecies: [Species.sampleData[0] : 500, Species.sampleData[1] : 300, Species.sampleData[2] : 600, Species.sampleData[3]: 300])
+        DailyPlanterTally(id: UUID(), boxesPerSpecies: [:], treesPerSpecies: [Species.sampleData[0] : 500, Species.sampleData[1] : 300, Species.sampleData[2] : 600, Species.sampleData[3]: 300]),
+        DailyPlanterTally(id: UUID(), boxesPerSpecies: [:], treesPerSpecies: [Species.sampleData[0] : 500, Species.sampleData[1] : 300, Species.sampleData[2] : 600, Species.sampleData[3]: 300]),
+        DailyPlanterTally(id: UUID(), boxesPerSpecies: [:], treesPerSpecies: [Species.sampleData[0] : 500, Species.sampleData[1] : 300, Species.sampleData[2] : 600, Species.sampleData[3]: 300]),
+        DailyPlanterTally(id: UUID(), boxesPerSpecies: [:], treesPerSpecies: [Species.sampleData[0] : 500, Species.sampleData[1] : 300, Species.sampleData[2] : 600, Species.sampleData[3]: 300]),
+        DailyPlanterTally(id: UUID(), boxesPerSpecies: [:], treesPerSpecies: [Species.sampleData[0] : 500, Species.sampleData[1] : 300, Species.sampleData[2] : 600, Species.sampleData[3]: 300]),
+        DailyPlanterTally(id: UUID(), boxesPerSpecies: [:], treesPerSpecies: [Species.sampleData[0] : 500, Species.sampleData[1] : 300, Species.sampleData[2] : 600, Species.sampleData[3]: 300])
     ]
 }
 

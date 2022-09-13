@@ -16,12 +16,13 @@ struct BlockSwitchView: View {
                 Button {
                     selectedBlock = block
                 } label: {
-                    Text("\(block.blockNumber)")
-                        .font(.system(size: 15))
+                    HStack {
+                        Image(systemName: "map")
+                        Text("\(block.blockNumber)")
+                    }.font(.system(size: 15))
                         .foregroundColor(block == selectedBlock
                             ? .accentColor
                             : .gray)
-                        .animation(nil)
                 }
             }
         }.padding()

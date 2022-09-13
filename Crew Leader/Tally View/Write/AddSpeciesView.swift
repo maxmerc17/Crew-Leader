@@ -36,12 +36,13 @@ struct AddSpeciesView: View {
                     Button {
                         selectedBlock = block
                     } label: {
-                        Text("\(block.blockNumber)")
-                            .font(.system(size: 15))
+                        
+                        HStack {
+                            Image(systemName: "map")
+                            Text("\(block.blockNumber)")                        }.font(.system(size: 15))
                             .foregroundColor(block == selectedBlock
                                 ? .accentColor
-                                : .gray)
-                            .animation(nil)
+                                         : .gray)
                     }
                 }
             }.padding().background(.white).cornerRadius(10)
@@ -59,17 +60,26 @@ struct AddSpeciesSubView: View {
     @Binding var selectedBlock : Block
     
     @State var selectedSpecies : Species = Species.sampleData[0]
+    @State var showAlert = false
+    
+    var speciesList : [Species] {
+        get {
+            return newTallyData.blocks[selectedBlock]?.species ?? []
+        }
+    }
     
     func newSpeciesClicked(){
-        if selectedSpecies.name != "" {
+        if !speciesList.contains(selectedSpecies) {
             newTallyData.blocks[selectedBlock]?.species.append(selectedSpecies)
+        } else {
+            showAlert = true
         }
     }
     
     var body: some View {
         Form{
             Section("Species"){
-                ForEach(newTallyData.blocks[selectedBlock]?.species ?? []) { species in
+                ForEach(speciesList) { species in
                     Label("\(species.name)", systemImage: "leaf")
                 }
                 HStack{
@@ -90,6 +100,12 @@ struct AddSpeciesSubView: View {
                 }
             }
         }.scrollContentBackground(.hidden)
+            .alert(isPresented: $showAlert) {
+                    Alert(
+                        title: Text("Cannot Add Selected Species To List"),
+                        message: Text("The selected species is already in the list.")
+                    )
+                }
     }
 }
 

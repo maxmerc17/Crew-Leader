@@ -12,6 +12,12 @@ import SwiftUI
 
 struct CreateTallyView: View {
     @Binding var newTallyData : DailyTally.Data
+    
+    @State var selectedBlock : Block = Block(data: Block.Data())
+    @State var selectedPlanter : Person = Crew.sampleCrew.members[0]
+    
+    @State var partials : [Partial] = []
+    @State var newPartialData : Partial.Data = Partial.Data()
 
     @State var isShowingError : Bool = false
     @State var isShowingTallies : Bool = false
@@ -24,6 +30,7 @@ struct CreateTallyView: View {
     
     func verifyInput(){
         if blocksList.count > 0 {
+            selectedBlock = blocksList[0]
             if newTallyData.blocks.allSatisfy({$1.species.count > 0}){
                 isShowingTallies = true
                 return
@@ -54,7 +61,8 @@ struct CreateTallyView: View {
                     AddSpeciesView(newTallyData: $newTallyData,
                                         selectedBlock: blocksList[0])
                     
-                    NavigationLink(destination: EnterTallyDataView(newTallyData: $newTallyData, selectedBlock: blocksList[0]), isActive: $isShowingTallies){
+                    NavigationLink(destination: EnterTallyDataView(newTallyData: $newTallyData, selectedBlock: $selectedBlock, selectedPlanter: $selectedPlanter, partials: $partials, newPartialData: $newPartialData), isActive: $isShowingTallies){
+                        
                     }
                 }
                 
@@ -63,13 +71,15 @@ struct CreateTallyView: View {
                 }.padding()
             }
             
-        }.popup(isPresented: $isShowingError) {
-            ErrorView()
-        }//.background(.yellow)
-        
+        }.alert(isPresented: $isShowingError) {
+            Alert(
+                title: Text("Invalid Input"),
+                message: Text("One or more blocks must be selected. For each block their must be one or more species selected.")
+            )
+        }
     }
 }
-
+/*
 struct ErrorView: View {
     var body: some View {
         ZStack{
@@ -81,6 +91,7 @@ struct ErrorView: View {
         }
     }
 }
+*/
 
 struct CreateTallyView_Previews: PreviewProvider {
     static var previews: some View {
