@@ -34,6 +34,7 @@
 		85EF069E28CFB54E008D006A /* PartialCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EF069D28CFB54E008D006A /* PartialCardView.swift */; };
 		85EF06A028CFBCCE008D006A /* PopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EF069F28CFBCCE008D006A /* PopupView.swift */; };
 		85EF06A228CFBF7C008D006A /* CreatePartialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EF06A128CFBF7C008D006A /* CreatePartialView.swift */; };
+		85EF06A628D1097E008D006A /* AddBlocksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EF06A528D1097E008D006A /* AddBlocksView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -84,6 +85,7 @@
 		85EF069D28CFB54E008D006A /* PartialCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartialCardView.swift; sourceTree = "<group>"; };
 		85EF069F28CFBCCE008D006A /* PopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupView.swift; sourceTree = "<group>"; };
 		85EF06A128CFBF7C008D006A /* CreatePartialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePartialView.swift; sourceTree = "<group>"; };
+		85EF06A528D1097E008D006A /* AddBlocksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddBlocksView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -210,11 +212,12 @@
 			isa = PBXGroup;
 			children = (
 				85EF069028CE8B2F008D006A /* CreateTallyView.swift */,
-				85EF069728CF9319008D006A /* EnterTallyDataView.swift */,
 				85EF069228CEA95A008D006A /* AddSpeciesView.swift */,
+				85EF069728CF9319008D006A /* EnterTallyDataView.swift */,
 				85EF069B28CFB055008D006A /* EnterSpeciesView.swift */,
 				85EF06A128CFBF7C008D006A /* CreatePartialView.swift */,
 				85EF069D28CFB54E008D006A /* PartialCardView.swift */,
+				85EF06A528D1097E008D006A /* AddBlocksView.swift */,
 			);
 			path = Write;
 			sourceTree = "<group>";
@@ -360,6 +363,7 @@
 				85EF068128CBD35B008D006A /* Block.swift in Sources */,
 				85EF067A28CBCA49008D006A /* template_view.swift in Sources */,
 				85EF068728CE4467008D006A /* CardView.swift in Sources */,
+				85EF06A628D1097E008D006A /* AddBlocksView.swift in Sources */,
 				85EF06A028CFBCCE008D006A /* PopupView.swift in Sources */,
 				85EF069E28CFB54E008D006A /* PartialCardView.swift in Sources */,
 				85EF068528CE402C008D006A /* PlanterTallyView.swift in Sources */,

@@ -12,9 +12,7 @@ import SwiftUI
 
 struct CreateTallyView: View {
     @Binding var newTallyData : DailyTally.Data
-    
-    @State var selectedBlock : Block = Block.sampleData[0] // for picker
-    
+
     @State var isShowingError : Bool = false
     @State var isShowingTallies : Bool = false
     
@@ -22,14 +20,6 @@ struct CreateTallyView: View {
         get {
             return Array(newTallyData.blocks.keys)
         }
-    }
-    
-    func newBlockClicked(){
-        var dbt = DailyBlockTally(data: DailyBlockTally.Data())
-        for member in Crew.sampleCrew.members{
-            dbt.individualTallies[member] = DailyPlanterTally(data: DailyPlanterTally.Data())
-        }
-        newTallyData.blocks[selectedBlock] = dbt
     }
     
     func verifyInput(){
@@ -53,49 +43,29 @@ struct CreateTallyView: View {
                         DatePicker(selection: $newTallyData.date, displayedComponents: .date, label: { Text("")})
                     }
                 }
-                Section("Blocks"){
-                    ForEach(blocksList) { block in
-                        Label("\(block.blockNumber)", systemImage: "map")
-                    }
-                    
-                    HStack {
-                        Picker("Add Block", selection: $selectedBlock){
-                            ForEach(Block.sampleData) { block in
-                                Text(block.blockNumber).tag(block)
-                            }
-                        }
-                        Spacer()
-                    }
-                    HStack {
-                        Spacer()
-                        Button(action : newBlockClicked){
-                            Text("Add")
-                        }
-                        Spacer()
-                    }
-                }
-            }
+                
+                AddBlocksView(newTallyData: $newTallyData)
+                
+            }.scrollContentBackground(.hidden)
             
             VStack{
                 Divider()
                 if blocksList.count > 0 {
-                    
                     AddSpeciesView(newTallyData: $newTallyData,
-                                        selectedBlock: selectedBlock)
+                                        selectedBlock: blocksList[0])
                     
                     NavigationLink(destination: EnterTallyDataView(newTallyData: $newTallyData, selectedBlock: blocksList[0]), isActive: $isShowingTallies){
                     }
-                    
                 }
                 
                 Button(action: verifyInput){
                     Text("Crew Tallies")
-                }
+                }.padding()
             }
             
         }.popup(isPresented: $isShowingError) {
             ErrorView()
-        }
+        }//.background(.yellow)
         
     }
 }

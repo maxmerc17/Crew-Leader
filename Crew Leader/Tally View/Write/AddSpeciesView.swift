@@ -44,7 +44,7 @@ struct AddSpeciesView: View {
                             .animation(nil)
                     }
                 }
-            }.padding()
+            }.padding().background(.white).cornerRadius(10)
             
             if selectedBlock.blockNumber != ""{
                 AddSpeciesSubView(newTallyData: $newTallyData, selectedBlock: $selectedBlock).transition(.move(edge: .trailing))
@@ -89,7 +89,7 @@ struct AddSpeciesSubView: View {
                     Spacer()
                 }
             }
-        }
+        }.scrollContentBackground(.hidden)
     }
 }
 

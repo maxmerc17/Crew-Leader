@@ -5,7 +5,7 @@
 //  Created by Max Mercer on 2022-09-09.
 //
 
-// TODO: add error checking on the add function to make sure everything is added correctly
+// TODO: add validation on the add function to make sure everything is correct before adding
 
 import SwiftUI
 
