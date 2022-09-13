@@ -5,6 +5,8 @@
 //  Created by Max Mercer on 2022-09-09.
 //
 
+// TODO: species should be moved from DailyBlockTally to block .. maybe .. you can have different sets of species for blocks
+
 import Foundation
 
 struct DailyTally : Identifiable {

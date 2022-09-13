@@ -13,11 +13,9 @@ struct AddSpeciesView: View {
     @Binding var newTallyData : DailyTally.Data
     @Binding var selectedBlock : Block
     
-    @State var selectedSpecies : Species = Species(data: Species.Data())
-    //@State var speciesList : [Species] = []//Species.sampleData
+    @State var selectedSpecies : Species = Species.sampleData[0]
     
     func newSpeciesClicked(){
-        //speciesList.append(selectedSpecies)
         if selectedSpecies.name != "" {
             newTallyData.blocks[selectedBlock]?.species.append(selectedSpecies)
         }

@@ -21,9 +21,14 @@ extension AnyTransition {
 
 struct AddSpeciesContainer: View {
     @Binding var newTallyData : DailyTally.Data
-    @Binding var blocks : [Block]
-    @State var selectedBlock : Block = Block(data: Block.Data())
+    @State var selectedBlock : Block
 
+    var blocks : [Block] {
+        get{
+            return Array(newTallyData.blocks.keys)
+        }
+    }
+    
     var body: some View {
         VStack {
             HStack(spacing: 25) {
@@ -45,8 +50,6 @@ struct AddSpeciesContainer: View {
                 AddSpeciesView(newTallyData: $newTallyData, selectedBlock: $selectedBlock).transition(.move(edge: .trailing))
             }
             
-        }.onAppear(){
-            //selectedBlock = blocks[0]
         }
     }
 }
@@ -54,6 +57,8 @@ struct AddSpeciesContainer: View {
 struct AddSpeciesContainer_Previews: PreviewProvider {
     static var previews: some View {
         AddSpeciesContainer(newTallyData: .constant(DailyTally.Data()),
-                            blocks: .constant(Array(DailyTally.sampleData[0].blocks.keys)))
+                            selectedBlock: Array(DailyTally.sampleData[0].blocks.keys)[0]
+        
+        )
     }
 }

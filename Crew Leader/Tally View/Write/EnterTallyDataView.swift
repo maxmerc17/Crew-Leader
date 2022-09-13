@@ -7,11 +7,11 @@
 
 import SwiftUI
 
-struct EnterTallyView: View {
+struct EnterTallyDataView: View {
     @Binding var newTallyData : DailyTally.Data
-    @State var selectedPlanter : Person = Person.sampleData[0]
-    @State var selectedBlock : Block = Block(data: Block.Data())
+    @State var selectedBlock : Block
     
+    @State var selectedPlanter : Person = Person.sampleData[0]
     @State var newPartialData : Partial.Data = Partial.Data()
     @State var partials : [Partial] = []
     @State var isPresentingCreatePartialView : Bool = false
@@ -63,8 +63,8 @@ struct EnterTallyView: View {
     }
 }
 
-struct EnterTallyView_Previews: PreviewProvider {
+struct EnterTallyDataView_Previews: PreviewProvider {
     static var previews: some View {
-        EnterTallyView(newTallyData: .constant(DailyTally.Data()))
+        EnterTallyDataView(newTallyData: .constant(DailyTally.Data()), selectedBlock: Block.sampleData[0])
     }
 }

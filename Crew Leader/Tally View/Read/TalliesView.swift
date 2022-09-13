@@ -32,7 +32,7 @@ struct TalliesView: View {
             }
             .sheet(isPresented: $isPresentingNewTallyView){
                 NavigationView(){
-                    NewTallyView(newTallyData: $newTallyData)
+                    CreateTallyView(newTallyData: $newTallyData)
                         .toolbar(){
                             ToolbarItem(placement: .cancellationAction) {
                                 Button("Dismiss") {
