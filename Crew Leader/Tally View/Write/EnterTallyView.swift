@@ -12,10 +12,14 @@ struct EnterTallyView: View {
     @State var selectedPlanter : Person = Person.sampleData[0]
     @State var selectedBlock : Block = Block(data: Block.Data())
     
-    @State var partialData : Partial.Data = Partial.Data()
+    @State var newPartialData : Partial.Data = Partial.Data()
     @State var partials : [Partial] = []
     @State var isPresentingCreatePartialView : Bool = false
     
+    func addToPartials() {
+        let newPartial = Partial(data: newPartialData)
+        partials.append(newPartial)
+    }
     
     var body: some View {
         VStack {
@@ -42,7 +46,13 @@ struct EnterTallyView: View {
                 }
             }
         }.popover(isPresented: $isPresentingCreatePartialView){
-            CreatePartialView(isPresentingCreatePartialView: $isPresentingCreatePartialView, partialData: $partialData)
+            CreatePartialView(newTallyData: $newTallyData,
+                              isPresentingCreatePartialView: $isPresentingCreatePartialView,
+                              newPartialData: $newPartialData,
+                              selectedSpecies:  (newTallyData.blocks[selectedBlock]?.species[0])!,
+                              selectedBlock: selectedBlock,
+                              selectedPlanter: selectedPlanter,
+                              partials: $partials)
         }.toolbar(){
             ToolbarItem(placement: .primaryAction){
                 Button("New Partial"){

@@ -32,7 +32,7 @@ struct NewTallyView: View {
         // else have pop up saying to select a block
     }
     var body: some View {
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: 0) {
             Form {
                 Section("Block Information"){
                     HStack{
