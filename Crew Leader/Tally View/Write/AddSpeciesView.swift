@@ -1,15 +1,60 @@
 //
-//  AddSpeciesView.swift
+//  BlockSwitchView2.swift
 //  Crew Leader
 //
 //  Created by Max Mercer on 2022-09-11.
 //
 
-//TODO: make picker default an item in the list that can be added right away
-
 import SwiftUI
 
+// TODO: have the first block on the list automatically selected - displaying it's content
+// TODO: add a transition where the block data slides in when different blocks are selected
+
+extension AnyTransition {
+    static var moveAndFade: AnyTransition {
+        .asymmetric(
+            insertion: .move(edge: .trailing).combined(with: .opacity),
+            removal: .scale.combined(with: .opacity)
+        )
+    }
+}
+
 struct AddSpeciesView: View {
+    @Binding var newTallyData : DailyTally.Data
+    @State var selectedBlock : Block
+
+    var blocks : [Block] {
+        get{
+            return Array(newTallyData.blocks.keys)
+        }
+    }
+    
+    var body: some View {
+        VStack {
+            HStack(spacing: 25) {
+                ForEach(blocks) { block in
+                    Button {
+                        selectedBlock = block
+                    } label: {
+                        Text("\(block.blockNumber)")
+                            .font(.system(size: 15))
+                            .foregroundColor(block == selectedBlock
+                                ? .accentColor
+                                : .gray)
+                            .animation(nil)
+                    }
+                }
+            }.padding()
+            
+            if selectedBlock.blockNumber != ""{
+                AddSpeciesSubView(newTallyData: $newTallyData, selectedBlock: $selectedBlock).transition(.move(edge: .trailing))
+            }
+            
+        }
+    }
+}
+
+struct AddSpeciesSubView: View {
     @Binding var newTallyData : DailyTally.Data
     @Binding var selectedBlock : Block
     
@@ -51,6 +96,15 @@ struct AddSpeciesView: View {
 struct AddSpeciesView_Previews: PreviewProvider {
     static var previews: some View {
         AddSpeciesView(newTallyData: .constant(DailyTally.Data()),
+                            selectedBlock: Array(DailyTally.sampleData[0].blocks.keys)[0]
+        
+        )
+    }
+}
+
+struct AddSpeciesSubView_Previews: PreviewProvider {
+    static var previews: some View {
+        AddSpeciesSubView(newTallyData: .constant(DailyTally.Data()),
                        selectedBlock: .constant(Block(data: Block.Data())))
     }
 }

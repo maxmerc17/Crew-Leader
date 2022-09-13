@@ -173,7 +173,7 @@ struct RowView: View {
         }.padding()
     }
 }
-
+/*
 struct CreatePartialView_Previews: PreviewProvider {
     
     static var previews: some View {
@@ -187,3 +187,4 @@ struct CreatePartialView_Previews: PreviewProvider {
         )
     }
 }
+*/

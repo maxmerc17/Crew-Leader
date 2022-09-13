@@ -27,8 +27,7 @@
 		85EF068D28CE6462008D006A /* BlockSwitchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EF068C28CE6462008D006A /* BlockSwitchView.swift */; };
 		85EF068F28CE695A008D006A /* utilites.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EF068E28CE695A008D006A /* utilites.swift */; };
 		85EF069128CE8B2F008D006A /* CreateTallyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EF069028CE8B2F008D006A /* CreateTallyView.swift */; };
-		85EF069328CEA95A008D006A /* AddSpeciesContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EF069228CEA95A008D006A /* AddSpeciesContainer.swift */; };
-		85EF069528CEAB07008D006A /* AddSpeciesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EF069428CEAB07008D006A /* AddSpeciesView.swift */; };
+		85EF069328CEA95A008D006A /* AddSpeciesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EF069228CEA95A008D006A /* AddSpeciesView.swift */; };
 		85EF069828CF9319008D006A /* EnterTallyDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EF069728CF9319008D006A /* EnterTallyDataView.swift */; };
 		85EF069A28CFAEF9008D006A /* Partial.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EF069928CFAEF9008D006A /* Partial.swift */; };
 		85EF069C28CFB055008D006A /* EnterSpeciesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EF069B28CFB055008D006A /* EnterSpeciesView.swift */; };
@@ -78,8 +77,7 @@
 		85EF068C28CE6462008D006A /* BlockSwitchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockSwitchView.swift; sourceTree = "<group>"; };
 		85EF068E28CE695A008D006A /* utilites.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = utilites.swift; sourceTree = "<group>"; };
 		85EF069028CE8B2F008D006A /* CreateTallyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTallyView.swift; sourceTree = "<group>"; };
-		85EF069228CEA95A008D006A /* AddSpeciesContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSpeciesContainer.swift; sourceTree = "<group>"; };
-		85EF069428CEAB07008D006A /* AddSpeciesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSpeciesView.swift; sourceTree = "<group>"; };
+		85EF069228CEA95A008D006A /* AddSpeciesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSpeciesView.swift; sourceTree = "<group>"; };
 		85EF069728CF9319008D006A /* EnterTallyDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterTallyDataView.swift; sourceTree = "<group>"; };
 		85EF069928CFAEF9008D006A /* Partial.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Partial.swift; sourceTree = "<group>"; };
 		85EF069B28CFB055008D006A /* EnterSpeciesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterSpeciesView.swift; sourceTree = "<group>"; };
@@ -213,8 +211,7 @@
 			children = (
 				85EF069028CE8B2F008D006A /* CreateTallyView.swift */,
 				85EF069728CF9319008D006A /* EnterTallyDataView.swift */,
-				85EF069228CEA95A008D006A /* AddSpeciesContainer.swift */,
-				85EF069428CEAB07008D006A /* AddSpeciesView.swift */,
+				85EF069228CEA95A008D006A /* AddSpeciesView.swift */,
 				85EF069B28CFB055008D006A /* EnterSpeciesView.swift */,
 				85EF06A128CFBF7C008D006A /* CreatePartialView.swift */,
 				85EF069D28CFB54E008D006A /* PartialCardView.swift */,
@@ -352,7 +349,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				85EF069528CEAB07008D006A /* AddSpeciesView.swift in Sources */,
 				85EF068F28CE695A008D006A /* utilites.swift in Sources */,
 				85EF069A28CFAEF9008D006A /* Partial.swift in Sources */,
 				85EF068D28CE6462008D006A /* BlockSwitchView.swift in Sources */,
@@ -368,7 +364,7 @@
 				85EF069E28CFB54E008D006A /* PartialCardView.swift in Sources */,
 				85EF068528CE402C008D006A /* PlanterTallyView.swift in Sources */,
 				85EF067F28CBD054008D006A /* Crew.swift in Sources */,
-				85EF069328CEA95A008D006A /* AddSpeciesContainer.swift in Sources */,
+				85EF069328CEA95A008D006A /* AddSpeciesView.swift in Sources */,
 				85EF069C28CFB055008D006A /* EnterSpeciesView.swift in Sources */,
 				8545286028CBC63B00DF64F2 /* ContentView.swift in Sources */,
 				85EF069828CF9319008D006A /* EnterTallyDataView.swift in Sources */,

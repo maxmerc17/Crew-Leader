@@ -80,7 +80,7 @@ struct CreateTallyView: View {
                 Divider()
                 if blocksList.count > 0 {
                     
-                    AddSpeciesContainer(newTallyData: $newTallyData,
+                    AddSpeciesView(newTallyData: $newTallyData,
                                         selectedBlock: selectedBlock)
                     
                     NavigationLink(destination: EnterTallyDataView(newTallyData: $newTallyData, selectedBlock: blocksList[0]), isActive: $isShowingTallies){
