@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Block: Identifiable, Codable, Hashable {
+struct Block: Identifiable, Codable, Hashable, Comparable {
     var id: UUID
     var blockNumber : String
     var chatFreq : String // make enum
@@ -39,8 +39,66 @@ struct Block: Identifiable, Codable, Hashable {
         self.firstAidAttendant = firstAidAttendant
         self.supervisor = supervisor
     }
+    
+    static func < (lhs: Block, rhs: Block) -> Bool {
+        if lhs.blockNumber < rhs.blockNumber{
+            return true
+        }else{ return false }
+    }
 
 }
+
+extension Block {
+    struct Data {
+        var blockNumber : String = ""
+        var chatFreq : String = ""// make enum
+        var roadChannelFreq : String = ""// make enum
+        var towerTelChannel : String = ""// make enum
+        var lat : String = ""
+        var long : String = ""
+        var numWorkers : Int = 0
+        var workStartDate : Date = Date.now
+        var workFinishDate : Date = Date.now
+        var client : String = ""// make enum
+        var crewLeader : Person = Person(data: Person.Data())
+        var firstAidAttendant : Person = Person(data: Person.Data())
+        var supervisor : Person = Person(data: Person.Data())
+    }
+    
+    init(data: Data) {
+        id = UUID()
+        blockNumber = data.blockNumber
+        chatFreq = data.chatFreq
+        roadChannelFreq = data.roadChannelFreq
+        towerTelChannel = data.towerTelChannel
+        lat = data.lat
+        long = data.long
+        numWorkers = data.numWorkers
+        workStartDate = data.workStartDate
+        workFinishDate = data.workFinishDate
+        client = data.client
+        crewLeader = data.crewLeader
+        firstAidAttendant = data.firstAidAttendant
+        supervisor = data.supervisor
+    }
+    
+    mutating func update(data: Data){
+        blockNumber = data.blockNumber
+        chatFreq = data.chatFreq
+        roadChannelFreq = data.roadChannelFreq
+        towerTelChannel = data.towerTelChannel
+        lat = data.lat
+        long = data.long
+        numWorkers = data.numWorkers
+        workStartDate = data.workStartDate
+        workFinishDate = data.workFinishDate
+        client = data.client
+        crewLeader = data.crewLeader
+        firstAidAttendant = data.firstAidAttendant
+        supervisor = data.supervisor
+    }
+}
+
 
 extension Block {
     static let sampleData : [Block] =

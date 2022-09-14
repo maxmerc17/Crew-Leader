@@ -52,6 +52,7 @@ extension Crew {
 
 extension Crew {
     static let sampleData: Crew = Crew(leader: Person.sampleData[0], members: Person.sampleData)
+    static let sampleCrew: Crew = Crew(leader: Person.sampleData[0], members: Person.sampleData)
     
 }
 

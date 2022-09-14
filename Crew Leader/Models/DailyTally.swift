@@ -5,6 +5,8 @@
 //  Created by Max Mercer on 2022-09-09.
 //
 
+// TODO: species should be moved from DailyBlockTally to block .. maybe .. you can have different sets of species for blocks
+
 import Foundation
 
 struct DailyTally : Identifiable {
@@ -33,9 +35,124 @@ struct DailyTally : Identifiable {
     }
 }
 
+struct DailyBlockTally : Identifiable {
+    var id : UUID
+    var species : [Species]
+    var individualTallies : [Person : DailyPlanterTally]
+    var treesPlanted : Int {
+        return individualTallies.reduce(0) { partialResult, tally in
+            partialResult + tally.value.treesPlanted
+        }
+    }
+    var treesPlantedPerSpecies : [Species : Int] {
+        var dict : [Species : Int] = [:]
+        for species in species {
+            dict[species] = individualTallies.reduce(0) { partialResult, tally in
+                partialResult + (tally.value.treesPerSpecies[species] ?? 0)
+            }
+        }
+        return dict
+    }
+    
+    init(id: UUID, species: [Species], individualTallies: [Person : DailyPlanterTally]) {
+        self.id = id
+        self.species = species
+        self.individualTallies = individualTallies
+    }
+}
+
+struct DailyPlanterTally : Identifiable {
+    var id : UUID
+    var boxesPerSpecies : [Species : Int]
+    var treesPerSpecies : [Species : Int] // is a dictionary
+    var treesPlanted : Int {
+        return treesPerSpecies.reduce(0) { partialResult, species in
+            partialResult + species.value
+        } // sums per species
+    }
+    
+    init(id: UUID, boxesPerSpecies : [Species : Int], treesPerSpecies: [Species : Int]) {
+        self.id = id
+        self.boxesPerSpecies = boxesPerSpecies
+        self.treesPerSpecies = treesPerSpecies
+    }
+}
+
+
 extension DailyTally {
-    static let sampleData: [DailyTally] =
-    [
+    struct Data {
+        var date = Date.now
+        var contract = "Canfor"
+        var supervisor = Person.sampleSupervisor
+        var crew = Crew(data: Crew.Data())
+        var commission = 0.15
+        var blocks : [Block : DailyBlockTally] = [:]
+    }
+    
+    init(data: Data){
+        id = UUID()
+        date = data.date
+        contract = data.contract
+        supervisor = data.supervisor
+        crew = data.crew
+        commission = data.commission
+        blocks = data.blocks
+    }
+    
+    mutating func update(data: Data) {
+        date = data.date
+        contract = data.contract
+        supervisor = data.supervisor
+        crew = data.crew
+        commission = data.commission
+        blocks = data.blocks
+    }
+}
+
+
+extension DailyBlockTally {
+    
+    struct Data {
+        var species : [Species] = []
+        var individualTallies : [Person : DailyPlanterTally] = [:]
+    }
+    
+    init(data: Data){
+        id = UUID()
+        species = data.species
+        individualTallies = data.individualTallies
+    }
+    
+    mutating func update(data: Data){
+        species = data.species
+        individualTallies = data.individualTallies
+    }
+    
+}
+
+
+extension DailyPlanterTally {
+    struct Data {
+        var boxesPerSpecies : [Species : Int] = [:]
+        var treesPerSpecies : [Species : Int] = [:]
+    }
+    
+    init(data: Data) {
+        id = UUID()
+        boxesPerSpecies = data.boxesPerSpecies
+        treesPerSpecies = data.treesPerSpecies
+    }
+    
+    mutating func update(data: Data){
+        boxesPerSpecies = data.boxesPerSpecies
+        treesPerSpecies = data.treesPerSpecies
+    }
+}
+
+
+
+extension DailyTally {
+    static let sampleData: [DailyTally] = [
         DailyTally(id: UUID(),
                    date: Date.now,
                    contract: "Canfor",
@@ -54,61 +171,32 @@ extension DailyTally {
     ]
 }
 
-struct DailyBlockTally : Identifiable {
-    var id : UUID
-    var species : [Species]
-    var individualTallies : [DailyPlanterTally]
-    var treesPlanted : Int {
-        return individualTallies.reduce(0) { partialResult, tally in
-            partialResult + tally.treesPlanted
-        }
-    }
-    var treesPlantedPerSpecies : [Species : Int] {
-        var dict : [Species : Int] = [:]
-        for species in species {
-            dict[species] = individualTallies.reduce(0) { partialResult, tally in
-                partialResult + (tally.treesPerSpecies[species] ?? 0)
-            }
-        }
-        return dict
-    }
-    
-    init(id: UUID, species: [Species], individualTallies: [DailyPlanterTally]) {
-        self.id = id
-        self.species = species
-        self.individualTallies = individualTallies
-    }
-}
-
 extension DailyBlockTally {
-    static let sampleData = [ DailyBlockTally(id: UUID(), species: Array(Species.sampleData[0...3]), individualTallies: DailyPlanterTally.sampleData), DailyBlockTally(id: UUID(), species: Array(Species.sampleData[0...3]), individualTallies: DailyPlanterTally.sampleData) ]
+    static let sampleData = [
+        DailyBlockTally(id: UUID(),
+                        species: Array(Species.sampleData[0...3]),
+                        individualTallies:[
+                            Person.sampleData[0] : DailyPlanterTally.sampleData[0],
+                            Person.sampleData[1] : DailyPlanterTally.sampleData[1]
+                        ]),
+        DailyBlockTally(id: UUID(),
+                        species: Array(Species.sampleData[0...3]),
+                        individualTallies: [
+                            Person.sampleData[2] : DailyPlanterTally.sampleData[2],
+                            Person.sampleData[3] : DailyPlanterTally.sampleData[3]
+                        ])
+    ]
 }
 
-struct DailyPlanterTally : Identifiable {
-    var id : UUID
-    var planter : Person
-    var treesPerSpecies : [Species : Int] // is a dictionary
-    var treesPlanted : Int {
-        return treesPerSpecies.reduce(0) { partialResult, species in
-            partialResult + species.value
-        } // sums per species
-    }
-    
-    init(id: UUID, planter: Person, treesPerSpecies: [Species : Int]) {
-        self.id = id
-        self.planter = planter
-        self.treesPerSpecies = treesPerSpecies
-    }
-}
 
 extension DailyPlanterTally {
     static let sampleData : [DailyPlanterTally] = [
-        DailyPlanterTally(id: UUID(), planter: Person.sampleData[0], treesPerSpecies: [Species.sampleData[0] : 500, Species.sampleData[1] : 300, Species.sampleData[2] : 600, Species.sampleData[3]: 300]),
-        DailyPlanterTally(id: UUID(), planter: Person.sampleData[1], treesPerSpecies: [Species.sampleData[0] : 500, Species.sampleData[1] : 300, Species.sampleData[2] : 600, Species.sampleData[3]: 300]),
-        DailyPlanterTally(id: UUID(), planter: Person.sampleData[2], treesPerSpecies: [Species.sampleData[0] : 500, Species.sampleData[1] : 300, Species.sampleData[2] : 600, Species.sampleData[3]: 300]),
-        DailyPlanterTally(id: UUID(), planter: Person.sampleData[3], treesPerSpecies: [Species.sampleData[0] : 500, Species.sampleData[1] : 300, Species.sampleData[2] : 600, Species.sampleData[3]: 300]),
-        DailyPlanterTally(id: UUID(), planter: Person.sampleData[4], treesPerSpecies: [Species.sampleData[0] : 500, Species.sampleData[1] : 300, Species.sampleData[2] : 600, Species.sampleData[3]: 300]),
-        DailyPlanterTally(id: UUID(), planter: Person.sampleData[5], treesPerSpecies: [Species.sampleData[0] : 500, Species.sampleData[1] : 300, Species.sampleData[2] : 600, Species.sampleData[3]: 300])
+        DailyPlanterTally(id: UUID(), boxesPerSpecies: [:], treesPerSpecies: [Species.sampleData[0] : 500, Species.sampleData[1] : 300, Species.sampleData[2] : 600, Species.sampleData[3]: 300]),
+        DailyPlanterTally(id: UUID(), boxesPerSpecies: [:], treesPerSpecies: [Species.sampleData[0] : 500, Species.sampleData[1] : 300, Species.sampleData[2] : 600, Species.sampleData[3]: 300]),
+        DailyPlanterTally(id: UUID(), boxesPerSpecies: [:], treesPerSpecies: [Species.sampleData[0] : 500, Species.sampleData[1] : 300, Species.sampleData[2] : 600, Species.sampleData[3]: 300]),
+        DailyPlanterTally(id: UUID(), boxesPerSpecies: [:], treesPerSpecies: [Species.sampleData[0] : 500, Species.sampleData[1] : 300, Species.sampleData[2] : 600, Species.sampleData[3]: 300]),
+        DailyPlanterTally(id: UUID(), boxesPerSpecies: [:], treesPerSpecies: [Species.sampleData[0] : 500, Species.sampleData[1] : 300, Species.sampleData[2] : 600, Species.sampleData[3]: 300]),
+        DailyPlanterTally(id: UUID(), boxesPerSpecies: [:], treesPerSpecies: [Species.sampleData[0] : 500, Species.sampleData[1] : 300, Species.sampleData[2] : 600, Species.sampleData[3]: 300])
     ]
 }
 

@@ -28,10 +28,10 @@ struct Person: Identifiable, Codable, Hashable{
 
 extension Person {
     struct Data {
-        var firstName : String = "Max"
-        var lastName : String = "Mercer"
+        var firstName : String = ""
+        var lastName : String = ""
         var birthDate : Date = Date.now
-        var plantingYear : Int = 4
+        var plantingYear : Int = 0
     }
     
     init(data: Data){

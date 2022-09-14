@@ -14,7 +14,7 @@ struct CardView: View {
         for (key , _) in  tally.blocks {
             returnString += key.blockNumber + (", ")//block.blockNumber
         }
-        returnString.dropLast(2)
+        returnString = String(returnString.dropLast(2))
         
         return returnString
     }

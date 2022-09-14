@@ -7,7 +7,8 @@
 
 import Foundation
 
-struct Species : Hashable {
+struct Species : Hashable, Identifiable, Comparable {
+    var id : UUID
     var name : String
     var numTrees : Int
     var treesPerBundle : Int
@@ -15,10 +16,39 @@ struct Species : Hashable {
         return self.numTrees / self.treesPerBundle
     }
     
-    init(name: String, numTrees: Int, treesPerBundle: Int) {
+    init(id: UUID = UUID(), name: String, numTrees: Int, treesPerBundle: Int) {
+        self.id = id
         self.name = name
         self.numTrees = numTrees
         self.treesPerBundle = treesPerBundle
+    }
+    
+    static func < (lhs: Species, rhs: Species) -> Bool {
+        if lhs.name < rhs.name{
+            return true
+        }else{ return false }
+    }
+}
+
+
+extension Species {
+    struct Data {
+        var name = ""
+        var numTrees = 0
+        var treesPerBundle = 0
+    }
+    
+    init(data: Data){
+        id = UUID()
+        name = data.name
+        numTrees = data.numTrees
+        treesPerBundle = data.treesPerBundle
+    }
+    
+    mutating func update(data: Data){
+        name = data.name
+        numTrees = data.numTrees
+        treesPerBundle = data.treesPerBundle
     }
 }
 
