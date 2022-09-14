@@ -27,6 +27,9 @@ struct CacheCalculatorView: View {
     
     @State var isShowingAlert = false
     @State var alertText = alertTextType()
+    
+    @State var isShowingResults = false
+    @State var calculatedObject = CacheCalculator(data: CacheCalculator.Data())
 
     func addSpecies() {
         if mix.isEmpty{
@@ -53,6 +56,12 @@ struct CacheCalculatorView: View {
             isShowingAlert = true
             return
         }
+        if Int(mix)! == 0 {
+            alertText.title = "Improper Input"
+            alertText.message = "Mix value cannot be 0."
+            isShowingAlert = true
+            return
+        }
         let speciesInList : [Species] = cutsArray.map {$0.0}
         if speciesInList.contains(selectedSpecies){
             alertText.title = "Improper Input"
@@ -65,7 +74,21 @@ struct CacheCalculatorView: View {
     }
     
     func calculate(){
+        if numberOfTrees == "" {
+            alertText.title = "Improper Input"
+            alertText.message = "Enter number of trees."
+            isShowingAlert = true
+            return
+        }
+        if cutsArray.isEmpty {
+            alertText.title = "Improper Input"
+            alertText.message = "Add at least one species to the list."
+            isShowingAlert = true
+            return
+        }
         
+        calculatedObject = CacheCalculator(desiredTrees: Int(numberOfTrees)!, cuts: cutsArray)
+        isShowingResults = true
     }
     
     var body: some View {
@@ -105,14 +128,19 @@ struct CacheCalculatorView: View {
                     
                 }
                 Section(""){
-                    HStack {
-                        Spacer()
-                        Button(action: calculate){
-                            Text("Calculate").foregroundColor(.green)
+                    ZStack {
+                        NavigationLink("View Results", destination: ResultsView(calculatedObject: calculatedObject), isActive: $isShowingResults).hidden()
+                        HStack {
+                            Spacer()
+                            Button(action: calculate){
+                                Text("Calculate").foregroundColor(.green)
+                            }
+                            Spacer()
                         }
-                        Spacer()
                     }
                 }
+                
+                
             }
             .navigationTitle("Cache Calculator")
             .alert(isPresented: $isShowingAlert) {
@@ -136,13 +164,11 @@ struct DisplayRowItem: View {
     @State var isShowingAlert = false
     var body: some View {
         HStack{
-            Text("  \(index+1).").foregroundColor(.blue)
-            //Text("\(mix)% \(species.name)")
-            Spacer()
             Label("\(species.name)", systemImage: "leaf")
             Spacer()
-            //Text("\(mix)%")
-            Label("\(mix)", systemImage: "percent").labelStyle(.trailingIcon)
+            Text("\(species.numTrees) trees / box")
+            Spacer()
+            Text("\(mix)%")
             Spacer()
         }
     }

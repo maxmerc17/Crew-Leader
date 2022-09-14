@@ -8,7 +8,7 @@
 import Foundation
 
 struct CacheCalculator {
-    var numTrees : Int
+    var desiredTrees : Int
     var cuts : [Cut]
     
     var totalBoxes : Int {
@@ -19,17 +19,35 @@ struct CacheCalculator {
         return calculateBoxesPerSpecies().reduce(0, { tot, val in tot + (val.0.numTrees * val.1) })
     }
     
-    init(numTrees: Int, cuts: [Cut]) {
-        self.numTrees = numTrees
+    var totalPercentage : Int {
+        return cuts.reduce(0, { x, y in x + y.percent})
+    }
+    
+    init(desiredTrees: Int, cuts: [Cut]) {
+        self.desiredTrees = desiredTrees
         self.cuts = cuts
     }
     
-    init(numTrees: Int, cuts: [(Species, Int)]){
-        self.numTrees = numTrees
+    init(desiredTrees: Int, cuts: [(Species, Int)]){
+        self.desiredTrees = desiredTrees
         
         var newCuts : [Cut] = []
         for i in cuts {
-            var newCut = Cut(tuple: i)
+            let newCut = Cut(tuple: i)
+            newCuts.append(newCut)
+        }
+        
+        self.cuts = newCuts
+    }
+    
+    init(desiredTrees: Int, cuts: [(Species, String)]){
+        self.desiredTrees = desiredTrees
+        
+        var newCuts : [Cut] = []
+        for cut in cuts {
+            let species = cut.0
+            let percent = Int(cut.1)!
+            let newCut = Cut(species: species, percent: percent)
             newCuts.append(newCut)
         }
         
@@ -39,7 +57,7 @@ struct CacheCalculator {
     func calculateBoxesPerSpecies() -> [(Species, Int)] {
         var speciesAndBoxesArray : [(Species, Int)] = []
         for cut in cuts {
-            speciesAndBoxesArray.append((cut.species, cut.numBoxes(numTrees)))
+            speciesAndBoxesArray.append((cut.species, cut.numBoxes(desiredTrees)))
         }
         return speciesAndBoxesArray
     }
@@ -71,7 +89,8 @@ struct Cut : Identifiable {
     
     /// returns least number of boxes  to supply the desired number of trees
     func numBoxes(_ totalTrees: Int) -> Int{
-        let numTrees : Int = Int(Float(totalTrees) * Float(percent / 100))
+        let percentage = Float(percent) / 100
+        let numTrees : Int = Int(Float(totalTrees) * percentage)
         let treesPerBox = species.numTrees
         let totalBoxes = numTrees / treesPerBox
         
@@ -85,7 +104,32 @@ struct Cut : Identifiable {
 }
 
 extension CacheCalculator {
-    static let sampleData = [CacheCalculator(numTrees: 15000, cuts: Cut.sampleData)]
+    struct Data {
+        var desiredTrees : Int = 0
+        var cuts : [Cut] = []
+    }
+    
+    init(data: Data){
+        desiredTrees = data.desiredTrees
+        cuts = data.cuts
+    }
+}
+
+extension Cut {
+    struct Data {
+        var species : Species = Species(data: Species.Data())
+        var percent : Int = 0
+    }
+    
+    init(data: Data){
+        id = UUID()
+        species = data.species
+        percent = data.percent
+    }
+}
+
+extension CacheCalculator {
+    static let sampleData = [CacheCalculator(desiredTrees: 15000, cuts: Cut.sampleData)]
 }
 
 extension Cut {
