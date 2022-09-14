@@ -68,7 +68,7 @@ struct CacheCalculator : Identifiable {
     
     func calculateActualPercent(cut: Cut) -> String{
         var formatter = NumberFormatter()
-        formatter.maximumFractionDigits = 2
+        formatter.maximumFractionDigits = 1
         formatter.minimumFractionDigits = 0
         
         if let item = cuts.first(where: {$0 == cut}){
