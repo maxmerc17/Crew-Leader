@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Species : Hashable, Identifiable, Comparable {
+struct Species : Hashable, Identifiable, Comparable, Equatable {
     var id : UUID
     var name : String
     var numTrees : Int
