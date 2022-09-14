@@ -30,6 +30,8 @@ struct CacheCalculatorView: View {
     
     @State var isShowingResults = false
     @State var calculatedObject = CacheCalculator(data: CacheCalculator.Data())
+    
+    @State var history : [CacheCalculator] = []
 
     func addSpecies() {
         if mix.isEmpty{
@@ -88,6 +90,7 @@ struct CacheCalculatorView: View {
         }
         
         calculatedObject = CacheCalculator(desiredTrees: Int(numberOfTrees)!, cuts: cutsArray)
+        history.append(calculatedObject)
         isShowingResults = true
     }
     
@@ -100,7 +103,7 @@ struct CacheCalculatorView: View {
                         TextField("0", text: $numberOfTrees).frame(width:80)
                     }
                     ForEach($cutsArray, id: \.0) { $item in
-                        DisplayRowItem(species: $item.0, mix: $item.1, inputArray: $cutsArray, index: cutsArray.firstIndex {$0 == item}! )
+                        DisplayRowItem(species: $item.0, mix: $item.1, inputArray: $cutsArray)
                     }
                 }
                 Section("Add Species"){
@@ -140,6 +143,22 @@ struct CacheCalculatorView: View {
                     }
                 }
                 
+                Section("History"){
+                    ForEach(history.reversed()){ co in
+                        NavigationLink(destination: ResultsView(calculatedObject: co)){
+                            HStack{
+                                Text("\(co.desiredTrees) ").font(.headline)
+                                HStack(alignment: .center){
+                                    ForEach(co.cuts) { cut in
+                                        Text("\(cut.species.name) - \(cut.percent)%  ").font(.caption)
+                                    }
+                                }
+                            }
+                        }
+                        
+                    }
+                }
+                
                 
             }
             .navigationTitle("Cache Calculator")
@@ -160,8 +179,13 @@ struct DisplayRowItem: View {
     @Binding var mix : String
     @Binding var inputArray : [(Species, String)]
     
-    @State var index : Int
     @State var isShowingAlert = false
+    
+    func removeItem(){
+        let index = inputArray.firstIndex {$0 == (species, mix)}!
+        inputArray.remove(at: index)
+    }
+    
     var body: some View {
         HStack{
             Label("\(species.name)", systemImage: "leaf")
@@ -170,6 +194,9 @@ struct DisplayRowItem: View {
             Spacer()
             Text("\(mix)%")
             Spacer()
+            Button(action: removeItem){
+                Image(systemName: "minus.circle")
+            }.help("Remove Item")
         }
     }
 }
@@ -182,6 +209,6 @@ struct CacheCalculatorView_Previews: PreviewProvider {
 
 struct DisplayRowItem_Previews: PreviewProvider {
     static var previews: some View {
-        DisplayRowItem(species: .constant(Species.sampleData[0]), mix: .constant("100"), inputArray: .constant([(Species.sampleData[0], "100")]), index: 1)
+        DisplayRowItem(species: .constant(Species.sampleData[0]), mix: .constant("100"), inputArray: .constant([(Species.sampleData[0], "100")]))
     }
 }

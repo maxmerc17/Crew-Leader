@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+// TODO: percision up to 2 decimal points on actual percentage
+
 struct ResultsView: View {
     @State var calculatedObject : CacheCalculator
     
@@ -32,11 +34,21 @@ struct ResultsView: View {
             Section("Output"){
                 ForEach(calculatedObject.cuts){ cut in
                     HStack{
-                        Label("\(cut.species.name)", systemImage: "leaf")
+                        //Label("\(cut.species.name)", systemImage: "leaf")
+                        Text("\(cut.species.name)")
                         Spacer()
                         Text("\(cut.numBoxes(calculatedObject.desiredTrees)) boxes").bold()
                         Spacer()
                         Text("\(cut.numBoxes(calculatedObject.desiredTrees) * cut.species.numTrees) trees")
+                        Spacer()
+                        if (calculatedObject.calculateActualPercent(cut: cut) == String(cut.percent)){
+                            Text("\(calculatedObject.calculateActualPercent(cut: cut))%").foregroundColor(.green)
+                        } else {
+                            Text("\(calculatedObject.calculateActualPercent(cut: cut))%").foregroundColor(.red)
+                        }
+                        
+                        
+                        
                     }
                 }
             }

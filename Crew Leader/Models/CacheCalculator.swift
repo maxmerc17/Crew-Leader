@@ -7,7 +7,8 @@
 
 import Foundation
 
-struct CacheCalculator {
+struct CacheCalculator : Identifiable {
+    var id : UUID
     var desiredTrees : Int
     var cuts : [Cut]
     
@@ -23,12 +24,14 @@ struct CacheCalculator {
         return cuts.reduce(0, { x, y in x + y.percent})
     }
     
-    init(desiredTrees: Int, cuts: [Cut]) {
+    init(id: UUID = UUID(), desiredTrees: Int, cuts: [Cut]) {
+        self.id = id
         self.desiredTrees = desiredTrees
         self.cuts = cuts
     }
     
-    init(desiredTrees: Int, cuts: [(Species, Int)]){
+    init(id: UUID = UUID(), desiredTrees: Int, cuts: [(Species, Int)]){
+        self.id = id
         self.desiredTrees = desiredTrees
         
         var newCuts : [Cut] = []
@@ -40,7 +43,8 @@ struct CacheCalculator {
         self.cuts = newCuts
     }
     
-    init(desiredTrees: Int, cuts: [(Species, String)]){
+    init(id: UUID = UUID(), desiredTrees: Int, cuts: [(Species, String)]){
+        self.id = UUID()
         self.desiredTrees = desiredTrees
         
         var newCuts : [Cut] = []
@@ -62,9 +66,23 @@ struct CacheCalculator {
         return speciesAndBoxesArray
     }
     
+    func calculateActualPercent(cut: Cut) -> String{
+        var formatter = NumberFormatter()
+        formatter.maximumFractionDigits = 2
+        formatter.minimumFractionDigits = 0
+        
+        if let item = cuts.first(where: {$0 == cut}){
+            let treesCalculated = item.numTrees(desiredTrees)
+            let floatResult = (Float(treesCalculated) / Float(totalTrees)) * 100
+            return formatter.string(for: floatResult)!//Double(String(floatResult).prefix(4))!
+        } else {
+            return "0"
+        }
+    }
+    
 }
 
-struct Cut : Identifiable {
+struct Cut : Identifiable, Equatable {
     var id: UUID
     var species : Species
     @Percent var percent : Int
@@ -101,6 +119,14 @@ struct Cut : Identifiable {
             return totalBoxes
         }
     }
+    
+    func numTrees(_ totalTrees: Int) -> Int {
+        return numBoxes(totalTrees)*species.numTrees
+    }
+    
+    static func == (lhs: Cut, rhs: Cut) -> Bool {
+        return lhs.species == rhs.species && lhs.percent == rhs.percent
+    }
 }
 
 extension CacheCalculator {
@@ -110,6 +136,7 @@ extension CacheCalculator {
     }
     
     init(data: Data){
+        id = UUID()
         desiredTrees = data.desiredTrees
         cuts = data.cuts
     }
