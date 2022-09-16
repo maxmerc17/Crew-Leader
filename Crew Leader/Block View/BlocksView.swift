@@ -13,9 +13,6 @@ struct BlocksView: View {
     @State var isPresentingNewBlockView : Bool = false
     @State var newBlockData : Block.Data = Block.Data()
     
-    @State var isShowingAlert = false
-    @State var alertText = alertTextType()
-    
     var body: some View {
         NavigationView {
             List {
@@ -33,7 +30,7 @@ struct BlocksView: View {
             }
             .sheet(isPresented: $isPresentingNewBlockView){
                 NavigationView(){
-                    CreateBlockView(newBlockData: $newBlockData, isShowingAlert: $isShowingAlert, alertText: $alertText)
+                    CreateBlockView(newBlockData: $newBlockData, blocks : $blocks, isPresentingNewBlockView: $isPresentingNewBlockView)
                         .toolbar(){
                             ToolbarItem(placement: .cancellationAction) {
                                 Button("Dismiss") {
@@ -41,15 +38,7 @@ struct BlocksView: View {
                                     newBlockData = Block.Data()
                                 }
                             }
-                            ToolbarItem(placement: .confirmationAction) {
-                                Button("Add") {
-                                    
-                                    let newBlock = Block(data: newBlockData)
-                                    blocks.append(newBlock)
-                                    isPresentingNewBlockView = false
-                                    newBlockData = Block.Data()
-                                }
-                            }
+                            
                         }
                 }
             }

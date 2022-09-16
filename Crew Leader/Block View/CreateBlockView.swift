@@ -5,25 +5,62 @@
 //  Created by Max Mercer on 2022-09-16.
 //
 
+// TODO: (if have time) not sure if the way I am managing the data is the most efficient
+// TODO: (if have time) add labels to elements in tuple -- make code more clear
+
 import SwiftUI
 
 struct CreateBlockView: View {
     @Binding var newBlockData : Block.Data
+    @Binding var blocks : [Block]
+    @Binding var isPresentingNewBlockView : Bool
+    
+    @State var selectedBlockArea : String = ""
+    @State var selectedDensity : Int = 1400
+    @State var selectedTreesPU : String = ""
+    @State var plantingUnits : [PlantingUnit] = []
     
     @State var selectedSpecies = Species.sampleData[0]
     @State var mix = ""
     @State var selectedPlantingUnit = 1
+    @State var cutsArray : [(Species, String, Int)] = [] // (selectedSpecies, mix, selectedPlantingUnit)
     
+    @State var isShowingAlert : Bool = false
+    @State var alertText = alertTextType()
     
-    @State var cutsArray : [(Species, String, Int)] = []
-    
-    @State var plantingUnits : [PlantingUnit] = []
-    @State var selectedBlockArea : String = ""
-    @State var selectedDensity : Int = 1400
-    @State var selectedTreesPU : String = ""
-    
-    @Binding var isShowingAlert : Bool //= false
-    @Binding var alertText : alertTextType //= alertTextType()
+    func Validate() -> Bool {
+        if newBlockData.blockNumber == "" {
+            alertText.title = "Improper Input"
+            alertText.message = "Enter a Block name."
+            isShowingAlert = true
+            return false
+        }
+        if plantingUnits.isEmpty {
+            alertText.title = "Improper Input"
+            alertText.message = "Enter one or more planting units."
+            isShowingAlert = true
+            return false
+        }
+        if cutsArray.isEmpty {
+            alertText.title = "Improper Input"
+            alertText.message = "Enter one or more species for the block."
+            isShowingAlert = true
+            return false
+        }
+        
+        for i in 0..<plantingUnits.count{
+            let totalPercentage = cutsArray.reduce(0, {x, y in x + ((y.2 == i+1) ? Int(y.1)! : 0)})
+            
+            if totalPercentage != 100 {
+                alertText.title = "Improper Input"
+                alertText.message = "List of species for planting unit \(i+1) should sum to 100%. Add or remove species to ensure the planting unit mix is captured."
+                isShowingAlert = true
+                return false
+            }
+        }
+        
+        return true
+    }
     
     func addPlantingUnit() {
         if selectedBlockArea == ""{
@@ -82,10 +119,10 @@ struct CreateBlockView: View {
             return
         }
         
-        let speciesInList : [Species] = cutsArray.map {$0.0}
+        let speciesInList : [Species] = cutsArray.filter { $0.2 == selectedPlantingUnit }.map { $0.0 }
         if speciesInList.contains(selectedSpecies){
             alertText.title = "Improper Input"
-            alertText.message = "Selected species has already been added to the list. Please select a different species."
+            alertText.message = "Selected species has already been added to the specified planting unit. Please select a different species."
             isShowingAlert = true
             return
         }
@@ -110,7 +147,7 @@ struct CreateBlockView: View {
             
             Section("Planting Units"){
                 if (plantingUnits.isEmpty){
-                    Text("Add planting units to this block").foregroundColor(.gray)
+                    Text("No planting units added").foregroundColor(.gray)
                 }
                 else{
                     ForEach($plantingUnits) { $item in
@@ -142,16 +179,14 @@ struct CreateBlockView: View {
                     }
                     Spacer()
                 }
-                
-                
             }
             Section("Species and Mix"){
                 if (cutsArray.isEmpty){
-                    Text("Add species to this block").foregroundColor(.gray)
+                    Text("No species added").foregroundColor(.gray)
                 }
                 else{
                     ForEach($cutsArray, id: \.0) { $item in
-                        DisplayRowItem2(species: $item.0, mix: $item.1, inputArray: $cutsArray, selectedPlantingUnit: $selectedPlantingUnit)
+                        DisplayRowItem2(species: $item.0, mix: $item.1, inputArray: $cutsArray, selectedPlantingUnit: $item.2)
                     }
                 }
                 
@@ -193,6 +228,24 @@ struct CreateBlockView: View {
                 title: Text("\(alertText.title)"),
                 message: Text("\(alertText.message)")
             )
+        }
+        .toolbar() {
+            ToolbarItem(placement: .confirmationAction) {
+                Button("Add") {
+                    if Validate(){
+                        for cut in cutsArray {
+                            let newCut = Cut(species: cut.0, percent: Int(cut.1)!)
+                            plantingUnits[(cut.2)-1].cuts.append(newCut)
+                        }
+                        
+                        newBlockData.plantingUnits = plantingUnits
+                        let newBlock = Block(data: newBlockData)
+                        blocks.append(newBlock)
+                        isPresentingNewBlockView = false
+                        newBlockData = Block.Data()
+                    }
+                }
+            }
         }
     }
 }
@@ -253,6 +306,6 @@ struct DisplayRowItem3: View {
 
 struct CreateBlockView_Previews: PreviewProvider {
     static var previews: some View {
-        CreateBlockView(newBlockData: .constant(Block.Data()), isShowingAlert: .constant(false), alertText: .constant(alertTextType()))
+        CreateBlockView(newBlockData: .constant(Block.Data()), blocks: .constant([]), isPresentingNewBlockView: .constant(true))
     }
 }
