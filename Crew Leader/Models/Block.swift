@@ -8,8 +8,67 @@
 import Foundation
 
 struct Block: Identifiable, Codable, Hashable, Comparable {
+    static func == (lhs: Block, rhs: Block) -> Bool {
+        return (lhs.blockNumber == rhs.blockNumber)
+    }
+    
     var id: UUID
     var blockNumber : String
+    var blockDetails : BlockDetails
+    
+    init(id: UUID, blockNumber: String, chatFreq: String, roadChannelFreq: String, towerTelChannel: String, lat: String, long: String, numWorkers: Int, workStartDate: Date, workFinishDate: Date, client: String, crewLeader: Person, firstAidAttendant: Person, supervisor: Person) {
+        self.id = id
+        self.blockNumber = blockNumber
+        
+        var data = BlockDetails.Data()
+        data.chatFreq = chatFreq
+        data.roadChannelFreq = roadChannelFreq
+        data.towerTelChannel = towerTelChannel
+        data.lat = lat
+        data.long = long
+        data.numWorkers = numWorkers
+        data.workStartDate = workStartDate
+        data.workFinishDate = workFinishDate
+        data.client = client
+        data.crewLeader = crewLeader
+        data.firstAidAttendant = firstAidAttendant
+        data.supervisor = supervisor
+        
+        self.blockDetails = BlockDetails(data: data)
+    }
+    
+    init(id: UUID, blockNumber: String){
+        self.id = id
+        self.blockNumber = blockNumber
+        self.blockDetails = BlockDetails(data: BlockDetails.Data())
+    }
+    
+    static func < (lhs: Block, rhs: Block) -> Bool {
+        if lhs.blockNumber < rhs.blockNumber{
+            return true
+        }else{ return false }
+    }
+}
+
+extension Block {
+    struct Data {
+        var blockNumber : String = ""
+        var blockDetails : BlockDetails = BlockDetails(data: BlockDetails.Data())
+    }
+    
+    init(data: Data) {
+        id = UUID()
+        blockNumber = data.blockNumber
+        blockDetails = data.blockDetails
+    }
+    
+    mutating func update(data: Data){
+        blockNumber = data.blockNumber
+        blockDetails = data.blockDetails
+    }
+}
+
+struct BlockDetails : Codable, Hashable {
     var chatFreq : String // make enum
     var roadChannelFreq : String // make enum
     var towerTelChannel : String // make enum
@@ -22,35 +81,10 @@ struct Block: Identifiable, Codable, Hashable, Comparable {
     var crewLeader : Person
     var firstAidAttendant : Person
     var supervisor : Person
-    
-    init(id: UUID, blockNumber: String, chatFreq: String, roadChannelFreq: String, towerTelChannel: String, lat: String, long: String, numWorkers: Int, workStartDate: Date, workFinishDate: Date, client: String, crewLeader: Person, firstAidAttendant: Person, supervisor: Person) {
-        self.id = id
-        self.blockNumber = blockNumber
-        self.chatFreq = chatFreq
-        self.roadChannelFreq = roadChannelFreq
-        self.towerTelChannel = towerTelChannel
-        self.lat = lat
-        self.long = long
-        self.numWorkers = numWorkers
-        self.workStartDate = workStartDate
-        self.workFinishDate = workFinishDate
-        self.client = client
-        self.crewLeader = crewLeader
-        self.firstAidAttendant = firstAidAttendant
-        self.supervisor = supervisor
-    }
-    
-    static func < (lhs: Block, rhs: Block) -> Bool {
-        if lhs.blockNumber < rhs.blockNumber{
-            return true
-        }else{ return false }
-    }
-
 }
 
-extension Block {
+extension BlockDetails {
     struct Data {
-        var blockNumber : String = ""
         var chatFreq : String = ""// make enum
         var roadChannelFreq : String = ""// make enum
         var towerTelChannel : String = ""// make enum
@@ -65,9 +99,7 @@ extension Block {
         var supervisor : Person = Person(data: Person.Data())
     }
     
-    init(data: Data) {
-        id = UUID()
-        blockNumber = data.blockNumber
+    init(data: Data){
         chatFreq = data.chatFreq
         roadChannelFreq = data.roadChannelFreq
         towerTelChannel = data.towerTelChannel
@@ -83,7 +115,6 @@ extension Block {
     }
     
     mutating func update(data: Data){
-        blockNumber = data.blockNumber
         chatFreq = data.chatFreq
         roadChannelFreq = data.roadChannelFreq
         towerTelChannel = data.towerTelChannel
@@ -98,6 +129,9 @@ extension Block {
         supervisor = data.supervisor
     }
 }
+
+
+
 
 
 extension Block {
