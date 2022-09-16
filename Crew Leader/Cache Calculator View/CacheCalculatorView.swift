@@ -190,7 +190,7 @@ struct DisplayRowItem: View {
         HStack{
             Label("\(species.name)", systemImage: "leaf")
             Spacer()
-            Text("\(species.numTrees) trees / box")
+            Text("\(species.treesPerBox) trees / box")
             Spacer()
             Text("\(mix)%")
             Spacer()

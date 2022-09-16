@@ -24,7 +24,7 @@ struct ResultsView: View {
                     HStack{
                         Label("\(cut.species.name)", systemImage: "leaf")
                         Spacer()
-                        Text("\(cut.species.numTrees) trees / box")
+                        Text("\(cut.species.treesPerBox) trees / box")
                         Spacer()
                         Text("\(cut.percent)%")
                     }
@@ -39,7 +39,7 @@ struct ResultsView: View {
                         Spacer()
                         Text("\(cut.numBoxes(calculatedObject.desiredTrees)) boxes").bold()
                         Spacer()
-                        Text("\(cut.numBoxes(calculatedObject.desiredTrees) * cut.species.numTrees) trees")
+                        Text("\(cut.numBoxes(calculatedObject.desiredTrees) * cut.species.treesPerBox) trees")
                         Spacer()
                         if (calculatedObject.calculateActualPercent(cut: cut) == String(cut.percent)){
                             Text("\(calculatedObject.calculateActualPercent(cut: cut))%").foregroundColor(.green)

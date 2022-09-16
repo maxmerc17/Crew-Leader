@@ -17,7 +17,7 @@ struct CacheCalculator : Identifiable {
     }
     
     var totalTrees : Int {
-        return calculateBoxesPerSpecies().reduce(0, { tot, val in tot + (val.0.numTrees * val.1) })
+        return calculateBoxesPerSpecies().reduce(0, { tot, val in tot + (val.0.treesPerBox * val.1) })
     }
     
     var totalPercentage : Int {
@@ -82,7 +82,7 @@ struct CacheCalculator : Identifiable {
     
 }
 
-struct Cut : Identifiable, Equatable {
+struct Cut : Identifiable, Equatable, Codable, Hashable {
     var id: UUID
     var species : Species
     @Percent var percent : Int
@@ -109,7 +109,7 @@ struct Cut : Identifiable, Equatable {
     func numBoxes(_ totalTrees: Int) -> Int{
         let percentage = Float(percent) / 100
         let numTrees : Int = Int(Float(totalTrees) * percentage)
-        let treesPerBox = species.numTrees
+        let treesPerBox = species.treesPerBox
         let totalBoxes = numTrees / treesPerBox
         
         if (totalBoxes * treesPerBox < numTrees) {
@@ -121,7 +121,7 @@ struct Cut : Identifiable, Equatable {
     }
     
     func numTrees(_ totalTrees: Int) -> Int {
-        return numBoxes(totalTrees)*species.numTrees
+        return numBoxes(totalTrees)*species.treesPerBox
     }
     
     static func == (lhs: Cut, rhs: Cut) -> Bool {
@@ -165,7 +165,7 @@ extension Cut {
 
 
 @propertyWrapper
-struct Percent {
+struct Percent: Codable, Hashable {
     private var number = 0
     var wrappedValue: Int {
         get { return number }

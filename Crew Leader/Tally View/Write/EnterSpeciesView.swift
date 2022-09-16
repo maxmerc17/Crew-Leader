@@ -26,7 +26,7 @@ struct EnterSpeciesView: View {
     func updateProduction() {
         numBoxes = String(newTallyData.blocks[block]?.individualTallies[planter]?.boxesPerSpecies[species] ?? 0)
         
-        let treesFromBoxes = (Int(numBoxes) ?? 0)*species.numTrees
+        let treesFromBoxes = (Int(numBoxes) ?? 0)*species.treesPerBox
         let treesFromPartials = releventPartials.reduce(0, { x, y in
             x + (y.people[planter] ?? 0)*species.treesPerBundle
         })
