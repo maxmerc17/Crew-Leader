@@ -13,7 +13,7 @@ struct ContentView: View {
     var body: some View {
         TabView(selection: $selectedTab) {
             Text("Blocks tab").tabItem { Label("Blocks", systemImage: "mappin.and.ellipse") }.tag(1)
-            Text("Cache calculator tab").tabItem { Label("Cache Calculator", systemImage: "plus.forwardslash.minus") }.tag(2)
+            CacheCalculatorView().tabItem { Label("Cache Calculator", systemImage: "plus.forwardslash.minus") }.tag(2)
             Text("Crew tab").tabItem { Label("Crew", systemImage: "person.3")}.tag(3)
             TalliesView().tabItem { Label("Tallies", systemImage: "square.grid.3x3.square") }.tag(4)
             Text("Settings").tabItem { Label("Settings", systemImage: "gear") }.tag(5)
