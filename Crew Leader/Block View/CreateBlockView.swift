@@ -23,10 +23,12 @@ struct CreateBlockView: View {
     @State var selectedSpecies = Species.sampleData[0]
     @State var mix = ""
     @State var selectedPlantingUnit = 1
-    @State var cutsArray : [(Species, String, Int)] = [] // (selectedSpecies, mix, selectedPlantingUnit)
+    @State var cutsArray : [(Species, String, Int, Int)] = [] // (selectedSpecies, mix, selectedPlantingUnit)
     
     @State var isShowingAlert : Bool = false
     @State var alertText = alertTextType()
+    
+    @State var key = 0
     
     func Validate() -> Bool {
         if newBlockData.blockNumber == "" {
@@ -127,7 +129,8 @@ struct CreateBlockView: View {
             return
         }
         
-        cutsArray.append((selectedSpecies, mix, selectedPlantingUnit))
+        cutsArray.append((selectedSpecies, mix, selectedPlantingUnit, key))
+        key+=1
     }
     
     var body: some View {
@@ -185,8 +188,8 @@ struct CreateBlockView: View {
                     Text("No species added").foregroundColor(.gray)
                 }
                 else{
-                    ForEach($cutsArray, id: \.0) { $item in
-                        DisplayRowItem2(species: $item.0, mix: $item.1, inputArray: $cutsArray, selectedPlantingUnit: $item.2)
+                    ForEach($cutsArray, id: \.3) { $item in
+                        DisplayRowItem2(species: $item.0, mix: $item.1, inputArray: $cutsArray, plantingUnit: $item.2)
                     }
                 }
                 
@@ -253,13 +256,13 @@ struct CreateBlockView: View {
 struct DisplayRowItem2: View {
     @Binding var species : Species
     @Binding var mix : String
-    @Binding var inputArray : [(Species, String, Int)]
-    @Binding var selectedPlantingUnit : Int
+    @Binding var inputArray : [(Species, String, Int, Int)]
+    @Binding var plantingUnit : Int
     
     @State var isShowingAlert = false
     
     func removeItem(){
-        let index = inputArray.firstIndex {$0 == (species, mix, selectedPlantingUnit)}!
+        let index = inputArray.firstIndex {$0.0 == species && $0.2 == plantingUnit}!
         inputArray.remove(at: index)
     }
     
@@ -267,7 +270,7 @@ struct DisplayRowItem2: View {
         HStack{
             Label("\(species.name)", systemImage: "leaf")
             Spacer()
-            Text("Unit \(selectedPlantingUnit)")
+            Text("Unit \(plantingUnit)")
             Spacer()
             Text("\(mix)%")
             Spacer()

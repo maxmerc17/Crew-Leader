@@ -39,12 +39,17 @@ struct EnterSpeciesView: View {
     
     var body: some View {
         Section("\(species.name) - \(totalTreesPlanted) trees planted"){
-            TextField("Boxes", text: $numBoxes)
-                .keyboardType(.numberPad)
-                .onChange(of: numBoxes){
-                    newTallyData.blocks[block]?.individualTallies[planter]?.boxesPerSpecies[species] = Int($0)
-                    updateProduction()
+            HStack {
+                Label("Boxes", systemImage: "shippingbox")
+                Spacer()
+                TextField("Boxes", text: $numBoxes).multilineTextAlignment(.trailing)
+                    .keyboardType(.numberPad)
+                    .onChange(of: numBoxes){
+                        newTallyData.blocks[block]?.individualTallies[planter]?.boxesPerSpecies[species] = Int($0)
+                        updateProduction()
+                            
                 }
+            }
             Section("Partials"){
                 ForEach(releventPartials) { partial in
                     PartialCardView(partial: partial)
