@@ -171,7 +171,7 @@ struct PlantingUnit : Identifiable, Codable, Hashable{
 }
 
 extension PlantingUnit{
-    struct Data {
+    struct Data : Equatable {
         var area: Float
         var density: Int
         var TreesPU: Int

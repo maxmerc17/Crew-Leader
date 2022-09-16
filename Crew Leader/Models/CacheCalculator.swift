@@ -67,14 +67,14 @@ struct CacheCalculator : Identifiable {
     }
     
     func calculateActualPercent(cut: Cut) -> String{
-        let formatter = NumberFormatter()
+        /*let formatter = NumberFormatter()
         formatter.maximumFractionDigits = 1
-        formatter.minimumFractionDigits = 0
+        formatter.minimumFractionDigits = 0*/
         
         if let item = cuts.first(where: {$0 == cut}){
             let treesCalculated = item.numTrees(desiredTrees)
             let floatResult = (Float(treesCalculated) / Float(totalTrees)) * 100
-            return formatter.string(for: floatResult)!//Double(String(floatResult).prefix(4))!
+            return utilities.formatFloat(float: floatResult)//Double(String(floatResult).prefix(4))!
         } else {
             return "0"
         }

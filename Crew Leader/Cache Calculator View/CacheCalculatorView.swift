@@ -100,7 +100,7 @@ struct CacheCalculatorView: View {
                 Section("Input"){
                     HStack{
                         Label("Number of Trees: ", systemImage: "number")
-                        TextField("0", text: $numberOfTrees).frame(width:80)
+                        TextField("0", text: $numberOfTrees).frame(width:80).keyboardType(.numberPad)
                     }
                     ForEach($cutsArray, id: \.0) { $item in
                         DisplayRowItem(species: $item.0, mix: $item.1, inputArray: $cutsArray)
@@ -144,22 +144,23 @@ struct CacheCalculatorView: View {
                 }
                 
                 Section("History"){
-                    ForEach(history.reversed()){ co in
-                        NavigationLink(destination: ResultsView(calculatedObject: co)){
-                            HStack{
-                                Text("\(co.desiredTrees) ").font(.headline)
-                                HStack(alignment: .center){
-                                    ForEach(co.cuts) { cut in
-                                        Text("\(cut.species.name) - \(cut.percent)%  ").font(.caption)
+                    if history.isEmpty{
+                        Text("No history to display").foregroundColor(.gray)
+                    } else{
+                        ForEach(history.reversed()){ co in
+                            NavigationLink(destination: ResultsView(calculatedObject: co)){
+                                HStack{
+                                    Text("\(co.desiredTrees) ").font(.headline)
+                                    HStack(alignment: .center){
+                                        ForEach(co.cuts) { cut in
+                                            Text("\(cut.species.name) - \(cut.percent)%  ").font(.caption)
+                                        }
                                     }
                                 }
                             }
                         }
-                        
                     }
                 }
-                
-                
             }
             .navigationTitle("Cache Calculator")
             .alert(isPresented: $isShowingAlert) {
