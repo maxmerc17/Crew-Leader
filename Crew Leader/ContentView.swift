@@ -14,7 +14,7 @@ struct ContentView: View {
         TabView(selection: $selectedTab) {
             
             CacheCalculatorView().tabItem { Label("Cache Calculator", systemImage: "plus.forwardslash.minus") }.tag(2)
-            Text("Blocks tab").tabItem{ Label("Blocks", systemImage: "map")}.tag(3)
+            BlocksView().tabItem{ Label("Blocks", systemImage: "map")}.tag(3)
             Text("Crew tab").tabItem { Label("Crew", systemImage: "person.3")}.tag(4)
             TalliesView().tabItem { Label("Tallies", systemImage: "square.grid.3x3.square") }.tag(5)
             Text("Plots tab").tabItem { Label("Plots", systemImage: "mappin.and.ellipse") }.tag(1)

@@ -14,7 +14,7 @@ struct Block: Identifiable, Codable, Hashable, Comparable {
     var plantingUnits : [PlantingUnit]
     var loads : [Load]
     
-    init(id: UUID, blockNumber: String, chatFreq: String, roadChannelFreq: String, towerTelChannel: String, lat: String, long: String, numWorkers: Int, workStartDate: Date, workFinishDate: Date, client: String, crewLeader: Person, firstAidAttendant: Person, supervisor: Person, plantingUnits : [PlantingUnit], loads: [Load]) {
+    init(id: UUID, blockNumber: String, chatFreq: String, roadChannelFreq: String, towerTelChannel: String, lat: String, long: String, numWorkers: Int, workStartDate: Date, workFinishDate: Date?, client: String, crewLeader: Person, firstAidAttendant: Person, supervisor: Person, plantingUnits : [PlantingUnit], loads: [Load]) {
         self.id = id
         self.blockNumber = blockNumber
         
@@ -88,7 +88,7 @@ struct BlockDetails : Codable, Hashable {
     var long : String
     var numWorkers : Int
     var workStartDate : Date
-    var workFinishDate : Date
+    var workFinishDate : Date?
     var client : String // make enum
     var crewLeader : Person
     var firstAidAttendant : Person
@@ -104,7 +104,7 @@ extension BlockDetails {
         var long : String = ""
         var numWorkers : Int = 0
         var workStartDate : Date = Date.now
-        var workFinishDate : Date = Date.now
+        var workFinishDate : Date? = nil
         var client : String = ""// make enum
         var crewLeader : Person = Person(data: Person.Data())
         var firstAidAttendant : Person = Person(data: Person.Data())
@@ -257,7 +257,7 @@ extension Block {
             long: "234234121.12352",
             numWorkers: 6,
             workStartDate: Date.now,
-            workFinishDate: Date.now,
+            workFinishDate: nil,
             client: "Canfor",
             crewLeader: Person.sampleData[0],
             firstAidAttendant: Person.sampleData[0],
@@ -274,7 +274,7 @@ extension Block {
             long: "234234121.12352",
             numWorkers: 6,
             workStartDate: Date.now,
-            workFinishDate: Date.now,
+            workFinishDate: nil,
             client: "Canfor",
             crewLeader: Person.sampleData[0],
             firstAidAttendant: Person.sampleData[0],
@@ -291,7 +291,7 @@ extension Block {
             long: "234234121.12352",
             numWorkers: 6,
             workStartDate: Date.now,
-            workFinishDate: Date.now,
+            workFinishDate: nil,
             client: "Canfor",
             crewLeader: Person.sampleData[0],
             firstAidAttendant: Person.sampleData[0],
