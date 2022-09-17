@@ -40,6 +40,10 @@
 		85EF06A228CFBF7C008D006A /* CreatePartialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EF06A128CFBF7C008D006A /* CreatePartialView.swift */; };
 		85EF06A628D1097E008D006A /* AddBlocksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EF06A528D1097E008D006A /* AddBlocksView.swift */; };
 		85EF06A828D21ECE008D006A /* CacheCalculatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EF06A728D21ECE008D006A /* CacheCalculatorView.swift */; };
+		85FF801F28D4E97100B55666 /* BlocksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85FF801E28D4E97100B55666 /* BlocksView.swift */; };
+		85FF802128D4EA2C00B55666 /* BlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85FF802028D4EA2C00B55666 /* BlockView.swift */; };
+		85FF802328D4EAD200B55666 /* BlockCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85FF802228D4EAD200B55666 /* BlockCardView.swift */; };
+		85FF802528D4EB3000B55666 /* CreateBlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85FF802428D4EB3000B55666 /* CreateBlockView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -96,6 +100,10 @@
 		85EF06A128CFBF7C008D006A /* CreatePartialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePartialView.swift; sourceTree = "<group>"; };
 		85EF06A528D1097E008D006A /* AddBlocksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddBlocksView.swift; sourceTree = "<group>"; };
 		85EF06A728D21ECE008D006A /* CacheCalculatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheCalculatorView.swift; sourceTree = "<group>"; };
+		85FF801E28D4E97100B55666 /* BlocksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlocksView.swift; sourceTree = "<group>"; };
+		85FF802028D4EA2C00B55666 /* BlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockView.swift; sourceTree = "<group>"; };
+		85FF802228D4EAD200B55666 /* BlockCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockCardView.swift; sourceTree = "<group>"; };
+		85FF802428D4EB3000B55666 /* CreateBlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateBlockView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -146,6 +154,7 @@
 		8545285C28CBC63B00DF64F2 /* Crew Leader */ = {
 			isa = PBXGroup;
 			children = (
+				85FF801D28D4E96000B55666 /* Block View */,
 				85C6306C28D2579B00A5066F /* Cache Calculator View */,
 				85EF069628CF895B008D006A /* Tally View */,
 				85EF067B28CBCD70008D006A /* Models */,
@@ -243,6 +252,17 @@
 				85EF069D28CFB54E008D006A /* PartialCardView.swift */,
 			);
 			path = Write;
+			sourceTree = "<group>";
+		};
+		85FF801D28D4E96000B55666 /* Block View */ = {
+			isa = PBXGroup;
+			children = (
+				85FF801E28D4E97100B55666 /* BlocksView.swift */,
+				85FF802028D4EA2C00B55666 /* BlockView.swift */,
+				85FF802228D4EAD200B55666 /* BlockCardView.swift */,
+				85FF802428D4EB3000B55666 /* CreateBlockView.swift */,
+			);
+			path = "Block View";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -397,8 +417,12 @@
 				85EF067F28CBD054008D006A /* Crew.swift in Sources */,
 				85EF069328CEA95A008D006A /* AddSpeciesView.swift in Sources */,
 				85EF069C28CFB055008D006A /* EnterSpeciesView.swift in Sources */,
+				85FF802128D4EA2C00B55666 /* BlockView.swift in Sources */,
 				8545286028CBC63B00DF64F2 /* ContentView.swift in Sources */,
+				85FF802528D4EB3000B55666 /* CreateBlockView.swift in Sources */,
 				85EF069828CF9319008D006A /* EnterTallyDataView.swift in Sources */,
+				85FF801F28D4E97100B55666 /* BlocksView.swift in Sources */,
+				85FF802328D4EAD200B55666 /* BlockCardView.swift in Sources */,
 				85EF068928CE52F8008D006A /* Species.swift in Sources */,
 				8545285E28CBC63B00DF64F2 /* Crew_LeaderApp.swift in Sources */,
 				85EF067828CBCA2B008D006A /* TalliesView.swift in Sources */,
