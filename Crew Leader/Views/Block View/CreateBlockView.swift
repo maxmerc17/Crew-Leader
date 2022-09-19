@@ -24,7 +24,7 @@ struct CreateBlockView: View {
     @State var selectedSpecies = Species.sampleData[0]
     @State var mix = ""
     @State var selectedPlantingUnit = 1
-    @State var cutsArray : [(Species, String, Int, Int)] = [] // (selectedSpecies, mix, selectedPlantingUnit)
+    @State var cutsArray : [(Species, String, Int, Int)] = [] // (selectedSpecies, mix, selectedPlantingUnit, key)
     
     @State var isShowingAlert : Bool = false
     @State var alertText = alertTextType()

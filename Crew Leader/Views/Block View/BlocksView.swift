@@ -20,8 +20,8 @@ struct BlocksView: View {
                 if blocks.isEmpty {
                     Text("No blocks to view").foregroundColor(.gray)
                 }else {
-                    ForEach(blocks) { block in
-                        NavigationLink (destination: BlockView(block: block)){
+                    ForEach($blocks) { $block in
+                        NavigationLink (destination: BlockView(block: $block)){
                             BlockCardView(block: block)
                         }
                     }
