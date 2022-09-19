@@ -8,15 +8,21 @@
 import SwiftUI
 
 struct BlockView: View {
-    @State var block : Block
+    @Binding var block : Block
     var body: some View {
-        Text("Hello, world!")
-            .padding()
+        VStack {
+            List{
+                NavigationLink(destination: PlantingSummaryView(block: block)){
+                    Text("Planting Summary")
+                }
+                
+            }
+        }.navigationTitle("\(block.blockNumber)")
     }
 }
 
 struct BlockView_Previews: PreviewProvider {
     static var previews: some View {
-        BlockView(block: Block.sampleData[0])
+        BlockView(block: .constant(Block.sampleData[0]))
     }
 }
