@@ -20,18 +20,22 @@ struct CardView: View {
     }
     
     var body: some View {
-        VStack(alignment: .leading) {
-            Text("\(utilities.formatDate(date: tally.date))")
-                .font(.headline)
-        
-            Spacer()
-            HStack {
-                Label("\(getListOfBlocks())", systemImage: "map")
+        HStack {
+            VStack(alignment: .leading) {
+                Text("\(utilities.formatDate(date: tally.date))")
+                    .font(.headline)
+            
                 Spacer()
+                HStack {
+                    Label("\(getListOfBlocks())", systemImage: "map")
+                    Spacer()
+                }
+                .font(.caption)
             }
-            .font(.caption)
-        }
-        .padding()
+            Spacer()
+            Text("\(tally.treesPlanted)")
+            
+        }.padding()
         
     }
 }
