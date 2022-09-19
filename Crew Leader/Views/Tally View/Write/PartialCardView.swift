@@ -24,7 +24,7 @@ struct PartialCardView: View {
             //Text("\(partial.species.name) Partial").font(.headline)//Text("\(Array(partial.people.keys)[0].firstName)'s Partial")
             HStack {
                 //Label("\(partialString())", systemImage: "squareshape.split.2x2")
-                Image(systemName:"squareshape.split.2x2.dotted").foregroundColor(.blue)
+                Image(systemName:"p.circle").foregroundColor(.blue)
                 Text("\(partialString())").font(.caption)
                 Spacer()
                 

@@ -9,7 +9,7 @@
 
 import Foundation
 
-struct DailyTally : Identifiable {
+struct DailyTally : Identifiable, Codable {
     var id : UUID
     var date : Date
     var contract : String
@@ -35,7 +35,7 @@ struct DailyTally : Identifiable {
     }
 }
 
-struct DailyBlockTally : Identifiable {
+struct DailyBlockTally : Identifiable, Codable {
     var id : UUID
     var species : [Species]
     var individualTallies : [Person : DailyPlanterTally]
@@ -61,7 +61,7 @@ struct DailyBlockTally : Identifiable {
     }
 }
 
-struct DailyPlanterTally : Identifiable {
+struct DailyPlanterTally : Identifiable, Codable {
     var id : UUID
     var boxesPerSpecies : [Species : Int]
     var treesPerSpecies : [Species : Int] // is a dictionary

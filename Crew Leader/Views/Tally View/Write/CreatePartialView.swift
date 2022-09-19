@@ -90,7 +90,7 @@ struct CreatePartialView: View {
                         Picker("Blocks", selection: $selectedBlock){
                             ForEach(blockObjects){
                                 block in
-                                Text("\(block.blockNumber)").tag(block)
+                                Text("\(block.blockNumber)").tag(block.blockNumber)
                             }
                         }
                     }

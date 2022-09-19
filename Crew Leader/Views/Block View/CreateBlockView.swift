@@ -14,6 +14,7 @@ struct CreateBlockView: View {
     @Binding var newBlockData : Block.Data
     @Binding var blocks : [Block]
     @Binding var isPresentingNewBlockView : Bool
+    let saveBlocks : () -> Void
     
     @State var selectedBlockArea : String = ""
     @State var selectedDensity : Int = 1400
@@ -23,7 +24,7 @@ struct CreateBlockView: View {
     @State var selectedSpecies = Species.sampleData[0]
     @State var mix = ""
     @State var selectedPlantingUnit = 1
-    @State var cutsArray : [(Species, String, Int, Int)] = [] // (selectedSpecies, mix, selectedPlantingUnit)
+    @State var cutsArray : [(Species, String, Int, Int)] = [] // (selectedSpecies, mix, selectedPlantingUnit, key)
     
     @State var isShowingAlert : Bool = false
     @State var alertText = alertTextType()
@@ -244,6 +245,7 @@ struct CreateBlockView: View {
                         newBlockData.plantingUnits = plantingUnits
                         let newBlock = Block(data: newBlockData)
                         blocks.append(newBlock)
+                        saveBlocks()
                         isPresentingNewBlockView = false
                         newBlockData = Block.Data()
                     }
@@ -309,6 +311,6 @@ struct DisplayRowItem3: View {
 
 struct CreateBlockView_Previews: PreviewProvider {
     static var previews: some View {
-        CreateBlockView(newBlockData: .constant(Block.Data()), blocks: .constant([]), isPresentingNewBlockView: .constant(true))
+        CreateBlockView(newBlockData: .constant(Block.Data()), blocks: .constant([]), isPresentingNewBlockView: .constant(true), saveBlocks: {})
     }
 }
