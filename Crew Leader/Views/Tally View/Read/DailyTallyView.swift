@@ -8,7 +8,7 @@ import SwiftUI
 
 struct DailyTallyView: View {
     @State var tally : DailyTally
-    @State var selectedBlock : Block
+    @State var selectedBlock : String
     
     var body: some View {
         var speciesArray = Array((tally.blocks[selectedBlock]?.treesPlantedPerSpecies) ?? [:]).sorted(by: {$0.0 < $1.0})

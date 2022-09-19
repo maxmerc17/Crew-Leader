@@ -1,0 +1,93 @@
+//
+//  TalliesView.swift
+//  Crew Leader
+//
+//  Created by Max Mercer on 2022-09-09.
+//
+
+// TODO: add validation on the add function to make sure everything is correct before adding
+// TODO: be able to delete a tally
+
+import SwiftUI
+
+struct TalliesView: View {
+    @Binding var tallies : [DailyTally] //= DailyTally.sampleData
+    let saveTallies : () -> Void
+    
+    @State var isPresentingNewTallyView : Bool = false
+    @State var newTallyData : DailyTally.Data = DailyTally.Data()
+    
+    @State var isShowingAlert = false
+    @State var alertText = alertTextType()
+    
+    func verifyInput() -> Bool {
+        if newTallyData.blocks.isEmpty {
+            alertText.title = "Improper Input"
+            alertText.message = "One or more blocks must be selected to submit a tally. Select one or more blocks."
+            isShowingAlert = true
+            return false
+        }
+        
+        if !newTallyData.blocks.allSatisfy({!$1.species.isEmpty}) {
+            alertText.title = "Improper Input"
+            alertText.message = "Each block must have one ore more species selected for that block."
+            isShowingAlert = true
+            return false
+        }
+        
+        return true
+    }
+    
+    var body: some View {
+        NavigationView {
+            List {
+                if tallies.isEmpty {
+                    Text("No tallies to view.").foregroundColor(.gray)
+                }
+                ForEach(tallies) { tally in
+                    NavigationLink (destination: DailyTallyView(tally: tally, selectedBlock: Block.sampleData.first(where:  { $0.blockNumber == Array(tally.blocks.keys)[0] } )!.blockNumber)){
+                        CardView(tally: tally)
+                    }
+                }
+            }
+            .navigationTitle("Tallies")
+            .toolbar {
+                Button(action: {isPresentingNewTallyView = true}){
+                    Image(systemName: "plus")
+                }
+            }
+            .sheet(isPresented: $isPresentingNewTallyView){
+                NavigationView(){
+                    CreateTallyView(newTallyData: $newTallyData, isShowingAlert: $isShowingAlert, alertText: $alertText)
+                        .toolbar(){
+                            ToolbarItem(placement: .cancellationAction) {
+                                Button("Dismiss") {
+                                    isPresentingNewTallyView = false
+                                    newTallyData = DailyTally.Data()
+                                }
+                            }
+                            ToolbarItem(placement: .confirmationAction) {
+                                Button("Add") {
+                                    if verifyInput() {
+                                        let newTally = DailyTally(data: newTallyData)
+                                        tallies.append(newTally)
+                                        isPresentingNewTallyView = false
+                                        newTallyData = DailyTally.Data()
+                                        saveTallies()
+                                    }
+                                    
+                                }
+                            }
+                        }
+                }
+            }
+        }
+    }
+}
+
+struct TalliesView_Previews: PreviewProvider {
+    static var previews: some View {
+        //var tallies = DailyTally.data
+        TalliesView(tallies: .constant(DailyTally.sampleData), saveTallies: {})
+    }
+}

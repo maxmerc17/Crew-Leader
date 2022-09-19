@@ -12,7 +12,7 @@ struct CardView: View {
     func getListOfBlocks() -> String {
         var returnString : String = ""
         for (key , _) in  tally.blocks {
-            returnString += key.blockNumber + (", ")//block.blockNumber
+            returnString += key + (", ")//block.blockNumber
         }
         returnString = String(returnString.dropLast(2))
         
@@ -20,18 +20,22 @@ struct CardView: View {
     }
     
     var body: some View {
-        VStack(alignment: .leading) {
-            Text("\(utilities.formatDate(date: tally.date))")
-                .font(.headline)
-        
-            Spacer()
-            HStack {
-                Label("\(getListOfBlocks())", systemImage: "map")
+        HStack {
+            VStack(alignment: .leading) {
+                Text("\(utilities.formatDate(date: tally.date))")
+                    .font(.headline)
+            
                 Spacer()
+                HStack {
+                    Label("\(getListOfBlocks())", systemImage: "map")
+                    Spacer()
+                }
+                .font(.caption)
             }
-            .font(.caption)
-        }
-        .padding()
+            Spacer()
+            Text("\(tally.treesPlanted)")
+            
+        }.padding()
         
     }
 }

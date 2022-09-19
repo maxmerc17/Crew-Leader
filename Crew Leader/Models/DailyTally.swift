@@ -9,14 +9,14 @@
 
 import Foundation
 
-struct DailyTally : Identifiable {
+struct DailyTally : Identifiable, Codable {
     var id : UUID
     var date : Date
     var contract : String
     var supervisor : Person
     var crew : Crew
     var commission : Double
-    var blocks : [Block : DailyBlockTally]
+    var blocks : [String : DailyBlockTally]
     
     var treesPlanted : Int {
         return blocks.reduce(0){ partialResult, block in
@@ -24,7 +24,7 @@ struct DailyTally : Identifiable {
         }
     }
     
-    init(id: UUID, date: Date, contract: String, supervisor: Person, crew: Crew, commission: Double, blocks: [Block : DailyBlockTally]) {
+    init(id: UUID, date: Date, contract: String, supervisor: Person, crew: Crew, commission: Double, blocks: [String : DailyBlockTally]) {
         self.id = id
         self.date = date
         self.contract = contract
@@ -35,7 +35,7 @@ struct DailyTally : Identifiable {
     }
 }
 
-struct DailyBlockTally : Identifiable {
+struct DailyBlockTally : Identifiable, Codable {
     var id : UUID
     var species : [Species]
     var individualTallies : [Person : DailyPlanterTally]
@@ -61,7 +61,7 @@ struct DailyBlockTally : Identifiable {
     }
 }
 
-struct DailyPlanterTally : Identifiable {
+struct DailyPlanterTally : Identifiable, Codable {
     var id : UUID
     var boxesPerSpecies : [Species : Int]
     var treesPerSpecies : [Species : Int] // is a dictionary
@@ -86,7 +86,7 @@ extension DailyTally {
         var supervisor = Person.sampleSupervisor
         var crew = Crew(data: Crew.Data())
         var commission = 0.15
-        var blocks : [Block : DailyBlockTally] = [:]
+        var blocks : [String : DailyBlockTally] = [:]
     }
     
     init(data: Data){
@@ -159,7 +159,7 @@ extension DailyTally {
                    supervisor: Person.sampleSupervisor,
                    crew: Crew.sampleData,
                    commission: 0.15,
-                   blocks: [Block.sampleData[0] : DailyBlockTally.sampleData[0], Block.sampleData[1] : DailyBlockTally.sampleData[1]]),
+                   blocks: [Block.sampleData[0].blockNumber : DailyBlockTally.sampleData[0], Block.sampleData[1].blockNumber : DailyBlockTally.sampleData[1]]),
         
         DailyTally(id: UUID(),
                    date: Date.now,
@@ -167,7 +167,7 @@ extension DailyTally {
                    supervisor: Person.sampleSupervisor,
                    crew: Crew.sampleData,
                    commission: 0.15,
-                   blocks: [Block.sampleData[0] : DailyBlockTally.sampleData[0], Block.sampleData[1] : DailyBlockTally.sampleData[1]])
+                   blocks: [Block.sampleData[0].blockNumber : DailyBlockTally.sampleData[0], Block.sampleData[1].blockNumber : DailyBlockTally.sampleData[1]])
     ]
 }
 

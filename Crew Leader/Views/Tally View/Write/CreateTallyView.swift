@@ -6,37 +6,46 @@
 //
 
 import SwiftUI
-// TODO: add proper members to individual tallies
-// TODO: add checking so someone can't add a block to the list twice
+// TODO: be able to remove species / blocks from the list .. it'll get more complicated because you have to delete any previous data on a block or species that was saved to new tally data
+// TODO: add proper members to individual tallies .. add people to tally view
 // TODO: add create new block button - create a block if it doesn't yet exist
 
 struct CreateTallyView: View {
     @Binding var newTallyData : DailyTally.Data
     
-    @State var selectedBlock : Block = Block(data: Block.Data())
+    @State var selectedBlock : String = ""
     @State var selectedPlanter : Person = Crew.sampleCrew.members[0]
     
     @State var partials : [Partial] = []
     @State var newPartialData : Partial.Data = Partial.Data()
 
-    @State var isShowingError : Bool = false
+    @Binding var isShowingAlert : Bool
+    @Binding var alertText : alertTextType
+    
     @State var isShowingTallies : Bool = false
     
-    var blocksList : [Block] {
+    var blocksList : [String] {
         get {
             return Array(newTallyData.blocks.keys)
         }
     }
     
     func verifyInput(){
-        if blocksList.count > 0 {
-            selectedBlock = blocksList[0]
-            if newTallyData.blocks.allSatisfy({$1.species.count > 0}){
-                isShowingTallies = true
-                return
-            }
+        if blocksList.isEmpty {
+            alertText.title = "Improper Input"
+            alertText.message = "One or more blocks must be selected. For each block there must be one or more species selected."
+            isShowingAlert = true
+            return
         }
-        isShowingError = true
+        
+        if !newTallyData.blocks.allSatisfy({$1.species.count > 0}){
+            alertText.title = "Improper Input"
+            alertText.message = "One or more species must be selected for each selected block."
+            isShowingAlert = true
+            return
+        }
+        
+        isShowingTallies = true
         return
     }
     
@@ -59,7 +68,7 @@ struct CreateTallyView: View {
                 Divider()
                 if blocksList.count > 0 {
                     AddSpeciesView(newTallyData: $newTallyData,
-                                        selectedBlock: blocksList[0])
+                                   selectedBlock: blocksList[0])
                     
                     NavigationLink(destination: EnterTallyDataView(newTallyData: $newTallyData, selectedBlock: $selectedBlock, selectedPlanter: $selectedPlanter, partials: $partials, newPartialData: $newPartialData), isActive: $isShowingTallies){
                         
@@ -71,30 +80,17 @@ struct CreateTallyView: View {
                 }.padding()
             }
             
-        }.alert(isPresented: $isShowingError) {
+        }.alert(isPresented: $isShowingAlert) {
             Alert(
-                title: Text("Invalid Input"),
-                message: Text("One or more blocks must be selected. For each block their must be one or more species selected.")
+                title: Text(alertText.title),
+                message: Text(alertText.message)
             )
         }
     }
 }
-/*
-struct ErrorView: View {
-    var body: some View {
-        ZStack{
-            Color.gray.frame(width: UIScreen.main.bounds.size.width*0.6, height: UIScreen.main.bounds.size.height*0.6).cornerRadius(45)
-            VStack(alignment: .center) {
-                Text("Invalid Input").font(.title)
-                Text("One or more blocks must be selected. For each block their must be one or more species selected.").font(.caption)
-            }.padding().frame(width: UIScreen.main.bounds.size.width*0.6, height: UIScreen.main.bounds.size.height*0.6).foregroundColor(.white)
-        }
-    }
-}
-*/
 
 struct CreateTallyView_Previews: PreviewProvider {
     static var previews: some View {
-        CreateTallyView(newTallyData: .constant(DailyTally.Data()))
+        CreateTallyView(newTallyData: .constant(DailyTally.Data()), isShowingAlert: .constant(false), alertText: .constant(alertTextType()))
     }
 }

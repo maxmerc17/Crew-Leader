@@ -13,4 +13,11 @@ struct utilities {
         dateFormatterPrint.dateFormat = "MMM dd"
         return dateFormatterPrint.string(from: date)
     }
+    
+    static func formatFloat(float: Float) -> String {
+        let formatter = NumberFormatter()
+        formatter.maximumFractionDigits = 1
+        formatter.minimumFractionDigits = 0
+        return formatter.string(for: float)!
+    }
 }

@@ -10,13 +10,17 @@ import SwiftUI
 struct AddBlocksView: View {
     @Binding var newTallyData : DailyTally.Data
     
-    @State var selectedBlock : Block = Block.sampleData[0] // for picker
+    @State var selectedBlock : String = Block.sampleData[0].blockNumber // for picker
     @State var showAlert = false
     
-    var blocksList : [Block] {
+    var blocksList : [String] {
         get {
             return Array(newTallyData.blocks.keys)
         }
+    }
+    
+    var blockObjects : [Block]{
+        blocksList.map({ blockString in Block.sampleData.first(where: { $0.blockNumber == blockString })! })
     }
     
     func newBlockClicked(){
@@ -34,14 +38,14 @@ struct AddBlocksView: View {
     
     var body: some View {
         Section("Blocks"){
-            ForEach(blocksList) { block in
+            ForEach(blockObjects) { block in
                 Label("\(block.blockNumber)", systemImage: "map")
             }
             
             HStack {
                 Picker("Add Block", selection: $selectedBlock){
                     ForEach(Block.sampleData) { block in
-                        Text(block.blockNumber).tag(block)
+                        Text(block.blockNumber).tag(block.blockNumber)
                     }
                 }
                 Spacer()

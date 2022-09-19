@@ -16,7 +16,7 @@ struct CreatePartialView: View {
     @Binding var isPresentingCreatePartialView : Bool
     
     @State var selectedSpecies : Species
-    @State var selectedBlock : Block
+    @State var selectedBlock : String
     @State var selectedPlanter : Person
     
     @Binding var partials : [Partial]
@@ -24,6 +24,10 @@ struct CreatePartialView: View {
     @State var isShowingError : Bool = false
     
     @Environment(\.dismiss) private var dismiss
+    
+    var blockObjects : [Block]{
+        newTallyData.blocks.keys.map({ blockString in Block.sampleData.first(where: { $0.blockNumber == blockString })! })
+    }
     
     var totalBundlesClaimed : Int {
         get{
@@ -40,7 +44,7 @@ struct CreatePartialView: View {
         // add verification
         if (areAllBundlesClaimed() && (newPartialData.people.count > 1)){
             newPartialData.species = selectedSpecies
-            newPartialData.block = selectedBlock
+            newPartialData.blockName = selectedBlock
             let newPartial = Partial(data: newPartialData)
             partials.append(newPartial)
             newPartialData = Partial.Data()
@@ -84,9 +88,9 @@ struct CreatePartialView: View {
                     HStack{
                         Text("Block:")
                         Picker("Blocks", selection: $selectedBlock){
-                            ForEach(Array(newTallyData.blocks.keys)){
+                            ForEach(blockObjects){
                                 block in
-                                Text("\(block.blockNumber)").tag(block)
+                                Text("\(block.blockNumber)").tag(block.blockNumber)
                             }
                         }
                     }
