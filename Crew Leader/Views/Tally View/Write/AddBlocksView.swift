@@ -9,9 +9,12 @@ import SwiftUI
 
 struct AddBlocksView: View {
     @Binding var newTallyData : DailyTally.Data
+    @Binding var initSelectedBlock : String
     
-    @State var selectedBlock : String = Block.sampleData[0].blockNumber // for picker
+    @State var selectedBlock : String = "" // for picker
     @State var showAlert = false
+    
+    @EnvironmentObject var blockStore : BlockStore
     
     var blocksList : [String] {
         get {
@@ -20,7 +23,7 @@ struct AddBlocksView: View {
     }
     
     var blockObjects : [Block]{
-        blocksList.map({ blockString in Block.sampleData.first(where: { $0.blockNumber == blockString })! })
+        blocksList.map({ blockString in blockStore.blocks.first(where: { $0.blockNumber == blockString })! })
     }
     
     func newBlockClicked(){
@@ -30,6 +33,7 @@ struct AddBlocksView: View {
                 dbt.individualTallies[member] = DailyPlanterTally(data: DailyPlanterTally.Data())
             }
             newTallyData.blocks[selectedBlock] = dbt
+            
         } else {
             showAlert = true
         }
@@ -44,9 +48,12 @@ struct AddBlocksView: View {
             
             HStack {
                 Picker("Add Block", selection: $selectedBlock){
-                    ForEach(Block.sampleData) { block in
+                    ForEach(blockStore.blocks) { block in
                         Text(block.blockNumber).tag(block.blockNumber)
                     }
+                }.onChange(of: selectedBlock){ newValue in
+                    print(newValue)
+                    initSelectedBlock = newValue
                 }
                 Spacer()
             }
@@ -63,13 +70,16 @@ struct AddBlocksView: View {
                 message: Text("The selected block is already in the list.")
             )
         }
+        .onAppear(){
+            selectedBlock = blockStore.blocks[0].blockNumber
+        }
     }
 }
 
 struct AddBlocksView_Previews: PreviewProvider {
     static var previews: some View {
         Form {
-            AddBlocksView(newTallyData: .constant(DailyTally.Data()))
-        }
+            AddBlocksView(newTallyData: .constant(DailyTally.Data()), initSelectedBlock: .constant(""))
+        }.environmentObject(BlockStore())
     }
 }

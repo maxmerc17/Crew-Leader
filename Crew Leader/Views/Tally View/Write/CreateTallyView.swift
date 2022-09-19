@@ -60,7 +60,7 @@ struct CreateTallyView: View {
                     }
                 }
                 
-                AddBlocksView(newTallyData: $newTallyData)
+                AddBlocksView(newTallyData: $newTallyData, initSelectedBlock: $selectedBlock)
                 
             }.scrollContentBackground(.hidden)
             
