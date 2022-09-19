@@ -6,14 +6,14 @@
 //
 
 import SwiftUI
-// TODO: add proper members to individual tallies
-// TODO: add checking so someone can't add a block to the list twice
+// TODO: be able to add and remove species / blocks from the list
+// TODO: add proper members to individual tallies .. add people to tally view
 // TODO: add create new block button - create a block if it doesn't yet exist
 
 struct CreateTallyView: View {
     @Binding var newTallyData : DailyTally.Data
     
-    @State var selectedBlock : Block = Block(data: Block.Data())
+    @State var selectedBlock : String = ""
     @State var selectedPlanter : Person = Crew.sampleCrew.members[0]
     
     @State var partials : [Partial] = []
@@ -22,7 +22,7 @@ struct CreateTallyView: View {
     @State var isShowingError : Bool = false
     @State var isShowingTallies : Bool = false
     
-    var blocksList : [Block] {
+    var blocksList : [String] {
         get {
             return Array(newTallyData.blocks.keys)
         }
@@ -59,7 +59,7 @@ struct CreateTallyView: View {
                 Divider()
                 if blocksList.count > 0 {
                     AddSpeciesView(newTallyData: $newTallyData,
-                                        selectedBlock: blocksList[0])
+                                   selectedBlock: blocksList[0])
                     
                     NavigationLink(destination: EnterTallyDataView(newTallyData: $newTallyData, selectedBlock: $selectedBlock, selectedPlanter: $selectedPlanter, partials: $partials, newPartialData: $newPartialData), isActive: $isShowingTallies){
                         

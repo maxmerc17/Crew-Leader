@@ -21,33 +21,37 @@ extension AnyTransition {
 
 struct AddSpeciesView: View {
     @Binding var newTallyData : DailyTally.Data
-    @State var selectedBlock : Block
+    @State var selectedBlock : String
 
-    var blocks : [Block] {
+    var blocks : [String] {
         get{
             return Array(newTallyData.blocks.keys)
         }
     }
     
+    var blockObjects : [Block]{
+        blocks.map({ blockString in Block.sampleData.first(where: { $0.blockNumber == blockString })! })
+    }
+    
     var body: some View {
         VStack {
             HStack(spacing: 25) {
-                ForEach(blocks) { block in
+                ForEach(blockObjects) { block in
                     Button {
-                        selectedBlock = block
+                        selectedBlock = block.blockNumber
                     } label: {
                         
                         HStack {
                             Image(systemName: "map")
                             Text("\(block.blockNumber)")                        }.font(.system(size: 15))
-                            .foregroundColor(block == selectedBlock
+                            .foregroundColor(block.blockNumber == selectedBlock
                                 ? .accentColor
                                          : .gray)
                     }
                 }
             }.padding().background(.white).cornerRadius(10)
             
-            if selectedBlock.blockNumber != ""{
+            if selectedBlock != ""{
                 AddSpeciesSubView(newTallyData: $newTallyData, selectedBlock: $selectedBlock).transition(.move(edge: .trailing))
             }
             
@@ -57,7 +61,7 @@ struct AddSpeciesView: View {
 
 struct AddSpeciesSubView: View {
     @Binding var newTallyData : DailyTally.Data
-    @Binding var selectedBlock : Block
+    @Binding var selectedBlock : String
     
     @State var selectedSpecies : Species = Species.sampleData[0]
     @State var showAlert = false
@@ -121,6 +125,6 @@ struct AddSpeciesView_Previews: PreviewProvider {
 struct AddSpeciesSubView_Previews: PreviewProvider {
     static var previews: some View {
         AddSpeciesSubView(newTallyData: .constant(DailyTally.Data()),
-                       selectedBlock: .constant(Block(data: Block.Data())))
+                          selectedBlock: .constant(Block(data: Block.Data()).blockNumber))
     }
 }

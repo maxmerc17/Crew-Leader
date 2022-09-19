@@ -5,19 +5,22 @@
 //  Created by Max Mercer on 2022-09-12.
 //
 
+// TODO: add a remove partial button
+// TODO: add an edit partial button
+
 import SwiftUI
 
 struct EnterSpeciesView: View {
     @Binding var newTallyData : DailyTally.Data
     @Binding var planter : Person
     @State var species : Species
-    @Binding var block : Block
+    @Binding var block : String
     @Binding var partials : [Partial]
     @State var totalTreesPlanted : Int = 0
     
     var releventPartials : [Partial] {
         get {
-            partials.filter({ ($0.block == block) && ($0.species == species) && ($0.people[planter] != nil) })
+            partials.filter({ ($0.blockName == block) && ($0.species == species) && ($0.people[planter] != nil) })
         }
     }
     
@@ -78,7 +81,7 @@ struct EnterSpeciesView_Previews: PreviewProvider {
                 newTallyData: .constant(DailyTally.Data()),
                 planter: .constant(Person.sampleData[0]),
                 species: Species.sampleData[0],
-                block: .constant(Block.sampleData[0]),
+                block: .constant(Block.sampleData[0].blockNumber),
                 partials: .constant(Partial.sampleData)
             )
         }

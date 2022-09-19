@@ -8,19 +8,20 @@
 import SwiftUI
 
 struct BlockSwitchView: View {
-    @State var blocks : [Block]
-    @Binding var selectedBlock : Block
+    @State var blocks : [String]
+    @Binding var selectedBlock : String
     var body: some View {
         HStack(spacing: 25) {
-            ForEach(blocks) { block in
+            ForEach(Block.sampleData.filter
+                    { blocks.contains($0.blockNumber)}) { block in
                 Button {
-                    selectedBlock = block
+                    selectedBlock = block.blockNumber
                 } label: {
                     HStack {
                         Image(systemName: "map")
                         Text("\(block.blockNumber)")
                     }.font(.system(size: 15))
-                        .foregroundColor(block == selectedBlock
+                        .foregroundColor(block.blockNumber == selectedBlock
                             ? .accentColor
                             : .gray)
                 }

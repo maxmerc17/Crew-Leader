@@ -19,7 +19,7 @@ struct TalliesView: View {
         NavigationView {
             List {
                 ForEach(tallies) { tally in
-                    NavigationLink (destination: DailyTallyView(tally: tally, selectedBlock: Array(tally.blocks.keys)[0])){
+                    NavigationLink (destination: DailyTallyView(tally: tally, selectedBlock: Block.sampleData.first(where:  { $0.blockNumber == Array(tally.blocks.keys)[0] } )!.blockNumber)){
                         CardView(tally: tally)
                     }
                 }
