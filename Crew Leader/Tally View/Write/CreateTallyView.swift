@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-// TODO: be able to add and remove species / blocks from the list
+// TODO: be able to remove species / blocks from the list .. it'll get more complicated because you have to delete any previous data on a block or species that was saved to new tally data
 // TODO: add proper members to individual tallies .. add people to tally view
 // TODO: add create new block button - create a block if it doesn't yet exist
 
