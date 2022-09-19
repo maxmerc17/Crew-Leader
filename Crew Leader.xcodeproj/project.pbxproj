@@ -47,6 +47,7 @@
 		85FF802928D8D2DA00B55666 /* TallyStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85FF802828D8D2DA00B55666 /* TallyStore.swift */; };
 		85FF802B28D8D4AE00B55666 /* ErrorWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85FF802A28D8D4AE00B55666 /* ErrorWrapper.swift */; };
 		85FF802D28D8D5A600B55666 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85FF802C28D8D5A600B55666 /* ErrorView.swift */; };
+		85FF802F28D8F85300B55666 /* BlockStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85FF802E28D8F85300B55666 /* BlockStore.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -110,6 +111,7 @@
 		85FF802828D8D2DA00B55666 /* TallyStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TallyStore.swift; sourceTree = "<group>"; };
 		85FF802A28D8D4AE00B55666 /* ErrorWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorWrapper.swift; sourceTree = "<group>"; };
 		85FF802C28D8D5A600B55666 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
+		85FF802E28D8F85300B55666 /* BlockStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockStore.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -286,6 +288,7 @@
 			isa = PBXGroup;
 			children = (
 				85FF802828D8D2DA00B55666 /* TallyStore.swift */,
+				85FF802E28D8F85300B55666 /* BlockStore.swift */,
 			);
 			path = "Data Stores";
 			sourceTree = "<group>";
@@ -432,6 +435,7 @@
 				85EF068328CBD68E008D006A /* DailyTally.swift in Sources */,
 				85EF069128CE8B2F008D006A /* CreateTallyView.swift in Sources */,
 				85EF06A228CFBF7C008D006A /* CreatePartialView.swift in Sources */,
+				85FF802F28D8F85300B55666 /* BlockStore.swift in Sources */,
 				85EF068128CBD35B008D006A /* Block.swift in Sources */,
 				85EF067A28CBCA49008D006A /* template_view.swift in Sources */,
 				85EF068728CE4467008D006A /* CardView.swift in Sources */,

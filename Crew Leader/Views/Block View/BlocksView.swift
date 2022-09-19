@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct BlocksView: View {
-    @State var blocks : [Block] = Block.sampleData
+    @Binding var blocks : [Block]
+    let saveBlocks: () -> Void
     
     @State var isPresentingNewBlockView : Bool = false
     @State var newBlockData : Block.Data = Block.Data()
@@ -16,11 +17,16 @@ struct BlocksView: View {
     var body: some View {
         NavigationView {
             List {
-                ForEach(blocks) { block in
-                    NavigationLink (destination: BlockView(block: block)){
-                        BlockCardView(block: block)
+                if blocks.isEmpty {
+                    Text("No blocks to view").foregroundColor(.gray)
+                }else {
+                    ForEach(blocks) { block in
+                        NavigationLink (destination: BlockView(block: block)){
+                            BlockCardView(block: block)
+                        }
                     }
                 }
+                
             }
             .navigationTitle("Blocks")
             .toolbar {
@@ -30,7 +36,10 @@ struct BlocksView: View {
             }
             .sheet(isPresented: $isPresentingNewBlockView){
                 NavigationView(){
-                    CreateBlockView(newBlockData: $newBlockData, blocks : $blocks, isPresentingNewBlockView: $isPresentingNewBlockView)
+                    CreateBlockView(newBlockData: $newBlockData,
+                                    blocks : $blocks,
+                                    isPresentingNewBlockView: $isPresentingNewBlockView,
+                                    saveBlocks: saveBlocks)
                         .toolbar(){
                             ToolbarItem(placement: .cancellationAction) {
                                 Button("Dismiss") {
@@ -48,6 +57,6 @@ struct BlocksView: View {
 
 struct BlocksView_Previews: PreviewProvider {
     static var previews: some View {
-        BlocksView()
+        BlocksView(blocks: .constant(Block.sampleData), saveBlocks: {})
     }
 }

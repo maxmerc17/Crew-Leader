@@ -10,6 +10,8 @@ import SwiftUI
 @main
 struct Crew_LeaderApp: App {
     @StateObject private var tallyStore = TallyStore()
+    @StateObject private var blockStore = BlockStore()
+    
     @State private var errorWrapper: ErrorWrapper?
     
     func saveTallies() {
@@ -22,14 +24,37 @@ struct Crew_LeaderApp: App {
         }
     }
     
+    func saveBlocks() {
+        Task {
+            do {
+                try await BlockStore.save(blocks: blockStore.blocks)
+            } catch {
+                errorWrapper = ErrorWrapper(error: error, guidance: "Try again later.")
+            }
+        }
+    }
+    
     var body: some Scene {
         WindowGroup {
             NavigationView {
-                ContentView(selectedTab: 1, tallies: $tallyStore.tallies, saveTallies: saveTallies)
+                ContentView(selectedTab: 1,
+                            
+                            tallies: $tallyStore.tallies,
+                            blocks: $blockStore.blocks,
+                            
+                            saveTallies: saveTallies,
+                            saveBlocks: saveBlocks)
             }
             .task {
                 do {
                     tallyStore.tallies = try await TallyStore.load()
+                } catch {
+                    errorWrapper = ErrorWrapper(error: error, guidance: "Crew leader will load sample data and continue.")
+                }
+            }
+            .task {
+                do {
+                    blockStore.blocks = try await BlockStore.load()
                 } catch {
                     errorWrapper = ErrorWrapper(error: error, guidance: "Crew leader will load sample data and continue.")
                 }

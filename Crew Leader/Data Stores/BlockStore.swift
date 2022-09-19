@@ -1,37 +1,38 @@
 //
-//  TallyStore.swift
+//  BlockStore.swift
 //  Crew Leader
 //
 //  Created by Max Mercer on 2022-09-19.
 //
 
+
 import Foundation
 import SwiftUI
 
-class TallyStore: ObservableObject {
-    @Published var tallies: [DailyTally] = []
+class BlockStore: ObservableObject {
+    @Published var blocks: [Block] = []
     
     private static func fileURL() throws -> URL {
         try FileManager.default.url(for: .documentDirectory,
                                                in: .userDomainMask,
                                                appropriateFor: nil,
-                                               create: false).appendingPathComponent("tallies.data")
+                                               create: false).appendingPathComponent("blocks.data")
     }
     
-    static func load() async throws -> [DailyTally] {
+    static func load() async throws -> [Block] {
         try await withCheckedThrowingContinuation { continuation in
             load { result in
                 switch result {
                 case .failure(let error):
                     continuation.resume(throwing: error)
-                case .success(let tallies):
-                    continuation.resume(returning: tallies)
+                case .success(let blocks):
+                    continuation.resume(returning: blocks)
                 }
             }
         }
     }
     
-    static func load(completion: @escaping (Result<[DailyTally], Error>)->Void) {
+    static func load(completion: @escaping (Result<[Block], Error>)->Void) {
         DispatchQueue.global(qos: .background).async {
             do {
                 let fileURL = try fileURL()
@@ -41,9 +42,9 @@ class TallyStore: ObservableObject {
                     }
                     return
                 }
-                let dailyTally = try JSONDecoder().decode([DailyTally].self, from: file.availableData)
+                let block = try JSONDecoder().decode([Block].self, from: file.availableData)
                 DispatchQueue.main.async {
-                    completion(.success(dailyTally))
+                    completion(.success(block))
                 }
             } catch {
                 DispatchQueue.main.async {
@@ -54,9 +55,9 @@ class TallyStore: ObservableObject {
     }
     
     @discardableResult
-    static func save(tallies: [DailyTally]) async throws -> Int {
+    static func save(blocks: [Block]) async throws -> Int {
         try await withCheckedThrowingContinuation { continuation in
-            save(tallies: tallies) { result in
+            save(blocks: blocks) { result in
                 switch result {
                 case .failure(let error):
                     continuation.resume(throwing: error)
@@ -67,14 +68,14 @@ class TallyStore: ObservableObject {
         }
     }
     
-    static func save(tallies: [DailyTally], completion: @escaping (Result<Int, Error>)->Void) {
+    static func save(blocks: [Block], completion: @escaping (Result<Int, Error>)->Void) {
         DispatchQueue.global(qos: .background).async {
             do {
-                let data = try JSONEncoder().encode(tallies)
+                let data = try JSONEncoder().encode(blocks)
                 let outfile = try fileURL()
                 try data.write(to: outfile)
                 DispatchQueue.main.async {
-                    completion(.success(tallies.count))
+                    completion(.success(blocks.count))
                 }
             } catch {
                 DispatchQueue.main.async {
@@ -84,3 +85,4 @@ class TallyStore: ObservableObject {
         }
     }
 }
+
