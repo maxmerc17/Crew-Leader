@@ -12,7 +12,7 @@ struct CardView: View {
     func getListOfBlocks() -> String {
         var returnString : String = ""
         for (key , _) in  tally.blocks {
-            returnString += key.blockNumber + (", ")//block.blockNumber
+            returnString += key + (", ")//block.blockNumber
         }
         returnString = String(returnString.dropLast(2))
         

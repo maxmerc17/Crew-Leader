@@ -11,8 +11,8 @@ import SwiftUI
 
 struct PlanterTallyView: View {
     @State var tally : DailyTally
-    @State var blocks : [Block]
-    @State var selectedBlock : Block
+    @State var blocks : [String]
+    @State var selectedBlock : String
     @State var planter : Person
     @State var planterTally : DailyPlanterTally
     

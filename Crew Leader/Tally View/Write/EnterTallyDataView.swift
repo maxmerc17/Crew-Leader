@@ -11,7 +11,7 @@ import SwiftUI
 
 struct EnterTallyDataView: View {
     @Binding var newTallyData : DailyTally.Data
-    @Binding var selectedBlock : Block
+    @Binding var selectedBlock : String
     @Binding var selectedPlanter : Person
     
     @Binding var partials : [Partial]
@@ -39,7 +39,7 @@ struct EnterTallyDataView: View {
                     EnterSpeciesView(newTallyData: $newTallyData, planter: $selectedPlanter, species: species, block: $selectedBlock, partials: $partials)
                 }
             }
-            Text("\(selectedPlanter.firstName) has planted \(newTallyData.blocks[selectedBlock]?.individualTallies[selectedPlanter]?.treesPlanted ?? 0) trees for \(selectedBlock.blockNumber)")
+            Text("\(selectedPlanter.firstName) has planted \(newTallyData.blocks[selectedBlock]?.individualTallies[selectedPlanter]?.treesPlanted ?? 0) trees for \(selectedBlock)")
         }.popover(isPresented: $isPresentingCreatePartialView){
             CreatePartialView(newTallyData: $newTallyData,
                               newPartialData: $newPartialData,
@@ -60,6 +60,6 @@ struct EnterTallyDataView: View {
 
 struct EnterTallyDataView_Previews: PreviewProvider {
     static var previews: some View {
-        EnterTallyDataView(newTallyData: .constant(DailyTally.Data()), selectedBlock: .constant(Block.sampleData[0]), selectedPlanter: .constant(Crew.sampleCrew.members[0]), partials: .constant([Partial(data: Partial.Data())]), newPartialData: .constant(Partial.Data()))
+        EnterTallyDataView(newTallyData: .constant(DailyTally.Data()), selectedBlock: .constant(Block.sampleData[0].blockNumber), selectedPlanter: .constant(Crew.sampleCrew.members[0]), partials: .constant([Partial(data: Partial.Data())]), newPartialData: .constant(Partial.Data()))
     }
 }
