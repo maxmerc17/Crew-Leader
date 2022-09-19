@@ -60,6 +60,6 @@ struct EnterTallyDataView: View {
 
 struct EnterTallyDataView_Previews: PreviewProvider {
     static var previews: some View {
-        EnterTallyDataView(newTallyData: .constant(DailyTally.Data()), selectedBlock: .constant(Block.sampleData[0].blockNumber), selectedPlanter: .constant(Crew.sampleCrew.members[0]), partials: .constant([Partial(data: Partial.Data())]), newPartialData: .constant(Partial.Data()))
+        EnterTallyDataView(newTallyData: .constant(DailyTally.Data()), selectedBlock: .constant(Block.sampleData[0].blockNumber), selectedPlanter: .constant(Crew.sampleCrew.members[0]), partials: .constant([Partial(data: Partial.Data())]), newPartialData: .constant(Partial.Data())).environmentObject(BlockStore())
     }
 }

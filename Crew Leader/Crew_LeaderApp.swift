@@ -45,6 +45,7 @@ struct Crew_LeaderApp: App {
                             saveTallies: saveTallies,
                             saveBlocks: saveBlocks)
             }
+            .environmentObject(blockStore)
             .task {
                 do {
                     tallyStore.tallies = try await TallyStore.load()

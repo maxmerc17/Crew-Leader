@@ -24,9 +24,10 @@ struct CreatePartialView: View {
     @State var isShowingError : Bool = false
     
     @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject var blockStore : BlockStore
     
     var blockObjects : [Block]{
-        newTallyData.blocks.keys.map({ blockString in Block.sampleData.first(where: { $0.blockNumber == blockString })! })
+        newTallyData.blocks.keys.map({ blockString in blockStore.blocks.first(where: { $0.blockNumber == blockString })! })
     }
     
     var totalBundlesClaimed : Int {

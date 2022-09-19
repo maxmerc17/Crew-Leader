@@ -20,6 +20,8 @@ struct TalliesView: View {
     @State var isShowingAlert = false
     @State var alertText = alertTextType()
     
+    @EnvironmentObject var blockStore : BlockStore
+    
     func verifyInput() -> Bool {
         if newTallyData.blocks.isEmpty {
             alertText.title = "Improper Input"
@@ -45,7 +47,7 @@ struct TalliesView: View {
                     Text("No tallies to view.").foregroundColor(.gray)
                 }
                 ForEach(tallies) { tally in
-                    NavigationLink (destination: DailyTallyView(tally: tally, selectedBlock: Block.sampleData.first(where:  { $0.blockNumber == Array(tally.blocks.keys)[0] } )!.blockNumber)){
+                    NavigationLink (destination: DailyTallyView(tally: tally, selectedBlock: blockStore.blocks.first(where:  { $0.blockNumber == Array(tally.blocks.keys)[0] } )!.blockNumber)){
                         CardView(tally: tally)
                     }
                 }
@@ -88,6 +90,6 @@ struct TalliesView: View {
 struct TalliesView_Previews: PreviewProvider {
     static var previews: some View {
         //var tallies = DailyTally.data
-        TalliesView(tallies: .constant(DailyTally.sampleData), saveTallies: {})
+        TalliesView(tallies: .constant(DailyTally.sampleData), saveTallies: {}).environmentObject(BlockStore())
     }
 }

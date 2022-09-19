@@ -23,6 +23,7 @@ struct AddSpeciesView: View {
     @Binding var newTallyData : DailyTally.Data
     @State var selectedBlock : String
 
+    @EnvironmentObject var blockStore : BlockStore
     var blocks : [String] {
         get{
             return Array(newTallyData.blocks.keys)
@@ -30,7 +31,7 @@ struct AddSpeciesView: View {
     }
     
     var blockObjects : [Block]{
-        blocks.map({ blockString in Block.sampleData.first(where: { $0.blockNumber == blockString })! })
+        blocks.map({ blockString in blockStore.blocks.first(where: { $0.blockNumber == blockString })! })
     }
     
     var body: some View {
@@ -129,6 +130,6 @@ struct AddSpeciesView_Previews: PreviewProvider {
 struct AddSpeciesSubView_Previews: PreviewProvider {
     static var previews: some View {
         AddSpeciesSubView(newTallyData: .constant(DailyTally.Data()),
-                          selectedBlock: .constant(Block(data: Block.Data()).blockNumber))
+                          selectedBlock: .constant(Block(data: Block.Data()).blockNumber)).environmentObject(BlockStore())
     }
 }
