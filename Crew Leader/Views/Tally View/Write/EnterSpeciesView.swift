@@ -44,6 +44,7 @@ struct EnterSpeciesView: View {
         Section("\(species.name) - \(totalTreesPlanted) trees planted"){
             HStack {
                 Label("Boxes", systemImage: "shippingbox")
+                Text("(\(species.treesPerBox) trees / box)").font(.caption)
                 Spacer()
                 TextField("Boxes", text: $numBoxes).multilineTextAlignment(.trailing)
                     .keyboardType(.numberPad)
@@ -53,7 +54,9 @@ struct EnterSpeciesView: View {
                             
                 }
             }
-            Section("Partials"){
+            if releventPartials.isEmpty {
+                Text("No partials for \(species.name)").foregroundColor(.gray)
+            }else {
                 ForEach(releventPartials) { partial in
                     PartialCardView(partial: partial)
                 }.onChange(of: releventPartials){

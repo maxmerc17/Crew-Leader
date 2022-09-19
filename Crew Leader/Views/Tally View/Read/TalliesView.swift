@@ -10,7 +10,7 @@
 import SwiftUI
 
 struct TalliesView: View {
-    @State var tallies : [DailyTally] = DailyTally.sampleData
+    @Binding var tallies : [DailyTally] //= DailyTally.sampleData
     
     @State var isPresentingNewTallyView : Bool = false
     @State var newTallyData : DailyTally.Data = DailyTally.Data()
@@ -58,6 +58,6 @@ struct TalliesView: View {
 struct TalliesView_Previews: PreviewProvider {
     static var previews: some View {
         //var tallies = DailyTally.data
-        TalliesView(tallies: DailyTally.sampleData)
+        TalliesView(tallies: .constant(DailyTally.sampleData))
     }
 }

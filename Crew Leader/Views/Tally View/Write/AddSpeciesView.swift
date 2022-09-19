@@ -89,10 +89,14 @@ struct AddSpeciesSubView: View {
                 HStack{
                     Picker("Add Species", selection: $selectedSpecies){
                         ForEach(Species.sampleData) {
-                            species in Text(species.name).tag(species)
+                            species in
+                            HStack{
+                                Text("\(species.name) ") +
+                                Text("(\(species.treesPerBox) trees/box)").font(.caption)
+                            }
+                            .tag(species)
                         }
                     }
-                    Spacer()
                     
                 }
                 HStack{
