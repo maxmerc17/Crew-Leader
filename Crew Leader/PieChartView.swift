@@ -9,44 +9,28 @@
 import SwiftUI
 
 struct PieChartView: View {
-    @Binding var radius : Int
-    @Binding var slices : [Slice]
-    @Binding var centerTextTitle: String
-    @Binding var dataType : String
-    @Binding var update : String
-    
+    @Binding var pieChartParameters : PieChartParameters
     @State var selectedSlice : Slice? = nil
     
-    @State var sliceHeaders : [SliceHeader] = []
-    
-    func updateSliceHeaders() {
-        
-        var startAngle : Double = 0
-        var endAngle : Double = 0
-        for slice in slices {
-            endAngle = startAngle + slice.angle
-            let newSliceHeader = SliceHeader(startAngle: startAngle, endAngle: endAngle, slice: slice)
-            sliceHeaders.append(newSliceHeader)
-            startAngle = endAngle
-        }
-    }
-    
     var body: some View {
-        VStack(spacing: 0){
+        HStack{
             ZStack{
-                ForEach($sliceHeaders){ $sliceHeader in
-                    SliceView(radius: $radius,
-                              startAngle: $sliceHeader.startAngle,
-                              endAngle: $sliceHeader.endAngle,
-                              slice: $sliceHeader.slice,
+                ForEach($pieChartParameters.slices){ $slice in
+                    SliceView(radius: $pieChartParameters.radius,
+                              slice: $slice,
                               selectedSlice: $selectedSlice)
                 }
                 
-                TextField("", text: $update)
-                    .onChange(of: update){ newValue in
-                        print("update: \(update)")
-                        updateSliceHeaders()
-                    }.disabled(true)
+                if pieChartParameters.slices.last == nil || pieChartParameters.slices.last!.endAngle < .pi*2 {
+
+                    SliceView(radius: $pieChartParameters.radius,
+                              slice: .constant(Slice(name: "Remaining",
+                                                     value: pieChartParameters.total - pieChartParameters.slices.reduce(0) { tot, slice in tot + slice.value },
+                                                     total: pieChartParameters.total, color: .gray,
+                                                     startAngle: (pieChartParameters.slices.last == nil) ? 0 :  pieChartParameters.slices.last!.endAngle ,
+                                                     endAngle: .pi*2 )),
+                              selectedSlice: $selectedSlice)
+                }
                 
                 GeometryReader { geometry in
                     let width: CGFloat = min(geometry.size.width, geometry.size.height)
@@ -60,48 +44,48 @@ struct PieChartView: View {
                         ))
 
                         path.addArc(center: CGPoint(x: centerX, y: centerY),
-                                    radius: CGFloat(radius-10), // radius
+                                    radius: CGFloat(pieChartParameters.radius-10), // radius
                                     startAngle: Angle(radians: 0), // start angle
                                     endAngle: Angle(radians: 2*(.pi)), // endangle
                                     clockwise: false)
 
                     }.foregroundColor(.white)
-                    VStack{
+                    VStack(alignment: .center){
                         if selectedSlice != nil {
-                            Text("\(selectedSlice!.name)")
-                            Text("\(selectedSlice!.value) \(dataType)").font(.caption)
+                            Text("\(selectedSlice!.name)").font(.title3).bold().frame(width: CGFloat(pieChartParameters.radius))
+                            Text("\(selectedSlice!.value) \(pieChartParameters.dataType)").font(.caption2)
                         }
                         else {
-                            Text("\(centerTextTitle)")
+                            Text("\(pieChartParameters.title)").font(.title3).bold()
                         }
-                    }
-                    .frame(width: CGFloat(radius), height: CGFloat(radius), alignment: .center)
+                    }.multilineTextAlignment(.center)
+                    .frame(width: CGFloat(pieChartParameters.radius), height: CGFloat(pieChartParameters.radius), alignment: .center)
                     .position(x: centerX, y: centerY).font(.title)
+                    .onTapGesture {
+                        selectedSlice = nil
+                    }
                 }
                 
-            }
-//            VStack(alignment: .trailing){
-//                ForEach(slices){ slice in
-//                    HStack{
-//                        RoundedRectangle(cornerRadius: 2).frame(width: 20, height: 10).foregroundColor(slice.color)
-//                        Text("\(slice.name) -").font(.title3)
-//                        Text("\(slice.value) trees").font(.caption)
-//                    }
-//                }
-//            }
-            
-        }.onAppear(){
-            updateSliceHeaders()
+            }.frame(width: 200, height: 200)
+            ScrollView{
+                VStack(alignment: .leading) {
+                    ForEach(pieChartParameters.slices){ slice in
+                        HStack(alignment: .top){
+                            RoundedRectangle(cornerRadius: 2).frame(width: 10, height: 10).foregroundColor(slice.color)
+                            VStack {
+                                Text("\(slice.name) ").font(.caption)
+                                Text("\(slice.value) trees").font(.caption)
+                            }
+                        }
+                    }
+                }
+            }.frame(width: 100, height: 200)
         }
-        
-        
     }
 }
 
 struct SliceView: View {
     @Binding var radius : Int
-    @Binding var startAngle : Double
-    @Binding var endAngle : Double
     @Binding var slice : Slice
     @Binding var selectedSlice : Slice?
     
@@ -117,17 +101,27 @@ struct SliceView: View {
     let buffer : Double = (.pi)/90
     var getStartAngle : Angle {
         if selectedSlice == slice {
-            return Angle(radians: startAngle-shift + buffer)
+            if slice.startAngle-shift + buffer > slice.endAngle-shift - buffer {
+                return Angle(radians: slice.startAngle-shift)
+            } else {
+                return Angle(radians: slice.startAngle-shift + buffer)
+            }
+            
         } else {
-            return Angle(radians: startAngle-shift)
+            return Angle(radians: slice.startAngle-shift)
         }
     }
     
     var getEndAngle : Angle {
         if selectedSlice == slice {
-            return Angle(radians: endAngle-shift - buffer)
+            if slice.startAngle-shift + buffer > slice.endAngle-shift - buffer {
+                return Angle(radians: slice.endAngle-shift)
+            } else {
+                return Angle(radians: slice.endAngle-shift - buffer)
+            }
+            
         } else {
-            return Angle(radians: endAngle-shift)
+            return Angle(radians: slice.endAngle-shift)
         }
     }
     
@@ -160,75 +154,16 @@ struct SliceView: View {
     }
 }
 
-//struct PieChartParameters {
-//    var radius: Int
-//    var sliceHeaders: [SliceHeader]
-//    var title: String
-//    var dataType: String
-//    var total: Int
-//    
-//    init(radius: Int, slices: [SliceHeader], title: String, dataType: String, total: Int) {
-//        self.radius = radius
-//        self.sliceHeaders = slices
-//        self.title = title
-//        self.dataType = dataType
-//        self.total = total
-//    }
-//}
-
-
-struct Slice: Identifiable, Equatable {
-    var id : UUID
-    var name : String
-    var value : Int
-    var total : Int
-    var color : Color
-    
-    var percent : Float {
-        Float(value)/Float(total)
-    }
-    
-    var angle : Double {
-        Double(2*(.pi)*percent)
-    }
-    
-    init(id: UUID = UUID(), name: String, value: Int, total: Int, color: Color) {
-        self.id = id
-        self.name = name
-        self.value = value
-        self.total = total
-        self.color = color
-    }
-}
-
-struct SliceHeader: Identifiable {
-    var id: UUID
-    var startAngle : Double
-    var endAngle : Double
-    var slice : Slice
-    
-    init(id: UUID = UUID(), startAngle: Double, endAngle: Double, slice: Slice) {
-        self.id = id
-        self.startAngle = startAngle
-        self.endAngle = endAngle
-        self.slice = slice
-    }
-    
-    init(id: UUID = UUID(), slice: Slice){
-        self.id = id
-        self.slice = slice
-        self.startAngle = 0
-        self.endAngle = 0
-    }
-}
-
-
-
-
 struct PieChartView_Previews: PreviewProvider {
     static var previews: some View {
-        PieChartView(radius: .constant(150), slices: .constant([Slice(name: "Item 1", value: 2, total: 10, color: .blue), Slice(name: "Item 2", value: 4, total: 10, color: .red), Slice(name: "Item 3", value: 3, total: 10, color: .yellow)]), centerTextTitle: .constant("Pie Chart blah"), dataType: .constant("trees"), update: .constant(""))
+        PieChartView(pieChartParameters:
+                .constant(PieChartParameters(radius: 100,
+                                             slices: [Slice(name: "Item 1", value: 2, total: 10, color: .blue), Slice(name: "Item 2", value: 4, total: 10, color: .red), Slice(name: "Item 3", value: 3, total: 10, color: .yellow)],
+                                             title: "Pie Chart Title",
+                                             dataType: "trees",
+                                             total: 10)))
     }
 }
+
 
 
