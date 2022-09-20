@@ -11,7 +11,7 @@ import SwiftUI
 class TallyStore: ObservableObject {
     @Published var tallies: [DailyTally] = []
     
-    
+    /// returns number of trees planted per crew member for a given block
     func getTreesPerCrewMember(block: String) -> [String : Int]{
         var returnArray : [String: Int] = [:]
         
@@ -27,6 +27,42 @@ class TallyStore: ObservableObject {
                 }
             }
         }
+        return returnArray
+    }
+    
+    /// returns number of trees planted per species for a given block
+    func getTreesPerSpecies(block: String) -> [String: Int]{
+        var returnArray : [String: Int] = [:]
+        
+        for tally in tallies {
+            if let blockTally = tally.blocks[block]{
+                for (species, treesPlanted) in blockTally.treesPlantedPerSpecies{
+                    if returnArray[species.name] == nil{
+                        returnArray[species.name] = treesPlanted
+                    } else {
+                        returnArray[species.name] = returnArray[species.name]! + treesPlanted
+                    }
+                }
+            }
+        }
+        return returnArray
+    }
+    
+    /// returns number of trees planted per date for a given block .. returns [date string : (trees planted, date object)]
+    func getTreesPerDate(block: String) -> [String: (Int, Date)]{
+        var returnArray : [String: (Int, Date)] = [:]
+        
+        for tally in tallies {
+            if let blockTally = tally.blocks[block]{
+                let formattedDate = utilities.formatDate(date: tally.date)
+                if returnArray[formattedDate] == nil{
+                    returnArray[formattedDate] = (blockTally.treesPlanted, tally.date)
+                } else {
+                    returnArray[formattedDate] = (returnArray[formattedDate]!.0 + blockTally.treesPlanted, returnArray[formattedDate]!.1)
+                }
+            }
+        }
+        
         
         return returnArray
     }

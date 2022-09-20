@@ -5,12 +5,11 @@
 //  Created by Max Mercer on 2022-09-20.
 //
 
-
 import SwiftUI
 
 struct PieChartView: View {
     @Binding var pieChartParameters : PieChartParameters
-    @State var selectedSlice : Slice? = nil
+    @Binding var selectedSlice : Slice?
     
     var body: some View {
         HStack{
@@ -54,6 +53,7 @@ struct PieChartView: View {
                         if selectedSlice != nil {
                             Text("\(selectedSlice!.name)").font(.title3).bold().frame(width: CGFloat(pieChartParameters.radius))
                             Text("\(selectedSlice!.value) \(pieChartParameters.dataType)").font(.caption2)
+                            Text("\(utilities.formatFloat(float: selectedSlice!.percent*100))%").font(.caption2)
                         }
                         else {
                             Text("\(pieChartParameters.title)").font(.title3).bold()
@@ -161,7 +161,7 @@ struct PieChartView_Previews: PreviewProvider {
                                              slices: [Slice(name: "Item 1", value: 2, total: 10, color: .blue), Slice(name: "Item 2", value: 4, total: 10, color: .red), Slice(name: "Item 3", value: 3, total: 10, color: .yellow)],
                                              title: "Pie Chart Title",
                                              dataType: "trees",
-                                             total: 10)))
+                                             total: 10)), selectedSlice: .constant(nil))
     }
 }
 
