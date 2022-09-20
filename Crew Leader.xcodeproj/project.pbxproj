@@ -17,6 +17,10 @@
 		854DE9B828D269AC0099C722 /* CacheCalculatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 854DE9B728D269AC0099C722 /* CacheCalculatorTests.swift */; };
 		85896DC028D8FD46007FA1ED /* PlantingSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85896DBF28D8FD46007FA1ED /* PlantingSummaryView.swift */; };
 		85896DC228D90EFB007FA1ED /* Data Store Locations.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 85896DC128D90EFB007FA1ED /* Data Store Locations.rtf */; };
+		85896DC428DA03B6007FA1ED /* PieChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85896DC328DA03B6007FA1ED /* PieChartView.swift */; };
+		85A7AE7C28DA28F800A7636D /* PieChartParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A7AE7B28DA28F800A7636D /* PieChartParameters.swift */; };
+		85A7AE7E28DA6DF300A7636D /* PlanterProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A7AE7D28DA6DF300A7636D /* PlanterProgressView.swift */; };
+		85A7AE8028DA6E5C00A7636D /* BlockProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A7AE7F28DA6E5C00A7636D /* BlockProgressView.swift */; };
 		85C6306928D2493100A5066F /* TrailingIconLabelStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85C6306828D2493100A5066F /* TrailingIconLabelStyle.swift */; };
 		85C6306B28D24C2800A5066F /* CacheCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85C6306A28D24C2800A5066F /* CacheCalculator.swift */; };
 		85C6306E28D257C400A5066F /* ResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85C6306D28D257C400A5066F /* ResultsView.swift */; };
@@ -83,6 +87,10 @@
 		854DE9B728D269AC0099C722 /* CacheCalculatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheCalculatorTests.swift; sourceTree = "<group>"; };
 		85896DBF28D8FD46007FA1ED /* PlantingSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlantingSummaryView.swift; sourceTree = "<group>"; };
 		85896DC128D90EFB007FA1ED /* Data Store Locations.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = "Data Store Locations.rtf"; sourceTree = "<group>"; };
+		85896DC328DA03B6007FA1ED /* PieChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieChartView.swift; sourceTree = "<group>"; };
+		85A7AE7B28DA28F800A7636D /* PieChartParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieChartParameters.swift; sourceTree = "<group>"; };
+		85A7AE7D28DA6DF300A7636D /* PlanterProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanterProgressView.swift; sourceTree = "<group>"; };
+		85A7AE7F28DA6E5C00A7636D /* BlockProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockProgressView.swift; sourceTree = "<group>"; };
 		85C6306828D2493100A5066F /* TrailingIconLabelStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrailingIconLabelStyle.swift; sourceTree = "<group>"; };
 		85C6306A28D24C2800A5066F /* CacheCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheCalculator.swift; sourceTree = "<group>"; };
 		85C6306D28D257C400A5066F /* ResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsView.swift; sourceTree = "<group>"; };
@@ -176,6 +184,7 @@
 				85C6306828D2493100A5066F /* TrailingIconLabelStyle.swift */,
 				85FF802A28D8D4AE00B55666 /* ErrorWrapper.swift */,
 				85FF802C28D8D5A600B55666 /* ErrorView.swift */,
+				85896DC328DA03B6007FA1ED /* PieChartView.swift */,
 			);
 			path = "Crew Leader";
 			sourceTree = "<group>";
@@ -226,6 +235,7 @@
 				85EF068E28CE695A008D006A /* utilites.swift */,
 				85EF069928CFAEF9008D006A /* Partial.swift */,
 				85C6306A28D24C2800A5066F /* CacheCalculator.swift */,
+				85A7AE7B28DA28F800A7636D /* PieChartParameters.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -273,6 +283,8 @@
 				85FF802228D4EAD200B55666 /* BlockCardView.swift */,
 				85FF802428D4EB3000B55666 /* CreateBlockView.swift */,
 				85896DBF28D8FD46007FA1ED /* PlantingSummaryView.swift */,
+				85A7AE7D28DA6DF300A7636D /* PlanterProgressView.swift */,
+				85A7AE7F28DA6E5C00A7636D /* BlockProgressView.swift */,
 			);
 			path = "Block View";
 			sourceTree = "<group>";
@@ -436,11 +448,13 @@
 				85FF802B28D8D4AE00B55666 /* ErrorWrapper.swift in Sources */,
 				85EF069A28CFAEF9008D006A /* Partial.swift in Sources */,
 				85EF068D28CE6462008D006A /* BlockSwitchView.swift in Sources */,
+				85A7AE7E28DA6DF300A7636D /* PlanterProgressView.swift in Sources */,
 				85EF067D28CBCD86008D006A /* Person.swift in Sources */,
 				85EF068B28CE5C45008D006A /* DailyTallyView.swift in Sources */,
 				85EF06A828D21ECE008D006A /* CacheCalculatorView.swift in Sources */,
 				85EF068328CBD68E008D006A /* DailyTally.swift in Sources */,
 				85EF069128CE8B2F008D006A /* CreateTallyView.swift in Sources */,
+				85A7AE7C28DA28F800A7636D /* PieChartParameters.swift in Sources */,
 				85EF06A228CFBF7C008D006A /* CreatePartialView.swift in Sources */,
 				85FF802F28D8F85300B55666 /* BlockStore.swift in Sources */,
 				85EF068128CBD35B008D006A /* Block.swift in Sources */,
@@ -454,6 +468,7 @@
 				85EF067F28CBD054008D006A /* Crew.swift in Sources */,
 				85896DC028D8FD46007FA1ED /* PlantingSummaryView.swift in Sources */,
 				85FF802D28D8D5A600B55666 /* ErrorView.swift in Sources */,
+				85896DC428DA03B6007FA1ED /* PieChartView.swift in Sources */,
 				85EF069328CEA95A008D006A /* AddSpeciesView.swift in Sources */,
 				85EF069C28CFB055008D006A /* EnterSpeciesView.swift in Sources */,
 				85FF802128D4EA2C00B55666 /* BlockView.swift in Sources */,
@@ -464,6 +479,7 @@
 				85FF802328D4EAD200B55666 /* BlockCardView.swift in Sources */,
 				85EF068928CE52F8008D006A /* Species.swift in Sources */,
 				8545285E28CBC63B00DF64F2 /* Crew_LeaderApp.swift in Sources */,
+				85A7AE8028DA6E5C00A7636D /* BlockProgressView.swift in Sources */,
 				85FF802928D8D2DA00B55666 /* TallyStore.swift in Sources */,
 				85EF067828CBCA2B008D006A /* TalliesView.swift in Sources */,
 			);

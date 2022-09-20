@@ -20,4 +20,10 @@ struct utilities {
         formatter.minimumFractionDigits = 0
         return formatter.string(for: float)!
     }
+    
+    static func formatInteger(_ integer: Int) -> String {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .decimal
+        return numberFormatter.string(from: NSNumber(value:integer))!
+    }
 }
