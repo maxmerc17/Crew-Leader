@@ -228,5 +228,69 @@
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B6077A25-E596-432E-948C-391DF33C2B18"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Crew Leader/Data Stores/TallyStore.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "112"
+            endingLineNumber = "112"
+            landmarkName = "getTreesPerDate(block:person:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "B6077A25-E596-432E-948C-391DF33C2B18 - 63c3695196059b5e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Crew_Leader.TallyStore.getTreesPerDate(block: Swift.String, person: Crew_Leader.Person) -&gt; Swift.Array&lt;(day: Swift.String, trees: Swift.Int)&gt;"
+                  moduleName = "Crew Leader"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/maxmercer/Desktop/Crew%20Leader/Crew%20Leader/Data%20Stores/TallyStore.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "112"
+                  endingLineNumber = "112"
+                  offsetFromSymbolStart = "2732">
+               </Location>
+               <Location
+                  uuid = "B6077A25-E596-432E-948C-391DF33C2B18 - efc29316e26cf8ad"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 ((key: Swift.String, value: (trees: Swift.Int, date: Foundation.Date)), (key: Swift.String, value: (trees: Swift.Int, date: Foundation.Date))) -&gt; Swift.Bool in Crew_Leader.TallyStore.getTreesPerDate(block: Swift.String, person: Crew_Leader.Person) -&gt; Swift.Array&lt;(day: Swift.String, trees: Swift.Int)&gt;"
+                  moduleName = "Crew Leader"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/maxmercer/Desktop/Crew%20Leader/Crew%20Leader/Data%20Stores/TallyStore.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "112"
+                  endingLineNumber = "112"
+                  offsetFromSymbolStart = "48">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F6BFD78B-EDA7-4F7C-A222-768E452E9F99"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Crew Leader/Data Stores/TallyStore.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "101"
+            endingLineNumber = "101"
+            landmarkName = "getTreesPerDate(block:person:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>

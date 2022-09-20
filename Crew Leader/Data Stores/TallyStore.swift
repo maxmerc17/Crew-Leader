@@ -24,8 +24,8 @@ class TallyStore: ObservableObject {
     
     /// returns average number of trees planted per day for a given block
     func getAverageTreesPerDay(block: String) -> Int {
-        var total = getTotalTreesPlanted(block: block)
-        var numDays = getTreesPerDate(block: block).count
+        let total = getTotalTreesPlanted(block: block)
+        let numDays = getTreesPerDate(block: block).count
         
         if numDays == 0 {
             return 0
@@ -34,7 +34,7 @@ class TallyStore: ObservableObject {
         }
     }
     
-    /// returns number of trees planted per crew member for a given block
+    /// returns total number of trees planted per crew member for a given block
     func getTreesPerCrewMember(block: String) -> [String : Int]{
         var returnArray : [String: Int] = [:]
         
@@ -53,7 +53,7 @@ class TallyStore: ObservableObject {
         return returnArray
     }
     
-    /// returns number of trees planted per species for a given block
+    /// returns total number of trees planted per species for a given block
     func getTreesPerSpecies(block: String) -> [String: Int]{
         var returnArray : [String: Int] = [:]
         
@@ -71,7 +71,7 @@ class TallyStore: ObservableObject {
         return returnArray
     }
     
-    /// returns number of trees planted per date for a given block .. returns [date string : (trees planted, date object)]
+    /// returns total number of trees planted per date for a given block .. returns [date string : (trees planted, date object)]
     func getTreesPerDate(block: String) -> [String: (Int, Date)]{
         var returnArray : [String: (Int, Date)] = [:]
         
@@ -85,8 +85,33 @@ class TallyStore: ObservableObject {
                 }
             }
         }
+        return returnArray
+    }
+    
+    /// returns total number of trees planted per day for a given block and person
+    func getTreesPerDate(block: String, person: Person) -> [(day: String, trees: Int)]{
+        var returnArray : [(day: String, trees: Int)] = []
+        var tempArray : [String: (trees: Int, date: Date)] = [:]
         
+        for tally in tallies {
+            if let blockTally = tally.blocks[block]{
+                //if let indvTally = blockTally.individualTallies[person]{ -- this is the line that you want to have work
+                for (key, indvTally) in blockTally.individualTallies{ // -- then remove this line
+                    if key.fullName == person.fullName{ //               -- and this line
+                        let formattedDate = utilities.formatDate(date: tally.date)
+                        if tempArray[formattedDate] == nil{
+                            tempArray[formattedDate] = (indvTally.treesPlanted, tally.date)
+                        } else {
+                            tempArray[formattedDate] = (tempArray[formattedDate]!.trees + indvTally.treesPlanted, tally.date)
+                        }
+                    }
+                }
+            }
+        }
         
+        let sortedArrray = tempArray.sorted(by: { $0.value.date < $1.value.date })
+        returnArray = sortedArrray.map { (day: $0.key, trees: $0.value.trees)}
+
         return returnArray
     }
     
