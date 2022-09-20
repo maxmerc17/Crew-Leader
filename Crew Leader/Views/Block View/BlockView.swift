@@ -10,10 +10,8 @@ import SwiftUI
 struct BlockView: View {
     @Binding var block : Block
     @Binding var selectedCategory : String
-    @State var update = ""
     
-    @State var centerTextTitle = "Trees Planted Per Crew Member"
-    @State var pieSlices : [Slice] = []
+    @State var pieChartParameters : PieChartParameters = PieChartParameters(radius: 100, slices: [], title: "Trees Per Planter", dataType: "trees", total: 0)
     
     @State var categories : [String] = ["Crew", "Species", "Date"]
     
@@ -23,16 +21,17 @@ struct BlockView: View {
     func categoryChanged(_ newCategory: String) {
         selectedCategory = newCategory
         switch newCategory {
-            case "Crew": updatePieSlicesWithCrew()
-            case "Species": updatePieSlicesWithSpecies()
-            case "Date" : updatePieSlicesWithDate()
+            case "Crew": updateParametersWithCrew()
+            case "Species": updateParametersWithSpecies()
+            case "Date" : updateParametersWithDate()
             default: print("error") // should do something more here -- this point should not be reached
         }
     }
     
-    func updatePieSlicesWithCrew() {
+    func updateParametersWithCrew() {
         let crewPlantedDict = tallyStore.getTreesPerCrewMember(block: block.blockNumber)
-        let totalPlanted = crewPlantedDict.reduce(0){ currTotal, item in
+        let sortedDict = crewPlantedDict.sorted(by: { $0.value > $1.value })
+        let totalPlanted = sortedDict.reduce(0){ currTotal, item in
             currTotal + item.value
         }
         
@@ -40,28 +39,27 @@ struct BlockView: View {
         var colorIndex = 0
         
         var pieSlicesData : [Slice] = []
-        for item in crewPlantedDict {
-            let newSlice = Slice(name: item.key, value: item.value, total: totalPlanted, color: colors[colorIndex%colors.count])
+        for item in sortedDict {
+            let newSlice = Slice(name: item.key, value: item.value, total: block.totalAlloction, color: colors[colorIndex%colors.count])
             pieSlicesData.append(newSlice)
             colorIndex+=1
         }
         
-        centerTextTitle = "Trees Planted Per Crew Member"
-        pieSlices = pieSlicesData
-        update = update + " "
+        pieChartParameters.total = block.totalAlloction
+        pieChartParameters.title = "Total Planted: \(utilities.formatInteger(totalPlanted))"
+        pieChartParameters.slices = pieSlicesData
+        pieChartParameters.updateSliceHeaders()
     }
-    func updatePieSlicesWithSpecies() {
+    func updateParametersWithSpecies() {
         
     }
-    func updatePieSlicesWithDate() {
+    func updateParametersWithDate() {
         
     }
-    
-    
     
     var body: some View {
         VStack {
-            PieChartView(radius: .constant(100), slices: $pieSlices, centerTextTitle: $centerTextTitle, dataType: .constant("trees"), update: $update)
+            PieChartView(pieChartParameters: $pieChartParameters).frame(width: 400, height: 220)
             
             HStack(spacing: 25) {
                 ForEach(categories, id: \.self) { category in
@@ -82,7 +80,6 @@ struct BlockView: View {
                 NavigationLink(destination: PlantingSummaryView(block: block)){
                     Text("Planting Summary")
                 }
-                
             }
         }.navigationTitle("\(block.blockNumber)")
             .onAppear(){
