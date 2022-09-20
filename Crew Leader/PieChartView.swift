@@ -9,21 +9,23 @@
 import SwiftUI
 
 struct PieChartView: View {
-    @State var radius : Int
-    @State var slices : [Slice]
-    @State var centerTextTitle: String
-    @State var dataType : String
+    @Binding var radius : Int
+    @Binding var slices : [Slice]
+    @Binding var centerTextTitle: String
+    @Binding var dataType : String
+    @Binding var update : String
     
     @State var selectedSlice : Slice? = nil
     
     @State var sliceHeaders : [SliceHeader] = []
     
     func updateSliceHeaders() {
+        
         var startAngle : Double = 0
         var endAngle : Double = 0
         for slice in slices {
             endAngle = startAngle + slice.angle
-            var newSliceHeader = SliceHeader(startAngle: startAngle, endAngle: endAngle, slice: slice)
+            let newSliceHeader = SliceHeader(startAngle: startAngle, endAngle: endAngle, slice: slice)
             sliceHeaders.append(newSliceHeader)
             startAngle = endAngle
         }
@@ -32,13 +34,19 @@ struct PieChartView: View {
     var body: some View {
         VStack(spacing: 0){
             ZStack{
-                ForEach(sliceHeaders){ sliceHeader in
-                    SliceView(radius: radius,
-                              startAngle: sliceHeader.startAngle,
-                              endAngle: sliceHeader.endAngle,
-                              slice: sliceHeader.slice,
+                ForEach($sliceHeaders){ $sliceHeader in
+                    SliceView(radius: $radius,
+                              startAngle: $sliceHeader.startAngle,
+                              endAngle: $sliceHeader.endAngle,
+                              slice: $sliceHeader.slice,
                               selectedSlice: $selectedSlice)
                 }
+                
+                TextField("", text: $update)
+                    .onChange(of: update){ newValue in
+                        print("update: \(update)")
+                        updateSliceHeaders()
+                    }.disabled(true)
                 
                 GeometryReader { geometry in
                     let width: CGFloat = min(geometry.size.width, geometry.size.height)
@@ -52,7 +60,7 @@ struct PieChartView: View {
                         ))
 
                         path.addArc(center: CGPoint(x: centerX, y: centerY),
-                                    radius: CGFloat(140), // radius
+                                    radius: CGFloat(radius-10), // radius
                                     startAngle: Angle(radians: 0), // start angle
                                     endAngle: Angle(radians: 2*(.pi)), // endangle
                                     clockwise: false)
@@ -66,32 +74,35 @@ struct PieChartView: View {
                         else {
                             Text("\(centerTextTitle)")
                         }
-                    }.position(x: centerX, y: centerY).font(.title)
+                    }
+                    .frame(width: CGFloat(radius), height: CGFloat(radius), alignment: .center)
+                    .position(x: centerX, y: centerY).font(.title)
                 }
                 
             }
-            VStack(alignment: .trailing){
-                ForEach(slices){ slice in
-                    HStack{
-                        RoundedRectangle(cornerRadius: 2).frame(width: 20, height: 10).foregroundColor(slice.color)
-                        Text("\(slice.name) -").font(.title3)
-                        Text("\(slice.value) trees").font(.caption)
-                    }
-                }
-            }
+//            VStack(alignment: .trailing){
+//                ForEach(slices){ slice in
+//                    HStack{
+//                        RoundedRectangle(cornerRadius: 2).frame(width: 20, height: 10).foregroundColor(slice.color)
+//                        Text("\(slice.name) -").font(.title3)
+//                        Text("\(slice.value) trees").font(.caption)
+//                    }
+//                }
+//            }
             
         }.onAppear(){
             updateSliceHeaders()
         }
         
+        
     }
 }
 
 struct SliceView: View {
-    @State var radius : Int
-    @State var startAngle : Double
-    @State var endAngle : Double
-    @State var slice : Slice
+    @Binding var radius : Int
+    @Binding var startAngle : Double
+    @Binding var endAngle : Double
+    @Binding var slice : Slice
     @Binding var selectedSlice : Slice?
     
     var getRadius : CGFloat {
@@ -149,6 +160,22 @@ struct SliceView: View {
     }
 }
 
+//struct PieChartParameters {
+//    var radius: Int
+//    var sliceHeaders: [SliceHeader]
+//    var title: String
+//    var dataType: String
+//    var total: Int
+//    
+//    init(radius: Int, slices: [SliceHeader], title: String, dataType: String, total: Int) {
+//        self.radius = radius
+//        self.sliceHeaders = slices
+//        self.title = title
+//        self.dataType = dataType
+//        self.total = total
+//    }
+//}
+
 
 struct Slice: Identifiable, Equatable {
     var id : UUID
@@ -186,6 +213,13 @@ struct SliceHeader: Identifiable {
         self.endAngle = endAngle
         self.slice = slice
     }
+    
+    init(id: UUID = UUID(), slice: Slice){
+        self.id = id
+        self.slice = slice
+        self.startAngle = 0
+        self.endAngle = 0
+    }
 }
 
 
@@ -193,7 +227,7 @@ struct SliceHeader: Identifiable {
 
 struct PieChartView_Previews: PreviewProvider {
     static var previews: some View {
-        PieChartView(radius: 150, slices: [Slice(name: "Item 1", value: 2, total: 10, color: .blue), Slice(name: "Item 2", value: 4, total: 10, color: .red), Slice(name: "Item 3", value: 3, total: 10, color: .yellow)], centerTextTitle: "Pie Chart", dataType: "trees")
+        PieChartView(radius: .constant(150), slices: .constant([Slice(name: "Item 1", value: 2, total: 10, color: .blue), Slice(name: "Item 2", value: 4, total: 10, color: .red), Slice(name: "Item 3", value: 3, total: 10, color: .yellow)]), centerTextTitle: .constant("Pie Chart blah"), dataType: .constant("trees"), update: .constant(""))
     }
 }
 

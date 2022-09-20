@@ -14,6 +14,8 @@ struct BlocksView: View {
     @State var isPresentingNewBlockView : Bool = false
     @State var newBlockData : Block.Data = Block.Data()
     
+    @State var selectedCategory = "Crew"
+    
     var body: some View {
         NavigationView {
             List {
@@ -21,7 +23,7 @@ struct BlocksView: View {
                     Text("No blocks to view").foregroundColor(.gray)
                 }else {
                     ForEach($blocks) { $block in
-                        NavigationLink (destination: BlockView(block: $block)){
+                        NavigationLink (destination: BlockView(block: $block, selectedCategory: $selectedCategory)){
                             BlockCardView(block: block)
                         }
                     }

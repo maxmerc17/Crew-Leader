@@ -11,6 +11,29 @@ import SwiftUI
 class TallyStore: ObservableObject {
     @Published var tallies: [DailyTally] = []
     
+    
+    func getTreesPerCrewMember(block: String) -> [String : Int]{
+        var returnArray : [String: Int] = [:]
+        
+        for tally in tallies {
+            if let blockTally = tally.blocks[block]{
+                for (person, indvTally) in blockTally.individualTallies {
+                    if returnArray[person.fullName] == nil {
+                        returnArray[person.fullName] = indvTally.treesPlanted
+                    } else {
+                        returnArray[person.fullName] = returnArray[person.fullName]! + indvTally.treesPlanted
+                    }
+                    
+                }
+            }
+        }
+        
+        return returnArray
+    }
+    
+    
+    /// LOAD AND SAVE
+    
     private static func fileURL() throws -> URL {
         try FileManager.default.url(for: .documentDirectory,
                                                in: .userDomainMask,

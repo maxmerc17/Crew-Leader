@@ -18,6 +18,7 @@
 		85896DC028D8FD46007FA1ED /* PlantingSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85896DBF28D8FD46007FA1ED /* PlantingSummaryView.swift */; };
 		85896DC228D90EFB007FA1ED /* Data Store Locations.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 85896DC128D90EFB007FA1ED /* Data Store Locations.rtf */; };
 		85896DC428DA03B6007FA1ED /* PieChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85896DC328DA03B6007FA1ED /* PieChartView.swift */; };
+		85A7AE7C28DA28F800A7636D /* PieChartParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A7AE7B28DA28F800A7636D /* PieChartParameters.swift */; };
 		85C6306928D2493100A5066F /* TrailingIconLabelStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85C6306828D2493100A5066F /* TrailingIconLabelStyle.swift */; };
 		85C6306B28D24C2800A5066F /* CacheCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85C6306A28D24C2800A5066F /* CacheCalculator.swift */; };
 		85C6306E28D257C400A5066F /* ResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85C6306D28D257C400A5066F /* ResultsView.swift */; };
@@ -85,6 +86,7 @@
 		85896DBF28D8FD46007FA1ED /* PlantingSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlantingSummaryView.swift; sourceTree = "<group>"; };
 		85896DC128D90EFB007FA1ED /* Data Store Locations.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = "Data Store Locations.rtf"; sourceTree = "<group>"; };
 		85896DC328DA03B6007FA1ED /* PieChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieChartView.swift; sourceTree = "<group>"; };
+		85A7AE7B28DA28F800A7636D /* PieChartParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieChartParameters.swift; sourceTree = "<group>"; };
 		85C6306828D2493100A5066F /* TrailingIconLabelStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrailingIconLabelStyle.swift; sourceTree = "<group>"; };
 		85C6306A28D24C2800A5066F /* CacheCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheCalculator.swift; sourceTree = "<group>"; };
 		85C6306D28D257C400A5066F /* ResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsView.swift; sourceTree = "<group>"; };
@@ -229,6 +231,7 @@
 				85EF068E28CE695A008D006A /* utilites.swift */,
 				85EF069928CFAEF9008D006A /* Partial.swift */,
 				85C6306A28D24C2800A5066F /* CacheCalculator.swift */,
+				85A7AE7B28DA28F800A7636D /* PieChartParameters.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -444,6 +447,7 @@
 				85EF06A828D21ECE008D006A /* CacheCalculatorView.swift in Sources */,
 				85EF068328CBD68E008D006A /* DailyTally.swift in Sources */,
 				85EF069128CE8B2F008D006A /* CreateTallyView.swift in Sources */,
+				85A7AE7C28DA28F800A7636D /* PieChartParameters.swift in Sources */,
 				85EF06A228CFBF7C008D006A /* CreatePartialView.swift in Sources */,
 				85FF802F28D8F85300B55666 /* BlockStore.swift in Sources */,
 				85EF068128CBD35B008D006A /* Block.swift in Sources */,
