@@ -14,7 +14,7 @@ struct BlocksView: View {
     @State var isPresentingNewBlockView : Bool = false
     @State var newBlockData : Block.Data = Block.Data()
     
-    @State var selectedCategory = "Crew"
+    @State var selectedCategory = "Progress"
     
     var body: some View {
         NavigationView {

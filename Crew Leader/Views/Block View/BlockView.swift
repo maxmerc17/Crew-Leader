@@ -16,7 +16,7 @@ struct BlockView: View {
     
     @State var additionalDetails : String = ""
     
-    @State var categories : [String] = ["Crew", "Species", "Date"]
+    @State var categories : [String] = ["Progress", "Species", "Date"]
     
     
     @EnvironmentObject var tallyStore : TallyStore
@@ -24,14 +24,14 @@ struct BlockView: View {
     func categoryChanged(_ newCategory: String) {
         selectedCategory = newCategory
         switch newCategory {
-            case "Crew": updateParametersWithCrew()
+            case "Progress": updateParametersWithProgress()
             case "Species": updateParametersWithSpecies()
             case "Date" : updateParametersWithDate()
             default: print("error") // should do something more here -- this point should not be reached
         }
     }
     
-    func updateParametersWithCrew() {
+    func updateParametersWithProgress() {
         let crewPlantedDict = tallyStore.getTreesPerCrewMember(block: block.blockNumber)
         let sortedDict = crewPlantedDict.sorted(by: { $0.value > $1.value })
         let totalPlanted = sortedDict.reduce(0){ currTotal, item in
@@ -96,7 +96,7 @@ struct BlockView: View {
             colorIndex+=1
         }
         
-        additionalDetails = "Average of \(utilities.formatInteger(totalPlanted / sortedDict.count)) trees per day"
+        additionalDetails = "Average of \(utilities.formatInteger(tallyStore.getAverageTreesPerDay(block: block.blockNumber))) trees per day"
         selectedSlice = nil
         pieChartParameters.total = totalPlanted
         pieChartParameters.title = "Total Planted: \(utilities.formatInteger(totalPlanted))"
@@ -126,8 +126,26 @@ struct BlockView: View {
                 }
             }.padding()
             List{
+                Section(""){
+                    HStack{
+                        Label("Total trees planted", systemImage: "sum")
+                        Spacer()
+                        Text(utilities.formatInteger(tallyStore.getTotalTreesPlanted(block: block.blockNumber)))
+                    }
+                    HStack{
+                        Label("Average", systemImage: "calendar.day.timeline.left")
+                        Spacer()
+                        Text(utilities.formatInteger(tallyStore.getAverageTreesPerDay(block: block.blockNumber)))
+                    }
+                }
                 NavigationLink(destination: PlantingSummaryView(block: block)){
                     Text("Planting Summary")
+                }
+                NavigationLink(destination: PlanterProgressView(block: $block)){
+                    Text("Planter Progress")
+                }
+                NavigationLink(destination: BlockProgressView(block: $block)){
+                    Text("Block Progress")
                 }
             }
         }.navigationTitle("\(block.blockNumber)")
@@ -139,6 +157,6 @@ struct BlockView: View {
 
 struct BlockView_Previews: PreviewProvider {
     static var previews: some View {
-        BlockView(block: .constant(Block.sampleData[0]), selectedCategory: .constant("Crew")).environmentObject(TallyStore())
+        BlockView(block: .constant(Block.sampleData[0]), selectedCategory: .constant("Progress")).environmentObject(TallyStore())
     }
 }

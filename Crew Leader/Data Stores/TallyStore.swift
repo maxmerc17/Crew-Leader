@@ -11,6 +11,29 @@ import SwiftUI
 class TallyStore: ObservableObject {
     @Published var tallies: [DailyTally] = []
     
+    /// returns number of trees planted for a given block
+    func getTotalTreesPlanted(block: String) -> Int {
+        var total = 0
+        for tally in tallies {
+            if let blockTally = tally.blocks[block]{
+                total += blockTally.treesPlanted
+            }
+        }
+        return total
+    }
+    
+    /// returns average number of trees planted per day for a given block
+    func getAverageTreesPerDay(block: String) -> Int {
+        var total = getTotalTreesPlanted(block: block)
+        var numDays = getTreesPerDate(block: block).count
+        
+        if numDays == 0 {
+            return 0
+        } else {
+            return total/numDays
+        }
+    }
+    
     /// returns number of trees planted per crew member for a given block
     func getTreesPerCrewMember(block: String) -> [String : Int]{
         var returnArray : [String: Int] = [:]
