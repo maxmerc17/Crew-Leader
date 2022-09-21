@@ -35,6 +35,32 @@ struct DailyTally : Identifiable, Codable {
     }
 }
 
+extension DailyTally {
+    /// returns a dictionary containing trees planter per each species given some block name in a Daily tally
+    func getTreesPlantedPerSpecies(block: String) -> [Species: Int]? {
+        if let blockTally = blocks[block] {
+            return blockTally.treesPlantedPerSpecies
+        }
+        return nil
+    }
+    
+    /// returns number of trees planted given some block name in a daily tally
+    func getTreesPlanted(block: String) -> Int? {
+        if let blockTally = blocks[block]{
+            return blockTally.treesPlanted
+        }
+        return nil
+    }
+    
+    /// returns individualTallies given some block in a daily tally
+    func getIndividualTallies(block: String) -> [UUID : DailyPlanterTally]? {
+        if let blockTally = blocks[block]{
+            return blockTally.individualTallies
+        }
+        return nil
+    }
+}
+
 struct DailyBlockTally : Identifiable, Codable {
     var id : UUID
     var species : [Species]

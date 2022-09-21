@@ -47,7 +47,8 @@ struct TalliesView: View {
                     Text("No tallies to view.").foregroundColor(.gray)
                 }
                 ForEach(tallies) { tally in
-                    NavigationLink (destination: DailyTallyView(tally: tally, selectedBlock: blockStore.blocks.first(where:  { $0.blockNumber == Array(tally.blocks.keys)[0] } )!.blockNumber)){
+                    NavigationLink (destination: DailyTallyView(tally: tally,
+                                                                selectedBlock: tally.blocks.first!.key)){ // !! - tally must contain at least one block to be created
                         CardView(tally: tally)
                     }
                 }
