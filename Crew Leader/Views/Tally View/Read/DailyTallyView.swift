@@ -10,6 +10,8 @@ struct DailyTallyView: View {
     @State var tally : DailyTally
     @State var selectedBlock : String
     
+    @EnvironmentObject var personStore: PersonStore
+    
     var body: some View {
         var speciesArray = Array((tally.blocks[selectedBlock]?.treesPlantedPerSpecies) ?? [:]).sorted(by: {$0.0 < $1.0})
         
@@ -34,7 +36,8 @@ struct DailyTallyView: View {
                 
                 Section("Planters"){
                     ForEach(Array(tally.blocks[selectedBlock]?.individualTallies ?? [:]), id: \.key) {
-                        planter, individualTally in
+                        planterId, individualTally in
+                        let planter = personStore.getPlanter(id: planterId)!
                         NavigationLink(destination: PlanterTallyView(tally: tally, blocks: Array(tally.blocks.keys), selectedBlock: selectedBlock, planter: planter ,planterTally: individualTally)){
                             Text("\(planter.lastName), \(planter.firstName)")
                         }
@@ -51,7 +54,7 @@ struct DailyTallyView: View {
 
 struct DailyTallyView_Previews: PreviewProvider {
     static var previews: some View {
-        DailyTallyView(tally: DailyTally.sampleData[0], selectedBlock: Array(DailyTally.sampleData[0].blocks.keys)[0])
+        DailyTallyView(tally: DailyTally.sampleData[0], selectedBlock: Array(DailyTally.sampleData[0].blocks.keys)[0]).environmentObject(PersonStore())
     }
 }
 

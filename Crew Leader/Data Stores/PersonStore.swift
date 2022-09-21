@@ -13,6 +13,16 @@ import SwiftUI
 class PersonStore: ObservableObject {
     @Published var persons: [Person] = []
     
+    /// return crew members
+    func getCrew() -> [Person]{
+        return persons.filter{ $0.type == .crewMember || $0.type == .crewLeader }
+    }
+    
+    /// return planter given their id
+    func getPlanter(id: UUID) -> Person? {
+        return persons.first(where: { $0.id == id }) ?? nil
+    }
+    
     private static func fileURL() throws -> URL {
         try FileManager.default.url(for: .documentDirectory,
                                                in: .userDomainMask,

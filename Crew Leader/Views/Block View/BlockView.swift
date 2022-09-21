@@ -20,6 +20,7 @@ struct BlockView: View {
     
     
     @EnvironmentObject var tallyStore : TallyStore
+    @EnvironmentObject var personStore : PersonStore
     
     func categoryChanged(_ newCategory: String) {
         selectedCategory = newCategory
@@ -43,7 +44,7 @@ struct BlockView: View {
         
         var pieSlicesData : [Slice] = []
         for item in sortedDict {
-            let newSlice = Slice(name: item.key, value: item.value, total: block.totalAlloction, color: colors[colorIndex%colors.count])
+            let newSlice = Slice(name: personStore.getPlanter(id: item.key)!.fullName, value: item.value, total: block.totalAlloction, color: colors[colorIndex%colors.count])
             pieSlicesData.append(newSlice)
             colorIndex+=1
         }

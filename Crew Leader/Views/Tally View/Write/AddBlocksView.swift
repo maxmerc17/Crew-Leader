@@ -15,6 +15,7 @@ struct AddBlocksView: View {
     @State var showAlert = false
     
     @EnvironmentObject var blockStore : BlockStore
+    @EnvironmentObject var personStore : PersonStore
     
     var blocksList : [String] {
         get {
@@ -29,8 +30,8 @@ struct AddBlocksView: View {
     func newBlockClicked(){
         if !blocksList.contains(selectedBlock) {
             var dbt = DailyBlockTally(data: DailyBlockTally.Data())
-            for member in Crew.sampleCrew.members{
-                dbt.individualTallies[member] = DailyPlanterTally(data: DailyPlanterTally.Data())
+            for member in personStore.getCrew(){
+                dbt.individualTallies[member.id] = DailyPlanterTally(data: DailyPlanterTally.Data())
             }
             newTallyData.blocks[selectedBlock] = dbt
             

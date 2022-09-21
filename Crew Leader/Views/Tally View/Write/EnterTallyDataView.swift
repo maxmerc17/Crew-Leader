@@ -39,7 +39,7 @@ struct EnterTallyDataView: View {
                     EnterSpeciesView(newTallyData: $newTallyData, planter: $selectedPlanter, species: species, block: $selectedBlock, partials: $partials)
                 }
             }
-            Text("\(selectedPlanter.firstName) has planted \(newTallyData.blocks[selectedBlock]?.individualTallies[selectedPlanter]?.treesPlanted ?? 0) trees for \(selectedBlock)")
+            Text("\(selectedPlanter.firstName) has planted \(newTallyData.blocks[selectedBlock]?.individualTallies[selectedPlanter.id]?.treesPlanted ?? 0) trees for \(selectedBlock)")
         }.popover(isPresented: $isPresentingCreatePartialView){
             CreatePartialView(newTallyData: $newTallyData,
                               newPartialData: $newPartialData,

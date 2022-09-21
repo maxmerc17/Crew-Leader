@@ -38,7 +38,7 @@ struct DailyTally : Identifiable, Codable {
 struct DailyBlockTally : Identifiable, Codable {
     var id : UUID
     var species : [Species]
-    var individualTallies : [Person : DailyPlanterTally]
+    var individualTallies : [UUID : DailyPlanterTally] // person UUID
     var treesPlanted : Int {
         return individualTallies.reduce(0) { partialResult, tally in
             partialResult + tally.value.treesPlanted
@@ -54,7 +54,7 @@ struct DailyBlockTally : Identifiable, Codable {
         return dict
     }
     
-    init(id: UUID, species: [Species], individualTallies: [Person : DailyPlanterTally]) {
+    init(id: UUID, species: [Species], individualTallies: [UUID : DailyPlanterTally]) {
         self.id = id
         self.species = species
         self.individualTallies = individualTallies
@@ -114,7 +114,7 @@ extension DailyBlockTally {
     
     struct Data {
         var species : [Species] = []
-        var individualTallies : [Person : DailyPlanterTally] = [:]
+        var individualTallies : [UUID : DailyPlanterTally] = [:]
     }
     
     init(data: Data){
@@ -176,14 +176,14 @@ extension DailyBlockTally {
         DailyBlockTally(id: UUID(),
                         species: Array(Species.sampleData[0...3]),
                         individualTallies:[
-                            Person.sampleData[0] : DailyPlanterTally.sampleData[0],
-                            Person.sampleData[1] : DailyPlanterTally.sampleData[1]
+                            Person.sampleData[0].id : DailyPlanterTally.sampleData[0],
+                            Person.sampleData[1].id : DailyPlanterTally.sampleData[1]
                         ]),
         DailyBlockTally(id: UUID(),
                         species: Array(Species.sampleData[0...3]),
                         individualTallies: [
-                            Person.sampleData[2] : DailyPlanterTally.sampleData[2],
-                            Person.sampleData[3] : DailyPlanterTally.sampleData[3]
+                            Person.sampleData[2].id : DailyPlanterTally.sampleData[2],
+                            Person.sampleData[3].id : DailyPlanterTally.sampleData[3]
                         ])
     ]
 }

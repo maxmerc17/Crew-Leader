@@ -11,7 +11,7 @@
 import SwiftUI
 
 struct TalliesView: View {
-    @Binding var tallies : [DailyTally] //= DailyTally.sampleData
+    @Binding var tallies : [DailyTally] // binding to data store
     let saveTallies : () -> Void
     
     @State var isPresentingNewTallyView : Bool = false
@@ -22,7 +22,7 @@ struct TalliesView: View {
     
     @EnvironmentObject var blockStore : BlockStore
     
-    func verifyInput() -> Bool {
+    func verifyInput() -> Bool { // verify input for save
         if newTallyData.blocks.isEmpty {
             alertText.title = "Improper Input"
             alertText.message = "One or more blocks must be selected to submit a tally. Select one or more blocks."
