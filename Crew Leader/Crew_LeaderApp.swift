@@ -65,7 +65,8 @@ struct Crew_LeaderApp: App {
                             blocks: $blockStore.blocks,
                             
                             saveTallies: saveTallies,
-                            saveBlocks: saveBlocks)
+                            saveBlocks: saveBlocks,
+                            saveSpecies: saveSpecies)
             }
             .environmentObject(tallyStore)
             .environmentObject(blockStore)

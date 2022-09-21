@@ -17,6 +17,9 @@
 		854DE9B828D269AC0099C722 /* CacheCalculatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 854DE9B728D269AC0099C722 /* CacheCalculatorTests.swift */; };
 		8581321C28DB659D006102FB /* SpeciesStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8581321B28DB659D006102FB /* SpeciesStore.swift */; };
 		8581321E28DB6693006102FB /* PersonStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8581321D28DB6693006102FB /* PersonStore.swift */; };
+		8581322128DB6A41006102FB /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8581322028DB6A41006102FB /* SettingsView.swift */; };
+		8581322328DB6C44006102FB /* MyCrewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8581322228DB6C44006102FB /* MyCrewView.swift */; };
+		8581322528DB6CC0006102FB /* SpeciesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8581322428DB6CC0006102FB /* SpeciesListView.swift */; };
 		85896DC028D8FD46007FA1ED /* PlantingSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85896DBF28D8FD46007FA1ED /* PlantingSummaryView.swift */; };
 		85896DC228D90EFB007FA1ED /* Data Store Locations.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 85896DC128D90EFB007FA1ED /* Data Store Locations.rtf */; };
 		85896DC428DA03B6007FA1ED /* PieChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85896DC328DA03B6007FA1ED /* PieChartView.swift */; };
@@ -89,6 +92,9 @@
 		854DE9B728D269AC0099C722 /* CacheCalculatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheCalculatorTests.swift; sourceTree = "<group>"; };
 		8581321B28DB659D006102FB /* SpeciesStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeciesStore.swift; sourceTree = "<group>"; };
 		8581321D28DB6693006102FB /* PersonStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonStore.swift; sourceTree = "<group>"; };
+		8581322028DB6A41006102FB /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		8581322228DB6C44006102FB /* MyCrewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCrewView.swift; sourceTree = "<group>"; };
+		8581322428DB6CC0006102FB /* SpeciesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeciesListView.swift; sourceTree = "<group>"; };
 		85896DBF28D8FD46007FA1ED /* PlantingSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlantingSummaryView.swift; sourceTree = "<group>"; };
 		85896DC128D90EFB007FA1ED /* Data Store Locations.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = "Data Store Locations.rtf"; sourceTree = "<group>"; };
 		85896DC328DA03B6007FA1ED /* PieChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieChartView.swift; sourceTree = "<group>"; };
@@ -220,6 +226,16 @@
 			path = "Crew LeaderUITests";
 			sourceTree = "<group>";
 		};
+		8581321F28DB6A27006102FB /* Settings View */ = {
+			isa = PBXGroup;
+			children = (
+				8581322028DB6A41006102FB /* SettingsView.swift */,
+				8581322228DB6C44006102FB /* MyCrewView.swift */,
+				8581322428DB6CC0006102FB /* SpeciesListView.swift */,
+			);
+			path = "Settings View";
+			sourceTree = "<group>";
+		};
 		85C6306C28D2579B00A5066F /* Cache Calculator View */ = {
 			isa = PBXGroup;
 			children = (
@@ -297,6 +313,7 @@
 		85FF802628D8D25600B55666 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				8581321F28DB6A27006102FB /* Settings View */,
 				85EF069628CF895B008D006A /* Tally View */,
 				85FF801D28D4E96000B55666 /* Block View */,
 				85C6306C28D2579B00A5066F /* Cache Calculator View */,
@@ -448,7 +465,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8581322528DB6CC0006102FB /* SpeciesListView.swift in Sources */,
 				85C6306B28D24C2800A5066F /* CacheCalculator.swift in Sources */,
+				8581322328DB6C44006102FB /* MyCrewView.swift in Sources */,
 				85C6306E28D257C400A5066F /* ResultsView.swift in Sources */,
 				85EF068F28CE695A008D006A /* utilites.swift in Sources */,
 				85FF802B28D8D4AE00B55666 /* ErrorWrapper.swift in Sources */,
@@ -460,6 +479,7 @@
 				85EF06A828D21ECE008D006A /* CacheCalculatorView.swift in Sources */,
 				85EF068328CBD68E008D006A /* DailyTally.swift in Sources */,
 				85EF069128CE8B2F008D006A /* CreateTallyView.swift in Sources */,
+				8581322128DB6A41006102FB /* SettingsView.swift in Sources */,
 				8581321E28DB6693006102FB /* PersonStore.swift in Sources */,
 				85A7AE7C28DA28F800A7636D /* PieChartParameters.swift in Sources */,
 				85EF06A228CFBF7C008D006A /* CreatePartialView.swift in Sources */,

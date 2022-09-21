@@ -12,6 +12,11 @@ import SwiftUI
 class SpeciesStore: ObservableObject {
     @Published var species: [Species] = []
     
+    /// returns whether a species existis in the data store given the species name
+    func exists(name: String) -> Bool {
+        return species.contains(where: { $0.name == name })
+    }
+    
     private static func fileURL() throws -> URL {
         try FileManager.default.url(for: .documentDirectory,
                                                in: .userDomainMask,
