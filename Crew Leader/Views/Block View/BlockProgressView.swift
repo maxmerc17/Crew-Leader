@@ -10,6 +10,8 @@ import SwiftUI
 struct BlockProgressView: View {
     @Binding var block: Block
     
+    @State var treesPerDayData : [(day: String, trees: Int)] = []
+    
     var body: some View {
         VStack(alignment: .leading){
             Text("hello")
