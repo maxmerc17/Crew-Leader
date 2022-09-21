@@ -93,7 +93,10 @@ struct CreateTallyView: View {
             
         }
         .onAppear(){
-            selectedPlanter = personStore.getCrew()[0] /// FOD
+            if selectedPlanter.fullName == ""{
+                selectedPlanter = personStore.getCrew()[0] /// FOD
+            }
+            
         }
         .alert(isPresented: $isShowingAlert) {
             Alert(

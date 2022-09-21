@@ -8,6 +8,7 @@
 import SwiftUI
 
 // TODO: add a transition where the block data slides in when different blocks are selected
+// TODO: add alert when species won't add because it is already in the list
 
 extension AnyTransition {
     static var moveAndFade: AnyTransition {
@@ -32,6 +33,8 @@ struct AddSpeciesView: View {
         blocks.map({ blockString in blockStore.getBlock(blockName: blockString)! }) /// !!
     }
     
+    @State var showAlert : Bool = false
+    
     @EnvironmentObject var blockStore : BlockStore
     
     var body: some View {
@@ -53,9 +56,14 @@ struct AddSpeciesView: View {
             }.padding().background(.white).cornerRadius(10)
             
             if selectedBlock != ""{
-                AddSpeciesSubView(newTallyData: $newTallyData, selectedBlock: $selectedBlock).transition(.move(edge: .trailing))
+                AddSpeciesSubView(newTallyData: $newTallyData, selectedBlock: $selectedBlock, showAlert: $showAlert).transition(.move(edge: .trailing))
             }
             
+        }.alert(isPresented: $showAlert) {
+            Alert(
+                title: Text("Cannot Add Selected Species To List"),
+                message: Text("The selected species is already in the list.")
+            )
         }
     }
 }
@@ -63,21 +71,22 @@ struct AddSpeciesView: View {
 struct AddSpeciesSubView: View {
     @Binding var newTallyData : DailyTally
     @Binding var selectedBlock : String
+    @Binding var showAlert : Bool
     
     @State var selectedSpecies : Species = Species.init(data: Species.Data()) /// updatedOnAppear , FOD
-    @State var showAlert = false
+    
     
     @EnvironmentObject var speciesStore : SpeciesStore
     
     var speciesList : [Species] {
         get {
-            return newTallyData.blocks[selectedBlock]?.species ?? []
+            return newTallyData.getSpeciesList(block: selectedBlock)! // !!
         }
     }
     
     func newSpeciesClicked(){
         if !speciesList.contains(selectedSpecies) {
-            newTallyData.blocks[selectedBlock]?.species.append(selectedSpecies)
+            newTallyData.addSpecies(block: selectedBlock, add: selectedSpecies)
         } else {
             showAlert = true
         }
@@ -91,7 +100,7 @@ struct AddSpeciesSubView: View {
                 }
                 HStack{
                     Picker("Add Species", selection: $selectedSpecies){
-                        ForEach(Species.sampleData) {
+                        ForEach(speciesStore.species) {
                             species in
                             HStack{
                                 Text("\(species.name) ") +
@@ -100,7 +109,6 @@ struct AddSpeciesSubView: View {
                             .tag(species)
                         }
                     }
-                    
                 }
                 HStack{
                     Spacer()
@@ -111,16 +119,12 @@ struct AddSpeciesSubView: View {
                 }
             }
         }
+        .scrollContentBackground(.hidden)
         .onAppear(){
             selectedSpecies = speciesStore.species[0] /// FOD
         }
-        .scrollContentBackground(.hidden)
-            .alert(isPresented: $showAlert) {
-                    Alert(
-                        title: Text("Cannot Add Selected Species To List"),
-                        message: Text("The selected species is already in the list.")
-                    )
-                }
+        
+            
     }
 }
 
@@ -136,6 +140,6 @@ struct AddSpeciesView_Previews: PreviewProvider {
 struct AddSpeciesSubView_Previews: PreviewProvider {
     static var previews: some View {
         AddSpeciesSubView(newTallyData: .constant(DailyTally.sampleData[0]),
-                          selectedBlock: .constant(Block(data: Block.Data()).blockNumber)).environmentObject(BlockStore())
+                          selectedBlock: .constant(Block(data: Block.Data()).blockNumber), showAlert: .constant(false)).environmentObject(BlockStore())
     }
 }

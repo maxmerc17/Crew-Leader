@@ -19,10 +19,11 @@ struct EnterTallyDataView: View {
     
     @State var isPresentingCreatePartialView : Bool = false
     
-    func addToPartials() {
-        let newPartial = Partial(data: newPartialData)
-        partials.append(newPartial)
-    }
+    /// not used
+//    func addToPartials() {
+//        let newPartial = Partial(data: newPartialData)
+//        partials.append(newPartial)
+//    }
     
     var body: some View {
         VStack {

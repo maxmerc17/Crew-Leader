@@ -59,6 +59,22 @@ extension DailyTally {
         }
         return nil
     }
+    
+    /// returns species list given some block in a daily tally 
+    func getSpeciesList(block: String) -> [Species]?{
+        if let blockTally = blocks[block]{
+            return blockTally.species
+        }
+        return nil
+    }
+    
+    /// adds a given species to a given block
+    /// TODO: have result return type to signal success or faillure
+    mutating func addSpecies(block: String, add: Species){
+        if let _ = blocks[block]{
+            blocks[block]!.species.append(add)
+        }
+    }
 }
 
 struct DailyBlockTally : Identifiable, Codable {
