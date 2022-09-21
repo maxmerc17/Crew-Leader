@@ -80,18 +80,17 @@ struct BlockView: View {
         pieChartParameters.updateSliceHeaders()
     }
     func updateParametersWithDate() {
-        let datePlantedDict = tallyStore.getTreesPerDate(block: block.blockNumber)
-        let sortedDict = datePlantedDict.sorted(by: { $0.value.1 > $1.value.1 }) // sorted by date formated
-        let totalPlanted = sortedDict.reduce(0){ currTotal, item in
-            currTotal + item.value.0
+        let treesPerDate = tallyStore.getTreesPerDate(block: block.blockNumber)
+        let totalPlanted = treesPerDate.reduce(0){ currTotal, item in
+            currTotal + item.trees
         }
         
         let colors: [Color] = [.red, .blue, .green, .yellow, .cyan, .indigo, .mint, .orange]
         var colorIndex = 0
         
         var pieSlicesData : [Slice] = []
-        for item in sortedDict {
-            let newSlice = Slice(name: item.key, value: item.value.0, total: totalPlanted, color: colors[colorIndex%colors.count])
+        for item in treesPerDate {
+            let newSlice = Slice(name: item.day, value: item.trees, total: totalPlanted, color: colors[colorIndex%colors.count])
             pieSlicesData.append(newSlice)
             colorIndex+=1
         }

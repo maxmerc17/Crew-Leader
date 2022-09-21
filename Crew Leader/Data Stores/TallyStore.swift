@@ -72,19 +72,23 @@ class TallyStore: ObservableObject {
     }
     
     /// returns total number of trees planted per date for a given block .. returns [date string : (trees planted, date object)]
-    func getTreesPerDate(block: String) -> [String: (Int, Date)]{
-        var returnArray : [String: (Int, Date)] = [:]
+    func getTreesPerDate(block: String) -> [(day: String, trees: Int)]{
+        var tempArray : [String: (trees: Int, date: Date)] = [:]
+        var returnArray : [(day: String, trees: Int)]
         
         for tally in tallies {
             if let blockTally = tally.blocks[block]{
                 let formattedDate = utilities.formatDate(date: tally.date)
-                if returnArray[formattedDate] == nil{
-                    returnArray[formattedDate] = (blockTally.treesPlanted, tally.date)
+                if tempArray[formattedDate] == nil{
+                    tempArray[formattedDate] = (blockTally.treesPlanted, tally.date)
                 } else {
-                    returnArray[formattedDate] = (returnArray[formattedDate]!.0 + blockTally.treesPlanted, returnArray[formattedDate]!.1)
+                    tempArray[formattedDate] = (tempArray[formattedDate]!.0 + blockTally.treesPlanted, tempArray[formattedDate]!.1)
                 }
             }
         }
+        
+        let sortedArrray = tempArray.sorted(by: { $0.value.date < $1.value.date })
+        returnArray = sortedArrray.map { (day: $0.key, trees: $0.value.trees)}
         return returnArray
     }
     
