@@ -15,7 +15,7 @@ import SwiftUI
 
 struct AddBlocksView: View {
     /// passed data
-    @Binding var newTallyData : DailyTally.Data
+    @Binding var newTallyData : DailyTally
     @Binding var initSelectedBlock : String
     
     @State var selectedBlock : String = "" // for picker
@@ -90,7 +90,7 @@ struct AddBlocksView: View {
 struct AddBlocksView_Previews: PreviewProvider {
     static var previews: some View {
         Form {
-            AddBlocksView(newTallyData: .constant(DailyTally.Data()), initSelectedBlock: .constant(""))
+            AddBlocksView(newTallyData: .constant(DailyTally.sampleData[0]), initSelectedBlock: .constant(""))
         }.environmentObject(BlockStore())
     }
 }

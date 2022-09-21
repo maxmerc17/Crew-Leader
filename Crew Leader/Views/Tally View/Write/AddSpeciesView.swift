@@ -19,7 +19,7 @@ extension AnyTransition {
 }
 
 struct AddSpeciesView: View {
-    @Binding var newTallyData : DailyTally.Data
+    @Binding var newTallyData : DailyTally
     @State var selectedBlock : String
     
     var blocks : [String] {
@@ -61,7 +61,7 @@ struct AddSpeciesView: View {
 }
 
 struct AddSpeciesSubView: View {
-    @Binding var newTallyData : DailyTally.Data
+    @Binding var newTallyData : DailyTally
     @Binding var selectedBlock : String
     
     @State var selectedSpecies : Species = Species.init(data: Species.Data()) /// updatedOnAppear , FOD
@@ -126,7 +126,7 @@ struct AddSpeciesSubView: View {
 
 struct AddSpeciesView_Previews: PreviewProvider {
     static var previews: some View {
-        AddSpeciesView(newTallyData: .constant(DailyTally.Data()),
+        AddSpeciesView(newTallyData: .constant(DailyTally.sampleData[0]),
                             selectedBlock: Array(DailyTally.sampleData[0].blocks.keys)[0]
         
         )
@@ -135,7 +135,7 @@ struct AddSpeciesView_Previews: PreviewProvider {
 
 struct AddSpeciesSubView_Previews: PreviewProvider {
     static var previews: some View {
-        AddSpeciesSubView(newTallyData: .constant(DailyTally.Data()),
+        AddSpeciesSubView(newTallyData: .constant(DailyTally.sampleData[0]),
                           selectedBlock: .constant(Block(data: Block.Data()).blockNumber)).environmentObject(BlockStore())
     }
 }

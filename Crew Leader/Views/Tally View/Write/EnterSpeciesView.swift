@@ -11,7 +11,7 @@
 import SwiftUI
 
 struct EnterSpeciesView: View {
-    @Binding var newTallyData : DailyTally.Data
+    @Binding var newTallyData : DailyTally
     @Binding var planter : Person
     @State var species : Species
     @Binding var block : String
@@ -81,7 +81,7 @@ struct EnterSpeciesView_Previews: PreviewProvider {
     static var previews: some View {
         Form{
             EnterSpeciesView(
-                newTallyData: .constant(DailyTally.Data()),
+                newTallyData: .constant(DailyTally.sampleData[0]),
                 planter: .constant(Person.sampleData[0]),
                 species: Species.sampleData[0],
                 block: .constant(Block.sampleData[0].blockNumber),

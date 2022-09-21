@@ -10,7 +10,7 @@
 import SwiftUI
 
 struct CreatePartialView: View {
-    @Binding var newTallyData : DailyTally.Data
+    @Binding var newTallyData : DailyTally
     @Binding var newPartialData : Partial.Data
     
     @Binding var isPresentingCreatePartialView : Bool
