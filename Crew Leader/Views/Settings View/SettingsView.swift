@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct SettingsView: View {
+    let savePersons : () -> Void
     let saveSpecies : () -> Void
     
     var body: some View {
@@ -15,7 +16,7 @@ struct SettingsView: View {
             VStack{
                 Form{
                     Section("Application Data"){
-                        NavigationLink (destination: MyCrewView()){
+                        NavigationLink (destination: MyCrewView(savePersons: savePersons)){
                             Text("My Crew")
                         }
                         NavigationLink (destination: SpeciesListView(saveSpecies: saveSpecies)){
@@ -31,6 +32,6 @@ struct SettingsView: View {
 
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsView(saveSpecies: {})
+        SettingsView(savePersons: {}, saveSpecies: {})
     }
 }

@@ -72,7 +72,7 @@ struct AddBlocksView: View {
             )
         }
         .onAppear(){
-            selectedBlock = blockStore.blocks[0].blockNumber
+            selectedBlock = blockStore.blocks[0].blockNumber /// FOD
         }
     }
 }

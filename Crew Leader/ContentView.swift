@@ -19,6 +19,7 @@ struct ContentView: View {
     let saveTallies : () -> Void
     let saveBlocks: () -> Void
     let saveSpecies: () -> Void
+    let savePersons: () -> Void
     
     var body: some View {
         TabView(selection: $selectedTab) {
@@ -28,7 +29,7 @@ struct ContentView: View {
             TalliesView(tallies: $tallies, saveTallies: saveTallies).tabItem { Label("Tallies", systemImage: "square.grid.3x3.square") }.tag(4)
             //Text("Plots tab").tabItem { Label("Plots", systemImage: "mappin.and.ellipse") }.tag(5)
             /// add plots tab tool to the block tab
-            SettingsView(saveSpecies: saveSpecies).tabItem { Label("Settings", systemImage: "gear") }.tag(5)
+            SettingsView(savePersons: savePersons, saveSpecies: saveSpecies).tabItem { Label("Settings", systemImage: "gear") }.tag(5)
         }.onChange(of: scenePhase) { phase in
             if phase == .inactive {
                 saveTallies()
@@ -39,6 +40,6 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(selectedTab: 1, tallies: .constant(DailyTally.sampleData), blocks: .constant(Block.sampleData), saveTallies: {}, saveBlocks: {}, saveSpecies: {})
+        ContentView(selectedTab: 1, tallies: .constant(DailyTally.sampleData), blocks: .constant(Block.sampleData), saveTallies: {}, saveBlocks: {}, saveSpecies: {}, savePersons: {})
     }
 }
