@@ -12,9 +12,8 @@ struct MyCrewView: View {
     
     @EnvironmentObject var personStore : PersonStore
     
-    @State var inputtedSpeciesCode: String = ""
-    @State var inputtedTreesPerBox: String = ""
-    @State var inputtedTreesPerBundle: String = ""
+    @State var inputtedFirstName: String = ""
+    @State var inputtedLastName: String = ""
     
     @State var isShowingAlert = false
     @State var alertText = alertTextType()
@@ -26,21 +25,16 @@ struct MyCrewView: View {
     var body: some View {
         VStack{
             Form{
-                Section("Input New Species"){
+                Section("Input New Person"){
                     HStack{
-                        Label("Species Code:", systemImage: "textformat")
+                        Label("First Name:", systemImage: "textformat")
                         Spacer()
-                        TextField("ex. PLI048", text: $inputtedSpeciesCode).frame(width: 148).multilineTextAlignment(.trailing)
+                        TextField("ex. John", text: $inputtedFirstName).frame(width: 148).multilineTextAlignment(.trailing)
                     }
                     HStack{
-                        Label("Trees Per Box", systemImage: "shippingbox")
+                        Label("Last Name:", systemImage: "textformat")
                         Spacer()
-                        TextField("ex. 420", text: $inputtedTreesPerBox).frame(width: 148).multilineTextAlignment(.trailing)
-                    }
-                    HStack{
-                        Label("Trees Per Bundle", systemImage: "pause.rectangle")
-                        Spacer()
-                        TextField("ex. 20", text: $inputtedTreesPerBundle).frame(width: 129).multilineTextAlignment(.trailing)
+                        TextField("ex. Smith", text: $inputtedLastName).frame(width: 148).multilineTextAlignment(.trailing)
                     }
                     HStack {
                         Spacer()
@@ -76,6 +70,6 @@ struct MyCrewView: View {
 
 struct MyCrewView_Previews: PreviewProvider {
     static var previews: some View {
-        MyCrewView()
+        MyCrewView().environmentObject(PersonStore())
     }
 }
