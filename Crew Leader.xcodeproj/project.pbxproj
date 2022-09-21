@@ -15,6 +15,8 @@
 		8545287928CBC63C00DF64F2 /* Crew_LeaderUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8545287828CBC63C00DF64F2 /* Crew_LeaderUITests.swift */; };
 		8545287B28CBC63C00DF64F2 /* Crew_LeaderUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8545287A28CBC63C00DF64F2 /* Crew_LeaderUITestsLaunchTests.swift */; };
 		854DE9B828D269AC0099C722 /* CacheCalculatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 854DE9B728D269AC0099C722 /* CacheCalculatorTests.swift */; };
+		8581321C28DB659D006102FB /* SpeciesStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8581321B28DB659D006102FB /* SpeciesStore.swift */; };
+		8581321E28DB6693006102FB /* PersonStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8581321D28DB6693006102FB /* PersonStore.swift */; };
 		85896DC028D8FD46007FA1ED /* PlantingSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85896DBF28D8FD46007FA1ED /* PlantingSummaryView.swift */; };
 		85896DC228D90EFB007FA1ED /* Data Store Locations.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 85896DC128D90EFB007FA1ED /* Data Store Locations.rtf */; };
 		85896DC428DA03B6007FA1ED /* PieChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85896DC328DA03B6007FA1ED /* PieChartView.swift */; };
@@ -85,6 +87,8 @@
 		8545287828CBC63C00DF64F2 /* Crew_LeaderUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Crew_LeaderUITests.swift; sourceTree = "<group>"; };
 		8545287A28CBC63C00DF64F2 /* Crew_LeaderUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Crew_LeaderUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		854DE9B728D269AC0099C722 /* CacheCalculatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheCalculatorTests.swift; sourceTree = "<group>"; };
+		8581321B28DB659D006102FB /* SpeciesStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeciesStore.swift; sourceTree = "<group>"; };
+		8581321D28DB6693006102FB /* PersonStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonStore.swift; sourceTree = "<group>"; };
 		85896DBF28D8FD46007FA1ED /* PlantingSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlantingSummaryView.swift; sourceTree = "<group>"; };
 		85896DC128D90EFB007FA1ED /* Data Store Locations.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = "Data Store Locations.rtf"; sourceTree = "<group>"; };
 		85896DC328DA03B6007FA1ED /* PieChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieChartView.swift; sourceTree = "<group>"; };
@@ -307,6 +311,8 @@
 				85FF802828D8D2DA00B55666 /* TallyStore.swift */,
 				85FF802E28D8F85300B55666 /* BlockStore.swift */,
 				85896DC128D90EFB007FA1ED /* Data Store Locations.rtf */,
+				8581321B28DB659D006102FB /* SpeciesStore.swift */,
+				8581321D28DB6693006102FB /* PersonStore.swift */,
 			);
 			path = "Data Stores";
 			sourceTree = "<group>";
@@ -454,10 +460,12 @@
 				85EF06A828D21ECE008D006A /* CacheCalculatorView.swift in Sources */,
 				85EF068328CBD68E008D006A /* DailyTally.swift in Sources */,
 				85EF069128CE8B2F008D006A /* CreateTallyView.swift in Sources */,
+				8581321E28DB6693006102FB /* PersonStore.swift in Sources */,
 				85A7AE7C28DA28F800A7636D /* PieChartParameters.swift in Sources */,
 				85EF06A228CFBF7C008D006A /* CreatePartialView.swift in Sources */,
 				85FF802F28D8F85300B55666 /* BlockStore.swift in Sources */,
 				85EF068128CBD35B008D006A /* Block.swift in Sources */,
+				8581321C28DB659D006102FB /* SpeciesStore.swift in Sources */,
 				85EF067A28CBCA49008D006A /* template_view.swift in Sources */,
 				85EF068728CE4467008D006A /* CardView.swift in Sources */,
 				85EF06A628D1097E008D006A /* AddBlocksView.swift in Sources */,
