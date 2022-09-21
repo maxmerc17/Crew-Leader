@@ -11,7 +11,7 @@ import SwiftUI
 // TODO: add create new block button - create a block if it doesn't yet exist
 
 struct CreateTallyView: View {
-    @Binding var newTallyData : DailyTally.Data
+    @Binding var newTallyData : DailyTally
     
     /// for pickers
     @State var selectedBlock : String = ""
@@ -106,6 +106,6 @@ struct CreateTallyView: View {
 
 struct CreateTallyView_Previews: PreviewProvider {
     static var previews: some View {
-        CreateTallyView(newTallyData: .constant(DailyTally.Data()), isShowingAlert: .constant(false), alertText: .constant(alertTextType()))
+        CreateTallyView(newTallyData: .constant(DailyTally.sampleData[0]), isShowingAlert: .constant(false), alertText: .constant(alertTextType()))
     }
 }

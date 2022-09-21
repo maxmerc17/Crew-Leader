@@ -15,7 +15,7 @@ struct TalliesView: View {
     let saveTallies : () -> Void
     
     @State var isPresentingNewTallyView : Bool = false
-    @State var newTallyData : DailyTally.Data = DailyTally.Data()
+    @State var newTallyData : DailyTally = DailyTally(data: DailyTally.Data())
     
     @State var isShowingAlert = false
     @State var alertText = alertTextType()
@@ -66,16 +66,16 @@ struct TalliesView: View {
                             ToolbarItem(placement: .cancellationAction) {
                                 Button("Dismiss") {
                                     isPresentingNewTallyView = false
-                                    newTallyData = DailyTally.Data()
+                                    newTallyData = DailyTally(data: DailyTally.Data())
                                 }
                             }
                             ToolbarItem(placement: .confirmationAction) {
                                 Button("Add") {
                                     if verifyInput() {
-                                        let newTally = DailyTally(data: newTallyData)
-                                        tallies.append(newTally)
+                                        //let newTally = DailyTally(data: newTallyData)
+                                        tallies.append(newTallyData)
                                         isPresentingNewTallyView = false
-                                        newTallyData = DailyTally.Data()
+                                        newTallyData = DailyTally(data: DailyTally.Data())
                                         saveTallies()
                                     }
                                     
