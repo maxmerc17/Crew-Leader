@@ -5,13 +5,21 @@
 //  Created by Max Mercer on 2022-09-13.
 //
 
+/// TODO: be able to add more than just crew to a block. Be able to add guests. Implementation for this is here
+///
+/// may want to change design of how individual tallies are created here. Works good now, may need redesign for adding guest planters
+///
+/// TODO: not sure if I still need initSelectedBlock. It was a workaround. May not need it anymore
+
 import SwiftUI
 
 struct AddBlocksView: View {
+    /// passed data
     @Binding var newTallyData : DailyTally.Data
     @Binding var initSelectedBlock : String
     
     @State var selectedBlock : String = "" // for picker
+    
     @State var showAlert = false
     
     @EnvironmentObject var blockStore : BlockStore
@@ -24,7 +32,7 @@ struct AddBlocksView: View {
     }
     
     var blockObjects : [Block]{
-        blocksList.map({ blockString in blockStore.blocks.first(where: { $0.blockNumber == blockString })! })
+        blocksList.map({ blockString in blockStore.getBlock(blockName: blockString)! }) /// !! - unwrap should be good
     }
     
     func newBlockClicked(){
@@ -33,6 +41,8 @@ struct AddBlocksView: View {
             for member in personStore.getCrew(){
                 dbt.individualTallies[member.id] = DailyPlanterTally(data: DailyPlanterTally.Data())
             }
+            // add the add guests code here
+            
             newTallyData.blocks[selectedBlock] = dbt
             
         } else {

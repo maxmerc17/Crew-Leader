@@ -76,7 +76,12 @@ struct CreateTallyView: View {
                     AddSpeciesView(newTallyData: $newTallyData,
                                    selectedBlock: blocksList[0])
                     
-                    NavigationLink(destination: EnterTallyDataView(newTallyData: $newTallyData, selectedBlock: $selectedBlock, selectedPlanter: $selectedPlanter, partials: $partials, newPartialData: $newPartialData), isActive: $isShowingTallies){
+                    NavigationLink(destination: EnterTallyDataView(newTallyData: $newTallyData,
+                                                                   selectedBlock: $selectedBlock,
+                                                                   selectedPlanter: $selectedPlanter,
+                                                                   partials: $partials,
+                                                                   newPartialData: $newPartialData),
+                                   isActive: $isShowingTallies){
                         
                     }
                 }

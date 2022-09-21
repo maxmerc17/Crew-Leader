@@ -12,6 +12,11 @@ import SwiftUI
 class BlockStore: ObservableObject {
     @Published var blocks: [Block] = []
     
+    
+    func getBlock(blockName: String) -> Block? {
+        return blocks.first(where: { $0.blockNumber == blockName })
+    }
+    
     private static func fileURL() throws -> URL {
         try FileManager.default.url(for: .documentDirectory,
                                                in: .userDomainMask,

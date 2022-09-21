@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-// TODO: have the first block on the list automatically selected - displaying it's content
 // TODO: add a transition where the block data slides in when different blocks are selected
 
 extension AnyTransition {
@@ -22,8 +21,7 @@ extension AnyTransition {
 struct AddSpeciesView: View {
     @Binding var newTallyData : DailyTally.Data
     @State var selectedBlock : String
-
-    @EnvironmentObject var blockStore : BlockStore
+    
     var blocks : [String] {
         get{
             return Array(newTallyData.blocks.keys)
@@ -31,8 +29,10 @@ struct AddSpeciesView: View {
     }
     
     var blockObjects : [Block]{
-        blocks.map({ blockString in blockStore.blocks.first(where: { $0.blockNumber == blockString })! })
+        blocks.map({ blockString in blockStore.getBlock(blockName: blockString)! }) /// !!
     }
+    
+    @EnvironmentObject var blockStore : BlockStore
     
     var body: some View {
         VStack {
@@ -44,7 +44,7 @@ struct AddSpeciesView: View {
                         
                         HStack {
                             Image(systemName: "map")
-                            Text("\(block.blockNumber)")                        }.font(.system(size: 15))
+                            Text("\(block.blockNumber)")}.font(.system(size: 15))
                             .foregroundColor(block.blockNumber == selectedBlock
                                 ? .accentColor
                                          : .gray)
@@ -64,8 +64,10 @@ struct AddSpeciesSubView: View {
     @Binding var newTallyData : DailyTally.Data
     @Binding var selectedBlock : String
     
-    @State var selectedSpecies : Species = Species.sampleData[0]
+    @State var selectedSpecies : Species = Species.init(data: Species.Data()) /// updatedOnAppear , FOD
     @State var showAlert = false
+    
+    @EnvironmentObject var speciesStore : SpeciesStore
     
     var speciesList : [Species] {
         get {
@@ -108,7 +110,11 @@ struct AddSpeciesSubView: View {
                     Spacer()
                 }
             }
-        }.scrollContentBackground(.hidden)
+        }
+        .onAppear(){
+            selectedSpecies = speciesStore.species[0] /// FOD
+        }
+        .scrollContentBackground(.hidden)
             .alert(isPresented: $showAlert) {
                     Alert(
                         title: Text("Cannot Add Selected Species To List"),
