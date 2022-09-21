@@ -183,6 +183,7 @@
 				85EF067B28CBCD70008D006A /* Models */,
 				8545285D28CBC63B00DF64F2 /* Crew_LeaderApp.swift */,
 				8545285F28CBC63B00DF64F2 /* ContentView.swift */,
+				85EF067928CBCA49008D006A /* template_view.swift */,
 				8545286128CBC63C00DF64F2 /* Assets.xcassets */,
 				8545286328CBC63C00DF64F2 /* Preview Content */,
 				85C6306828D2493100A5066F /* TrailingIconLabelStyle.swift */,
@@ -299,7 +300,6 @@
 				85EF069628CF895B008D006A /* Tally View */,
 				85FF801D28D4E96000B55666 /* Block View */,
 				85C6306C28D2579B00A5066F /* Cache Calculator View */,
-				85EF067928CBCA49008D006A /* template_view.swift */,
 				85EF068C28CE6462008D006A /* BlockSwitchView.swift */,
 			);
 			path = Views;

@@ -10,7 +10,7 @@ import Foundation
 import SwiftUI
 
 class SpeciesStore: ObservableObject {
-    @Published var blocks: [Species] = []
+    @Published var species: [Species] = []
     
     private static func fileURL() throws -> URL {
         try FileManager.default.url(for: .documentDirectory,
