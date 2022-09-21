@@ -13,6 +13,11 @@ import SwiftUI
 class PersonStore: ObservableObject {
     @Published var persons: [Person] = []
     
+    /// returns the sole crew leader
+    func getCrewLeader() -> Person? {
+        return persons.first(where: { $0.type == .crewLeader })
+    }
+    
     /// return crew members
     func getCrew() -> [Person]{
         return persons.filter{ $0.type == .crewMember || $0.type == .crewLeader }
@@ -21,6 +26,11 @@ class PersonStore: ObservableObject {
     /// return planter given their id
     func getPlanter(id: UUID) -> Person? {
         return persons.first(where: { $0.id == id }) ?? nil
+    }
+    
+    /// returns a planter by their full name
+    func getPlanter(fullName: String) -> Person? {
+        return persons.first(where: { $0.fullName == fullName })
     }
     
     private static func fileURL() throws -> URL {
