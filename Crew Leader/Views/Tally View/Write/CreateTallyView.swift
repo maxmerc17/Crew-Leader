@@ -13,12 +13,16 @@ import SwiftUI
 struct CreateTallyView: View {
     @Binding var newTallyData : DailyTally.Data
     
+    /// for pickers
     @State var selectedBlock : String = ""
-    @State var selectedPlanter : Person = Crew.sampleCrew.members[0]
+    
+    /// keep track of selected planter in child views. Including wheel picker in EnterTallyDataView
+    @State var selectedPlanter : Person = Person(data: Person.Data())  /// updatedOnAppear ,  FOD
+
     
     @State var partials : [Partial] = []
     @State var newPartialData : Partial.Data = Partial.Data()
-
+    
     @Binding var isShowingAlert : Bool
     @Binding var alertText : alertTextType
     
@@ -29,6 +33,8 @@ struct CreateTallyView: View {
             return Array(newTallyData.blocks.keys)
         }
     }
+    
+    @EnvironmentObject var personStore : PersonStore
     
     func verifyInput(){
         if blocksList.isEmpty {
@@ -80,7 +86,11 @@ struct CreateTallyView: View {
                 }.padding()
             }
             
-        }.alert(isPresented: $isShowingAlert) {
+        }
+        .onAppear(){
+            selectedPlanter = personStore.getCrew()[0] /// FOD
+        }
+        .alert(isPresented: $isShowingAlert) {
             Alert(
                 title: Text(alertText.title),
                 message: Text(alertText.message)
