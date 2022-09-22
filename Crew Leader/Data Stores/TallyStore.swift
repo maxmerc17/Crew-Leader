@@ -35,16 +35,16 @@ class TallyStore: ObservableObject {
     }
     
     /// returns total number of trees planted per crew member for a given block
-    func getTreesPerCrewMember(block: String) -> [String : Int]{
-        var returnArray : [String: Int] = [:]
+    func getTreesPerCrewMember(block: String) -> [UUID : Int]{
+        var returnArray : [UUID: Int] = [:]
         
         for tally in tallies {
             if let blockTally = tally.blocks[block]{
-                for (person, indvTally) in blockTally.individualTallies {
-                    if returnArray[person.fullName] == nil {
-                        returnArray[person.fullName] = indvTally.treesPlanted
+                for (id, indvTally) in blockTally.individualTallies {
+                    if returnArray[id] == nil {
+                        returnArray[id] = indvTally.treesPlanted
                     } else {
-                        returnArray[person.fullName] = returnArray[person.fullName]! + indvTally.treesPlanted
+                        returnArray[id] = returnArray[id]! + indvTally.treesPlanted
                     }
                     
                 }
@@ -100,8 +100,8 @@ class TallyStore: ObservableObject {
         for tally in tallies {
             if let blockTally = tally.blocks[block]{
                 //if let indvTally = blockTally.individualTallies[person]{ -- this is the line that you want to have work
-                for (key, indvTally) in blockTally.individualTallies{ // -- then remove this line
-                    if key.fullName == person.fullName{ //               -- and this line
+                for (id, indvTally) in blockTally.individualTallies{ // -- then remove this line
+                    if id == person.id{ //               -- and this line
                         let formattedDate = utilities.formatDate(date: tally.date)
                         if tempArray[formattedDate] == nil{
                             tempArray[formattedDate] = (indvTally.treesPlanted, tally.date)

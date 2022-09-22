@@ -1,43 +1,42 @@
 //
-//  BlockStore.swift
+//  SpeciesStore.swift
 //  Crew Leader
 //
-//  Created by Max Mercer on 2022-09-19.
+//  Created by Max Mercer on 2022-09-21.
 //
-
 
 import Foundation
 import SwiftUI
 
-class BlockStore: ObservableObject {
-    @Published var blocks: [Block] = []
+class SpeciesStore: ObservableObject {
+    @Published var species: [Species] = []
     
-    
-    func getBlock(blockName: String) -> Block? {
-        return blocks.first(where: { $0.blockNumber == blockName })
+    /// returns whether a species existis in the data store given the species name
+    func exists(name: String) -> Bool {
+        return species.contains(where: { $0.name == name })
     }
     
     private static func fileURL() throws -> URL {
         try FileManager.default.url(for: .documentDirectory,
                                                in: .userDomainMask,
                                                appropriateFor: nil,
-                                               create: false).appendingPathComponent("blocks.data")
+                                               create: false).appendingPathComponent("species.data")
     }
     
-    static func load() async throws -> [Block] {
+    static func load() async throws -> [Species] {
         try await withCheckedThrowingContinuation { continuation in
             load { result in
                 switch result {
                 case .failure(let error):
                     continuation.resume(throwing: error)
-                case .success(let blocks):
-                    continuation.resume(returning: blocks)
+                case .success(let species):
+                    continuation.resume(returning: species)
                 }
             }
         }
     }
     
-    static func load(completion: @escaping (Result<[Block], Error>)->Void) {
+    static func load(completion: @escaping (Result<[Species], Error>)->Void) {
         DispatchQueue.global(qos: .background).async {
             do {
                 let fileURL = try fileURL()
@@ -47,9 +46,9 @@ class BlockStore: ObservableObject {
                     }
                     return
                 }
-                let block = try JSONDecoder().decode([Block].self, from: file.availableData)
+                let species = try JSONDecoder().decode([Species].self, from: file.availableData)
                 DispatchQueue.main.async {
-                    completion(.success(block))
+                    completion(.success(species))
                 }
             } catch {
                 DispatchQueue.main.async {
@@ -60,27 +59,27 @@ class BlockStore: ObservableObject {
     }
     
     @discardableResult
-    static func save(blocks: [Block]) async throws -> Int {
+    static func save(species: [Species]) async throws -> Int {
         try await withCheckedThrowingContinuation { continuation in
-            save(blocks: blocks) { result in
+            save(species: species) { result in
                 switch result {
                 case .failure(let error):
                     continuation.resume(throwing: error)
-                case .success(let blocksSaved):
-                    continuation.resume(returning: blocksSaved)
+                case .success(let speciesSaved):
+                    continuation.resume(returning: speciesSaved)
                 }
             }
         }
     }
     
-    static func save(blocks: [Block], completion: @escaping (Result<Int, Error>)->Void) {
+    static func save(species: [Species], completion: @escaping (Result<Int, Error>)->Void) {
         DispatchQueue.global(qos: .background).async {
             do {
-                let data = try JSONEncoder().encode(blocks)
+                let data = try JSONEncoder().encode(species)
                 let outfile = try fileURL()
                 try data.write(to: outfile)
                 DispatchQueue.main.async {
-                    completion(.success(blocks.count))
+                    completion(.success(species.count))
                 }
             } catch {
                 DispatchQueue.main.async {
@@ -90,4 +89,5 @@ class BlockStore: ObservableObject {
         }
     }
 }
+
 

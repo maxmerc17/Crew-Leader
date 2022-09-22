@@ -23,10 +23,10 @@ struct PlanterTallyView: View {
                 
                 Form {
                     Section("Trees planted"){
-                        Text("\(tally.blocks[selectedBlock]?.individualTallies[planter]?.treesPlanted ?? 0)")
+                        Text("\(tally.blocks[selectedBlock]?.individualTallies[planter.id]?.treesPlanted ?? 0)")
                     }
                     Section("Species") {
-                        ForEach(Array(tally.blocks[selectedBlock]?.individualTallies[planter]?.treesPerSpecies ?? [:]), id: \.key){
+                        ForEach(Array(tally.blocks[selectedBlock]?.individualTallies[planter.id]?.treesPerSpecies ?? [:]), id: \.key){
                             species, planted in
                             HStack {
                                 Label("\(species.name)", systemImage: "leaf")

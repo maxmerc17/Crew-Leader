@@ -11,7 +11,7 @@
 import SwiftUI
 
 struct EnterSpeciesView: View {
-    @Binding var newTallyData : DailyTally.Data
+    @Binding var newTallyData : DailyTally
     @Binding var planter : Person
     @State var species : Species
     @Binding var block : String
@@ -27,7 +27,8 @@ struct EnterSpeciesView: View {
     @State var numBoxes : String = ""
     
     func updateProduction() {
-        numBoxes = String(newTallyData.blocks[block]?.individualTallies[planter]?.boxesPerSpecies[species] ?? 0)
+        print(planter.id)
+        numBoxes = String(newTallyData.blocks[block]?.individualTallies[planter.id]?.boxesPerSpecies[species] ?? 0)
         
         let treesFromBoxes = (Int(numBoxes) ?? 0)*species.treesPerBox
         let treesFromPartials = releventPartials.reduce(0, { x, y in
@@ -36,7 +37,7 @@ struct EnterSpeciesView: View {
         
         totalTreesPlanted = treesFromBoxes + treesFromPartials
         
-        newTallyData.blocks[block]?.individualTallies[planter]?.treesPerSpecies[species] = totalTreesPlanted
+        newTallyData.blocks[block]?.individualTallies[planter.id]?.treesPerSpecies[species] = totalTreesPlanted
     }
     //$newTallyData.blocks[block].individualTallies[planter]?.boxesPerSpecies[species]
     
@@ -49,7 +50,7 @@ struct EnterSpeciesView: View {
                 TextField("Boxes", text: $numBoxes).multilineTextAlignment(.trailing)
                     .keyboardType(.numberPad)
                     .onChange(of: numBoxes){
-                        newTallyData.blocks[block]?.individualTallies[planter]?.boxesPerSpecies[species] = Int($0)
+                        newTallyData.blocks[block]?.individualTallies[planter.id]?.boxesPerSpecies[species] = Int($0)
                         updateProduction()
                             
                 }
@@ -81,7 +82,7 @@ struct EnterSpeciesView_Previews: PreviewProvider {
     static var previews: some View {
         Form{
             EnterSpeciesView(
-                newTallyData: .constant(DailyTally.Data()),
+                newTallyData: .constant(DailyTally.sampleData[0]),
                 planter: .constant(Person.sampleData[0]),
                 species: Species.sampleData[0],
                 block: .constant(Block.sampleData[0].blockNumber),
