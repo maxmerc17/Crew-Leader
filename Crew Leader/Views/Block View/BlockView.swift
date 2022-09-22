@@ -42,16 +42,26 @@ struct BlockView: View {
         let colors: [Color] = [.red, .blue, .green, .yellow, .cyan, .indigo, .mint, .orange]
         var colorIndex = 0
         
+        var total = 0
+        if totalPlanted > block.totalAlloction{
+            total = totalPlanted
+        } else {
+            total = block.totalAlloction
+        }
+        
         var pieSlicesData : [Slice] = []
         for item in sortedDict {
-            let newSlice = Slice(name: personStore.getPlanter(id: item.key)!.fullName, value: item.value, total: block.totalAlloction, color: colors[colorIndex%colors.count])
+            let newSlice = Slice(name: personStore.getPlanter(id: item.key)!.fullName, value: item.value, total: total, color: colors[colorIndex%colors.count])
             pieSlicesData.append(newSlice)
             colorIndex+=1
         }
         
-        additionalDetails = "\(utilities.formatInteger(totalPlanted)) / \(utilities.formatInteger(block.totalAlloction)) trees planted"
+        additionalDetails = (totalPlanted > block.totalAlloction)
+        ? "\(utilities.formatInteger(totalPlanted-block.totalAlloction)) trees over allocation"
+        : "\(utilities.formatInteger(block.totalAlloction-totalPlanted)) trees under allocation"
+        
         selectedSlice = nil
-        pieChartParameters.total = block.totalAlloction
+        pieChartParameters.total = total
         pieChartParameters.title = "Total Planted: \(utilities.formatInteger(totalPlanted))"
         pieChartParameters.slices = pieSlicesData
         pieChartParameters.updateSliceHeaders()
