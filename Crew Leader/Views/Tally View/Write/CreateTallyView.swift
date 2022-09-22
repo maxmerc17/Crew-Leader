@@ -21,7 +21,7 @@ struct CreateTallyView: View {
 
     
     @State var partials : [Partial] = []
-    @State var newPartialData : Partial.Data = Partial.Data()
+    @State var newPartialData : Partial = Partial(data: Partial.Data())
     
     @Binding var isShowingAlert : Bool
     @Binding var alertText : alertTextType
@@ -74,7 +74,9 @@ struct CreateTallyView: View {
                 Divider()
                 if blocksList.count > 0 {
                     AddSpeciesView(newTallyData: $newTallyData,
-                                   selectedBlock: blocksList[0])
+                                   selectedBlock: blocksList[0],
+                                   showAlert: $isShowingAlert,
+                                   alertText: $alertText)
                     
                     NavigationLink(destination: EnterTallyDataView(newTallyData: $newTallyData,
                                                                    selectedBlock: $selectedBlock,
@@ -93,8 +95,9 @@ struct CreateTallyView: View {
             
         }
         .onAppear(){
-            if selectedPlanter.fullName == ""{
+            if selectedPlanter.fullName == " "{
                 selectedPlanter = personStore.getCrew()[0] /// FOD
+                print(selectedPlanter)
             }
             
         }

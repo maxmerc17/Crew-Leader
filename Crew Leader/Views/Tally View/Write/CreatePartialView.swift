@@ -11,7 +11,7 @@ import SwiftUI
 
 struct CreatePartialView: View {
     @Binding var newTallyData : DailyTally
-    @Binding var newPartialData : Partial.Data
+    @Binding var newPartialData : Partial
     
     @Binding var isPresentingCreatePartialView : Bool
     
@@ -25,14 +25,15 @@ struct CreatePartialView: View {
     
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject var blockStore : BlockStore
+    @EnvironmentObject var personStore : PersonStore
     
     var blockObjects : [Block]{
-        newTallyData.blocks.keys.map({ blockString in blockStore.blocks.first(where: { $0.blockNumber == blockString })! })
+        newTallyData.blocks.keys.map({ blockString in blockStore.getBlock(blockName: blockString)!}) // !!
     }
     
     var totalBundlesClaimed : Int {
         get{
-            newPartialData.people.values.reduce(0){ x,y in x + y}
+            newPartialData.totalBundlesClaimed
         }
         
     }
@@ -46,9 +47,8 @@ struct CreatePartialView: View {
         if (areAllBundlesClaimed() && (newPartialData.people.count > 1)){
             newPartialData.species = selectedSpecies
             newPartialData.blockName = selectedBlock
-            let newPartial = Partial(data: newPartialData)
-            partials.append(newPartial)
-            newPartialData = Partial.Data()
+            partials.append(newPartialData)
+            newPartialData = Partial(data: Partial.Data())
             isPresentingCreatePartialView = false
         } else {
             isShowingError = true
@@ -57,13 +57,13 @@ struct CreatePartialView: View {
     }
     
     func onDiscard(){
-        newPartialData = Partial.Data()
+        newPartialData = Partial(data: Partial.Data())
         isPresentingCreatePartialView = false
     }
     
     func addPerson() {
         let people = newPartialData.people.keys
-        let newPerson = Crew.sampleData.members.first(where: {!people.contains($0)}) ?? nil
+        let newPerson = personStore.getCrew().first(where: {!people.contains($0)})
         if let newPerson {
             newPartialData.people[newPerson] = 0
         }
@@ -98,7 +98,7 @@ struct CreatePartialView: View {
                     HStack{
                         Text("Species:")
                         Picker("Species", selection: $selectedSpecies){
-                            ForEach(newTallyData.blocks[selectedBlock]?.species ?? []){
+                            ForEach(newTallyData.getSpeciesList(block: selectedBlock) ?? []){
                                 species in
                                 Text("\(species.name)").tag(species)
                             }
@@ -135,7 +135,8 @@ struct CreatePartialView: View {
                 
             }.onAppear(){
                 newPartialData.people[selectedPlanter] = 0
-                newPartialData.people[Crew.sampleData.members.first(where: {$0 != selectedPlanter})!] = 0
+                addPerson()
+                //newPartialData.people[personStore.getCrew().first(where: {$0 != selectedPlanter})!] = 0
             }.alert(isPresented: $isShowingError) {
                 Alert(
                     title: Text("Invalid Input"),
@@ -158,13 +159,15 @@ struct CreatePartialView: View {
 struct RowView: View {
     @State var planter : Person
     @State var bundles : Int
-    @Binding var newPartialData : Partial.Data
+    @Binding var newPartialData : Partial
     @Binding var selectedSpecies : Species
+    
+    @EnvironmentObject var personStore : PersonStore
     
     var body: some View {
         HStack{
             Picker("Planter", selection: $planter){
-                ForEach(Crew.sampleData.members){
+                ForEach(personStore.getCrew()){
                     member in
                     Text("\(member.fullName)").tag(member)
                 }
