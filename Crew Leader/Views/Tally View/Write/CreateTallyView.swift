@@ -74,7 +74,9 @@ struct CreateTallyView: View {
                 Divider()
                 if blocksList.count > 0 {
                     AddSpeciesView(newTallyData: $newTallyData,
-                                   selectedBlock: blocksList[0])
+                                   selectedBlock: blocksList[0],
+                                   showAlert: $isShowingAlert,
+                                   alertText: $alertText)
                     
                     NavigationLink(destination: EnterTallyDataView(newTallyData: $newTallyData,
                                                                    selectedBlock: $selectedBlock,
