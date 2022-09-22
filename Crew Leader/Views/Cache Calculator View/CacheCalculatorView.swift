@@ -22,7 +22,7 @@ struct CacheCalculatorView: View {
     @State var numberOfTrees = ""
     @State var cutsArray : [(Species, String)] = []
     
-    @State var selectedSpecies = Species.sampleData[0]
+    @State var selectedSpecies = Species(data: Species.Data()) // updateOnAppear, FOD
     @State var mix = ""
     
     @State var isShowingAlert = false
@@ -32,6 +32,8 @@ struct CacheCalculatorView: View {
     @State var calculatedObject = CacheCalculator(data: CacheCalculator.Data())
     
     @State var history : [CacheCalculator] = []
+    
+    @EnvironmentObject var speciesStore : SpeciesStore
 
     func addSpecies() {
         if mix.isEmpty{
@@ -110,7 +112,7 @@ struct CacheCalculatorView: View {
                     HStack {
                         Label("Species", systemImage: "leaf")
                         Picker("", selection: $selectedSpecies){
-                            ForEach(Species.sampleData){ species in
+                            ForEach(speciesStore.species){ species in
                                 Text("\(species.name)").tag(species)
                             }
                         }
@@ -163,6 +165,13 @@ struct CacheCalculatorView: View {
                 }
             }
             .navigationTitle("Cache Calculator")
+            .onAppear(){
+                if selectedSpecies.name == ""{
+                    if !speciesStore.species.isEmpty{
+                        selectedSpecies = speciesStore.species[0]/// FOD
+                    }
+                }
+            }
             .alert(isPresented: $isShowingAlert) {
                 Alert(
                     title: Text("\(alertText.title)"),
@@ -204,7 +213,7 @@ struct DisplayRowItem: View {
 
 struct CacheCalculatorView_Previews: PreviewProvider {
     static var previews: some View {
-        CacheCalculatorView()
+        CacheCalculatorView().environmentObject(SpeciesStore())
     }
 }
 
