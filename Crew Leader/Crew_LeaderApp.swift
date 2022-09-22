@@ -66,7 +66,8 @@ struct Crew_LeaderApp: App {
                             
                             saveTallies: saveTallies,
                             saveBlocks: saveBlocks,
-                            saveSpecies: saveSpecies)
+                            saveSpecies: saveSpecies,
+                            savePersons: savePersons)
             }
             .environmentObject(tallyStore)
             .environmentObject(blockStore)

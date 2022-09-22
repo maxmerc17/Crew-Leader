@@ -10,19 +10,23 @@ struct DailyTallyView: View {
     @State var tally : DailyTally
     @State var selectedBlock : String
     
+    @EnvironmentObject var personStore: PersonStore
+    
     var body: some View {
-        var speciesArray = Array((tally.blocks[selectedBlock]?.treesPlantedPerSpecies) ?? [:]).sorted(by: {$0.0 < $1.0})
+        let treesPlantedPerSpecies : [Species : Int] = tally.getTreesPlantedPerSpecies(block: selectedBlock) ?? [:] // ???? - unwraps if it exists and or returns [:] if nil
+        
+        let individualTallies : [UUID: DailyPlanterTally] = tally.getIndividualTallies(block: selectedBlock) ?? [:] // ????
         
         VStack(){
             BlockSwitchView(blocks: Array(tally.blocks.keys), selectedBlock: $selectedBlock)
             
             Form {
                 Section("Trees planted"){
-                    Text("\(tally.blocks[selectedBlock]?.treesPlanted ?? 0)")
+                    Text("\(tally.getTreesPlanted(block: selectedBlock) ?? 0)")
                 }
                 
                 Section("Species Count"){
-                    ForEach(speciesArray, id: \.key){
+                    ForEach(treesPlantedPerSpecies.sorted(by: >), id: \.key){ // why sorted - required to be sorted to work
                         species, planted in
                             HStack {
                                 Label("\(species.name)", systemImage: "leaf")
@@ -33,8 +37,9 @@ struct DailyTallyView: View {
                 }
                 
                 Section("Planters"){
-                    ForEach(Array(tally.blocks[selectedBlock]?.individualTallies ?? [:]), id: \.key) {
-                        planter, individualTally in
+                    ForEach(Array(individualTallies), id: \.key) { // why array - gets rid of the error
+                        planterId, individualTally in
+                        let planter = personStore.getPlanter(id: planterId)!
                         NavigationLink(destination: PlanterTallyView(tally: tally, blocks: Array(tally.blocks.keys), selectedBlock: selectedBlock, planter: planter ,planterTally: individualTally)){
                             Text("\(planter.lastName), \(planter.firstName)")
                         }
@@ -51,7 +56,7 @@ struct DailyTallyView: View {
 
 struct DailyTallyView_Previews: PreviewProvider {
     static var previews: some View {
-        DailyTallyView(tally: DailyTally.sampleData[0], selectedBlock: Array(DailyTally.sampleData[0].blocks.keys)[0])
+        DailyTallyView(tally: DailyTally.sampleData[0], selectedBlock: Array(DailyTally.sampleData[0].blocks.keys)[0]).environmentObject(PersonStore())
     }
 }
 

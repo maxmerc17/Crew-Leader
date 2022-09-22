@@ -27,12 +27,12 @@ struct Person: Identifiable, Codable, Hashable{
     }
 }
 
-enum PersonType: Codable {
-    case crewLeader
-    case crewMember
-    case pastCrewMember
-    case guestPlanter
-    case supervisor
+enum PersonType: String, Codable {
+    case crewLeader = "Crew Leader"
+    case crewMember = "Crew Member"
+    case pastCrewMember = "Past Crew Member"
+    case guestPlanter = "Guest Planter"
+    case supervisor = "Supervisor"
 }
 
 extension Person {

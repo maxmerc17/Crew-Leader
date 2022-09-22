@@ -7,8 +7,8 @@
 
 import SwiftUI
 
-// TODO: have the first block on the list automatically selected - displaying it's content
 // TODO: add a transition where the block data slides in when different blocks are selected
+// TODO: add alert when species won't add because it is already in the list
 
 extension AnyTransition {
     static var moveAndFade: AnyTransition {
@@ -20,10 +20,9 @@ extension AnyTransition {
 }
 
 struct AddSpeciesView: View {
-    @Binding var newTallyData : DailyTally.Data
+    @Binding var newTallyData : DailyTally
     @State var selectedBlock : String
-
-    @EnvironmentObject var blockStore : BlockStore
+    
     var blocks : [String] {
         get{
             return Array(newTallyData.blocks.keys)
@@ -31,8 +30,13 @@ struct AddSpeciesView: View {
     }
     
     var blockObjects : [Block]{
-        blocks.map({ blockString in blockStore.blocks.first(where: { $0.blockNumber == blockString })! })
+        blocks.map({ blockString in blockStore.getBlock(blockName: blockString)! }) /// !!
     }
+    
+    @Binding var showAlert : Bool
+    @Binding var alertText : alertTextType
+    
+    @EnvironmentObject var blockStore : BlockStore
     
     var body: some View {
         VStack {
@@ -44,7 +48,7 @@ struct AddSpeciesView: View {
                         
                         HStack {
                             Image(systemName: "map")
-                            Text("\(block.blockNumber)")                        }.font(.system(size: 15))
+                            Text("\(block.blockNumber)")}.font(.system(size: 15))
                             .foregroundColor(block.blockNumber == selectedBlock
                                 ? .accentColor
                                          : .gray)
@@ -53,7 +57,11 @@ struct AddSpeciesView: View {
             }.padding().background(.white).cornerRadius(10)
             
             if selectedBlock != ""{
-                AddSpeciesSubView(newTallyData: $newTallyData, selectedBlock: $selectedBlock).transition(.move(edge: .trailing))
+                AddSpeciesSubView(newTallyData: $newTallyData,
+                                  selectedBlock: $selectedBlock,
+                                  showAlert: $showAlert,
+                                  alertText: $alertText)
+                .transition(.move(edge: .trailing))
             }
             
         }
@@ -61,23 +69,29 @@ struct AddSpeciesView: View {
 }
 
 struct AddSpeciesSubView: View {
-    @Binding var newTallyData : DailyTally.Data
+    @Binding var newTallyData : DailyTally
     @Binding var selectedBlock : String
+    @Binding var showAlert : Bool
+    @Binding var alertText : alertTextType
     
-    @State var selectedSpecies : Species = Species.sampleData[0]
-    @State var showAlert = false
+    @State var selectedSpecies : Species = Species.init(data: Species.Data()) /// updatedOnAppear , FOD
+    
+    
+    @EnvironmentObject var speciesStore : SpeciesStore
     
     var speciesList : [Species] {
         get {
-            return newTallyData.blocks[selectedBlock]?.species ?? []
+            return newTallyData.getSpeciesList(block: selectedBlock) ?? [] // ????
         }
     }
     
     func newSpeciesClicked(){
         if !speciesList.contains(selectedSpecies) {
-            newTallyData.blocks[selectedBlock]?.species.append(selectedSpecies)
+            newTallyData.addSpecies(block: selectedBlock, add: selectedSpecies)
         } else {
             showAlert = true
+            alertText.title = "Cannot Add Selected Species To List"
+            alertText.message = "The selected species is already in the list."
         }
     }
     
@@ -89,7 +103,7 @@ struct AddSpeciesSubView: View {
                 }
                 HStack{
                     Picker("Add Species", selection: $selectedSpecies){
-                        ForEach(Species.sampleData) {
+                        ForEach(speciesStore.species) {
                             species in
                             HStack{
                                 Text("\(species.name) ") +
@@ -98,7 +112,6 @@ struct AddSpeciesSubView: View {
                             .tag(species)
                         }
                     }
-                    
                 }
                 HStack{
                     Spacer()
@@ -108,20 +121,22 @@ struct AddSpeciesSubView: View {
                     Spacer()
                 }
             }
-        }.scrollContentBackground(.hidden)
-            .alert(isPresented: $showAlert) {
-                    Alert(
-                        title: Text("Cannot Add Selected Species To List"),
-                        message: Text("The selected species is already in the list.")
-                    )
-                }
+        }
+        .scrollContentBackground(.hidden)
+        .onAppear(){
+            selectedSpecies = speciesStore.species[0] /// FOD
+        }
+        
+            
     }
 }
 
 struct AddSpeciesView_Previews: PreviewProvider {
     static var previews: some View {
-        AddSpeciesView(newTallyData: .constant(DailyTally.Data()),
-                            selectedBlock: Array(DailyTally.sampleData[0].blocks.keys)[0]
+        AddSpeciesView(newTallyData: .constant(DailyTally.sampleData[0]),
+                       selectedBlock: Array(DailyTally.sampleData[0].blocks.keys)[0],
+                       showAlert: .constant(false),
+                       alertText: .constant(alertTextType())
         
         )
     }
@@ -129,7 +144,7 @@ struct AddSpeciesView_Previews: PreviewProvider {
 
 struct AddSpeciesSubView_Previews: PreviewProvider {
     static var previews: some View {
-        AddSpeciesSubView(newTallyData: .constant(DailyTally.Data()),
-                          selectedBlock: .constant(Block(data: Block.Data()).blockNumber)).environmentObject(BlockStore())
+        AddSpeciesSubView(newTallyData: .constant(DailyTally.sampleData[0]),
+                          selectedBlock: .constant(Block(data: Block.Data()).blockNumber), showAlert: .constant(false), alertText: .constant(alertTextType())).environmentObject(BlockStore())
     }
 }
