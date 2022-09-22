@@ -13,6 +13,10 @@ struct Partial : Identifiable, Equatable {
     var species : Species
     var people : [Person : Int]
     
+    var totalBundlesClaimed : Int {
+        people.reduce(0){ tot, elem in tot + elem.value }
+    }
+    
     init(id: UUID = UUID(), blockName: String, species: Species, people: [Person : Int]) {
         self.id = id
         self.blockName = blockName
@@ -20,6 +24,7 @@ struct Partial : Identifiable, Equatable {
         self.people = people
     }
 }
+
 
 extension Partial {
     struct Data {

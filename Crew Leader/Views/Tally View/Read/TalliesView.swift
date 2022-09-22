@@ -20,7 +20,6 @@ struct TalliesView: View {
     @State var isShowingAlert = false
     @State var alertText = alertTextType()
     
-    @EnvironmentObject var blockStore : BlockStore
     
     func verifyInput() -> Bool { // verify input for save
         if newTallyData.blocks.isEmpty {
@@ -91,6 +90,6 @@ struct TalliesView: View {
 struct TalliesView_Previews: PreviewProvider {
     static var previews: some View {
         //var tallies = DailyTally.data
-        TalliesView(tallies: .constant(DailyTally.sampleData), saveTallies: {}).environmentObject(BlockStore())
+        TalliesView(tallies: .constant(DailyTally.sampleData), saveTallies: {})
     }
 }

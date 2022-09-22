@@ -15,15 +15,9 @@ struct EnterTallyDataView: View {
     @Binding var selectedPlanter : Person
     
     @Binding var partials : [Partial]
-    @Binding var newPartialData : Partial.Data
+    @Binding var newPartialData : Partial
     
     @State var isPresentingCreatePartialView : Bool = false
-    
-    /// not used
-//    func addToPartials() {
-//        let newPartial = Partial(data: newPartialData)
-//        partials.append(newPartial)
-//    }
     
     @EnvironmentObject var personStore : PersonStore
     
@@ -63,6 +57,6 @@ struct EnterTallyDataView: View {
 
 struct EnterTallyDataView_Previews: PreviewProvider {
     static var previews: some View {
-        EnterTallyDataView(newTallyData: .constant(DailyTally.sampleData[0]), selectedBlock: .constant(Block.sampleData[0].blockNumber), selectedPlanter: .constant(Crew.sampleCrew.members[0]), partials: .constant([Partial(data: Partial.Data())]), newPartialData: .constant(Partial.Data())).environmentObject(BlockStore()).environmentObject(PersonStore())
+        EnterTallyDataView(newTallyData: .constant(DailyTally.sampleData[0]), selectedBlock: .constant(Block.sampleData[0].blockNumber), selectedPlanter: .constant(Crew.sampleCrew.members[0]), partials: .constant([Partial(data: Partial.Data())]), newPartialData: .constant(Partial(data: Partial.Data()))).environmentObject(BlockStore()).environmentObject(PersonStore())
     }
 }

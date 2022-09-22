@@ -80,7 +80,7 @@ struct AddSpeciesSubView: View {
     
     var speciesList : [Species] {
         get {
-            return newTallyData.getSpeciesList(block: selectedBlock)! // !!
+            return newTallyData.getSpeciesList(block: selectedBlock) ?? [] // ????
         }
     }
     

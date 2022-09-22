@@ -21,7 +21,7 @@ struct CreateTallyView: View {
 
     
     @State var partials : [Partial] = []
-    @State var newPartialData : Partial.Data = Partial.Data()
+    @State var newPartialData : Partial = Partial(data: Partial.Data())
     
     @Binding var isShowingAlert : Bool
     @Binding var alertText : alertTextType
@@ -93,8 +93,9 @@ struct CreateTallyView: View {
             
         }
         .onAppear(){
-            if selectedPlanter.fullName == ""{
+            if selectedPlanter.fullName == " "{
                 selectedPlanter = personStore.getCrew()[0] /// FOD
+                print(selectedPlanter)
             }
             
         }
