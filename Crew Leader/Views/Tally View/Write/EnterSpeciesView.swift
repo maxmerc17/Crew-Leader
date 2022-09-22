@@ -27,6 +27,7 @@ struct EnterSpeciesView: View {
     @State var numBoxes : String = ""
     
     func updateProduction() {
+        print(planter.id)
         numBoxes = String(newTallyData.blocks[block]?.individualTallies[planter.id]?.boxesPerSpecies[species] ?? 0)
         
         let treesFromBoxes = (Int(numBoxes) ?? 0)*species.treesPerBox

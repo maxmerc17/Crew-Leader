@@ -25,10 +25,12 @@ struct EnterTallyDataView: View {
 //        partials.append(newPartial)
 //    }
     
+    @EnvironmentObject var personStore : PersonStore
+    
     var body: some View {
         VStack {
             Picker("Planter", selection: $selectedPlanter){
-                ForEach(Crew.sampleData.members){ member in
+                ForEach(personStore.getCrew()){ member in
                     Text("\(member.fullName)").tag(member)
                 }
             }.pickerStyle(.wheel)
@@ -61,6 +63,6 @@ struct EnterTallyDataView: View {
 
 struct EnterTallyDataView_Previews: PreviewProvider {
     static var previews: some View {
-        EnterTallyDataView(newTallyData: .constant(DailyTally.sampleData[0]), selectedBlock: .constant(Block.sampleData[0].blockNumber), selectedPlanter: .constant(Crew.sampleCrew.members[0]), partials: .constant([Partial(data: Partial.Data())]), newPartialData: .constant(Partial.Data())).environmentObject(BlockStore())
+        EnterTallyDataView(newTallyData: .constant(DailyTally.sampleData[0]), selectedBlock: .constant(Block.sampleData[0].blockNumber), selectedPlanter: .constant(Crew.sampleCrew.members[0]), partials: .constant([Partial(data: Partial.Data())]), newPartialData: .constant(Partial.Data())).environmentObject(BlockStore()).environmentObject(PersonStore())
     }
 }
