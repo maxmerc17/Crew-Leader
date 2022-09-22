@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		853A791B28DCEC87003A2384 /* CrewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853A791A28DCEC87003A2384 /* CrewView.swift */; };
 		8545285E28CBC63B00DF64F2 /* Crew_LeaderApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8545285D28CBC63B00DF64F2 /* Crew_LeaderApp.swift */; };
 		8545286028CBC63B00DF64F2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8545285F28CBC63B00DF64F2 /* ContentView.swift */; };
 		8545286228CBC63C00DF64F2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8545286128CBC63C00DF64F2 /* Assets.xcassets */; };
@@ -79,6 +80,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		853A791A28DCEC87003A2384 /* CrewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrewView.swift; sourceTree = "<group>"; };
 		8545285A28CBC63B00DF64F2 /* Crew Leader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Crew Leader.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8545285D28CBC63B00DF64F2 /* Crew_LeaderApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Crew_LeaderApp.swift; sourceTree = "<group>"; };
 		8545285F28CBC63B00DF64F2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -161,6 +163,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		853A791928DCEC76003A2384 /* Crew View */ = {
+			isa = PBXGroup;
+			children = (
+				853A791A28DCEC87003A2384 /* CrewView.swift */,
+			);
+			path = "Crew View";
+			sourceTree = "<group>";
+		};
 		8545285128CBC63B00DF64F2 = {
 			isa = PBXGroup;
 			children = (
@@ -313,6 +323,7 @@
 		85FF802628D8D25600B55666 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				853A791928DCEC76003A2384 /* Crew View */,
 				8581321F28DB6A27006102FB /* Settings View */,
 				85EF069628CF895B008D006A /* Tally View */,
 				85FF801D28D4E96000B55666 /* Block View */,
@@ -508,6 +519,7 @@
 				85EF068928CE52F8008D006A /* Species.swift in Sources */,
 				8545285E28CBC63B00DF64F2 /* Crew_LeaderApp.swift in Sources */,
 				85A7AE8028DA6E5C00A7636D /* BlockProgressView.swift in Sources */,
+				853A791B28DCEC87003A2384 /* CrewView.swift in Sources */,
 				85FF802928D8D2DA00B55666 /* TallyStore.swift in Sources */,
 				85EF067828CBCA2B008D006A /* TalliesView.swift in Sources */,
 			);

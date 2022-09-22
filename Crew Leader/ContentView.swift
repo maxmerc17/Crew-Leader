@@ -25,7 +25,7 @@ struct ContentView: View {
         TabView(selection: $selectedTab) {
             CacheCalculatorView().tabItem { Label("Cache Calculator", systemImage: "plus.forwardslash.minus") }.tag(3)
             BlocksView(blocks: $blocks, saveBlocks: saveBlocks).tabItem{ Label("Blocks", systemImage: "map")}.tag(2)
-            Text("Crew tab").tabItem { Label("Crew", systemImage: "person.3")}.tag(1)
+            CrewView().tabItem { Label("Crew", systemImage: "person.3")}.tag(1)
             TalliesView(tallies: $tallies, saveTallies: saveTallies).tabItem { Label("Tallies", systemImage: "square.grid.3x3.square") }.tag(4)
             //Text("Plots tab").tabItem { Label("Plots", systemImage: "mappin.and.ellipse") }.tag(5)
             /// add plots tab tool to the block tab
