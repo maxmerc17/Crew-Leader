@@ -50,7 +50,7 @@ struct CrewView: View {
                         }
                         
                     }
-                }.scrollDisabled(true).navigationTitle("My Crew").frame(height: 500)
+                }.scrollDisabled(true).navigationTitle("My Crew").frame(height: 600)
             }
         }
     }

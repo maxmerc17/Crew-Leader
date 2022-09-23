@@ -372,5 +372,53 @@
             landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E4192FA4-FC77-454F-9F72-9B00ED32BE24"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Crew Leader/Views/Block View/Loads View/LoadsView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "18"
+            endingLineNumber = "18"
+            landmarkName = "frameHeight"
+            landmarkType = "24">
+            <Locations>
+               <Location
+                  uuid = "E4192FA4-FC77-454F-9F72-9B00ED32BE24 - a21962c2a81bae83"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Crew_Leader.LoadsView.frameHeight.getter : CoreGraphics.CGFloat"
+                  moduleName = "Crew Leader"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/maxmercer/Desktop/Crew%20Leader/Crew%20Leader/Views/Block%20View/Loads%20View/LoadsView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "19"
+                  endingLineNumber = "19"
+                  offsetFromSymbolStart = "188">
+               </Location>
+               <Location
+                  uuid = "E4192FA4-FC77-454F-9F72-9B00ED32BE24 - 75ed1b9fdb70a9f7"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Int, Crew_Leader.PlantingUnit) -&gt; Swift.Int in Crew_Leader.LoadsView.frameHeight.getter : CoreGraphics.CGFloat"
+                  moduleName = "Crew Leader"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/maxmercer/Desktop/Crew%20Leader/Crew%20Leader/Views/Block%20View/Loads%20View/LoadsView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "20"
+                  endingLineNumber = "20"
+                  offsetFromSymbolStart = "56">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>
