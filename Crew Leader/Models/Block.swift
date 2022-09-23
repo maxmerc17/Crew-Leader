@@ -14,6 +14,12 @@ struct Block: Identifiable, Codable, Hashable, Comparable {
     var plantingUnits : [PlantingUnit]
     var loads : [Load]
     
+    var totalAlloction : Int {
+        return plantingUnits.reduce(0) { tot, pu in
+            tot + pu.TreesPU
+        }
+    }
+    
     init(id: UUID, blockNumber: String, chatFreq: String, roadChannelFreq: String, towerTelChannel: String, lat: String, long: String, numWorkers: Int, workStartDate: Date, workFinishDate: Date?, client: String, crewLeader: Person, firstAidAttendant: Person, supervisor: Person, plantingUnits : [PlantingUnit], loads: [Load]) {
         self.id = id
         self.blockNumber = blockNumber

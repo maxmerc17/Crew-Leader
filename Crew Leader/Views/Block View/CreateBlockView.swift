@@ -14,6 +14,7 @@ struct CreateBlockView: View {
     @Binding var newBlockData : Block.Data
     @Binding var blocks : [Block]
     @Binding var isPresentingNewBlockView : Bool
+    let saveBlocks : () -> Void
     
     @State var selectedBlockArea : String = ""
     @State var selectedDensity : Int = 1400
@@ -23,12 +24,24 @@ struct CreateBlockView: View {
     @State var selectedSpecies = Species.sampleData[0]
     @State var mix = ""
     @State var selectedPlantingUnit = 1
-    @State var cutsArray : [(Species, String, Int, Int)] = [] // (selectedSpecies, mix, selectedPlantingUnit)
+    @State var cutsArray : [(Species, String, Int, Int)] = [] // (selectedSpecies, mix, selectedPlantingUnit, key)
     
     @State var isShowingAlert : Bool = false
     @State var alertText = alertTextType()
     
     @State var key = 0
+    
+    @EnvironmentObject var speciesStore : SpeciesStore
+    
+    @State var requirementsNotMet : Bool = false
+    
+    func load() {
+        if speciesStore.species.isEmpty {
+            requirementsNotMet = true
+        } else {
+            requirementsNotMet = false
+        }
+    }
     
     func Validate() -> Bool {
         if newBlockData.blockNumber == "" {
@@ -134,118 +147,135 @@ struct CreateBlockView: View {
     }
     
     var body: some View {
-        Form{
-            Section(""){
-                HStack{
-                    Label("Block Name: ", systemImage: "textformat")
-                    Spacer()
-                    TextField("ex. BUCK0059", text: $newBlockData.blockNumber).multilineTextAlignment(.trailing)
-                }
-                HStack{
-                    Label("Start Date", systemImage: "calendar")
-                    Spacer()
-                    DatePicker(selection: $newBlockData.blockDetails.workStartDate, displayedComponents: .date, label: { Text("")})
-                }
-            }
-            
-            Section("Planting Units"){
-                if (plantingUnits.isEmpty){
-                    Text("No planting units added").foregroundColor(.gray)
-                }
-                else{
-                    ForEach($plantingUnits) { $item in
-                        DisplayRowItem3(plantingUnit: $item, plantingUnits: $plantingUnits)
-                    }
-                }
-            }
-            
-            Section("Add Planting Unit"){
-                HStack {
-                    Label("Area", systemImage: "skew")
-                    TextField("ex. 27.1", text: $selectedBlockArea).multilineTextAlignment(.trailing).keyboardType(.numberPad)
-                }
-                HStack {
-                    Label("Density", systemImage: "circle.hexagongrid")
-                    Picker("", selection: $selectedDensity){
-                        Text("1200").tag(1200)
-                        Text("1400").tag(1400)
-                    }
-                }
-                HStack{
-                    Label("Trees / Unit", systemImage: "leaf")
-                    TextField("ex. 38000", text: $selectedTreesPU).multilineTextAlignment(.trailing).keyboardType(.numberPad)
-                }
-                HStack {
-                    Spacer()
-                    Button(action: addPlantingUnit){
-                        Text("Add")
-                    }
-                    Spacer()
-                }
-            }
-            Section("Species and Mix"){
-                if (cutsArray.isEmpty){
-                    Text("No species added").foregroundColor(.gray)
-                }
-                else{
-                    ForEach($cutsArray, id: \.3) { $item in
-                        DisplayRowItem2(species: $item.0, mix: $item.1, inputArray: $cutsArray, plantingUnit: $item.2)
-                    }
-                }
-                
-            }
-            Section("Add Species"){
-                HStack {
-                    Label("Planting Unit", systemImage: "number")
-                    Picker("", selection: $selectedPlantingUnit){
-                        ForEach(1..<6)
-                        { unit in
-                            Text("\(unit)").tag(unit)
+        VStack{
+            if requirementsNotMet {
+                VStack{
+                    Text("Cannot create block due to lack of species data.").font(.headline).foregroundColor(.gray).multilineTextAlignment(.center)
+                    Text("Species data may be taking longer to load. Or no species data exists.").font(.caption).foregroundColor(.gray).multilineTextAlignment(.center)
+                }.padding()
+                Button(action: load){
+                    Label("Reload", systemImage: "arrow.clockwise")
+                }.padding()
+            } else {
+                Form{
+                    Section(""){
+                        HStack{
+                            Label("Block Name: ", systemImage: "textformat")
+                            Spacer()
+                            TextField("ex. BUCK0059", text: $newBlockData.blockNumber).multilineTextAlignment(.trailing)
+                        }
+                        HStack{
+                            Label("Start Date", systemImage: "calendar")
+                            Spacer()
+                            DatePicker(selection: $newBlockData.blockDetails.workStartDate, displayedComponents: .date, label: { Text("")})
                         }
                     }
-                }
-                HStack {
-                    Label("Species", systemImage: "leaf")
-                    Picker("", selection: $selectedSpecies){
-                        ForEach(Species.sampleData){ species in
-                            Text("\(species.name)").tag(species)
+                    
+                    Section("Planting Units"){
+                        if (plantingUnits.isEmpty){
+                            Text("No planting units added").foregroundColor(.gray)
+                        }
+                        else{
+                            ForEach($plantingUnits) { $item in
+                                DisplayRowItem3(plantingUnit: $item, plantingUnits: $plantingUnits)
+                            }
                         }
                     }
-                }
-                HStack{
-                    Label("Mix", systemImage: "percent")
-                    TextField("ex. 67", text: $mix).multilineTextAlignment(.trailing).keyboardType(.numberPad)
-                    Text("%")
-                }
-                HStack {
-                    Spacer()
-                    Button(action: addSpecies){
-                        Text("Add")
+                    
+                    Section("Add Planting Unit"){
+                        HStack {
+                            Label("Area", systemImage: "skew")
+                            TextField("ex. 27.1", text: $selectedBlockArea).multilineTextAlignment(.trailing).keyboardType(.numberPad)
+                        }
+                        HStack {
+                            Label("Density", systemImage: "circle.hexagongrid")
+                            Picker("", selection: $selectedDensity){
+                                Text("1200").tag(1200)
+                                Text("1400").tag(1400)
+                            }
+                        }
+                        HStack{
+                            Label("Trees / Unit", systemImage: "leaf")
+                            TextField("ex. 38000", text: $selectedTreesPU).multilineTextAlignment(.trailing).keyboardType(.numberPad)
+                        }
+                        HStack {
+                            Spacer()
+                            Button(action: addPlantingUnit){
+                                Text("Add")
+                            }
+                            Spacer()
+                        }
                     }
-                    Spacer()
-                }
-            }
-            
-        }.alert(isPresented: $isShowingAlert) {
-            Alert(
-                title: Text("\(alertText.title)"),
-                message: Text("\(alertText.message)")
-            )
-        }
-        .toolbar() {
-            ToolbarItem(placement: .confirmationAction) {
-                Button("Add") {
-                    if Validate(){
-                        for cut in cutsArray {
-                            let newCut = Cut(species: cut.0, percent: Int(cut.1)!)
-                            plantingUnits[(cut.2)-1].cuts.append(newCut)
+                    Section("Species and Mix"){
+                        if (cutsArray.isEmpty){
+                            Text("No species added").foregroundColor(.gray)
+                        }
+                        else{
+                            ForEach($cutsArray, id: \.3) { $item in
+                                DisplayRowItem2(species: $item.0, mix: $item.1, inputArray: $cutsArray, plantingUnit: $item.2)
+                            }
                         }
                         
-                        newBlockData.plantingUnits = plantingUnits
-                        let newBlock = Block(data: newBlockData)
-                        blocks.append(newBlock)
-                        isPresentingNewBlockView = false
-                        newBlockData = Block.Data()
+                    }
+                    Section("Add Species"){
+                        HStack {
+                            Label("Planting Unit", systemImage: "number")
+                            Picker("", selection: $selectedPlantingUnit){
+                                ForEach(1..<6)
+                                { unit in
+                                    Text("\(unit)").tag(unit)
+                                }
+                            }
+                        }
+                        HStack {
+                            Label("Species", systemImage: "leaf")
+                            Picker("", selection: $selectedSpecies){
+                                ForEach(speciesStore.species){ species in
+                                    Text("\(species.name)").tag(species)
+                                }
+                            }
+                        }
+                        HStack{
+                            Label("Mix", systemImage: "percent")
+                            TextField("ex. 67", text: $mix).multilineTextAlignment(.trailing).keyboardType(.numberPad)
+                            Text("%")
+                        }
+                        HStack {
+                            Spacer()
+                            Button(action: addSpecies){
+                                Text("Add")
+                            }
+                            Spacer()
+                        }
+                    }
+                    
+                }
+                .onAppear(){
+                    load()
+                }
+                .alert(isPresented: $isShowingAlert) {
+                    Alert(
+                        title: Text("\(alertText.title)"),
+                        message: Text("\(alertText.message)")
+                    )
+                }
+                .toolbar() {
+                    ToolbarItem(placement: .confirmationAction) {
+                        Button("Add") {
+                            if Validate(){
+                                for cut in cutsArray {
+                                    let newCut = Cut(species: cut.0, percent: Int(cut.1)!)
+                                    plantingUnits[(cut.2)-1].cuts.append(newCut)
+                                }
+                                
+                                newBlockData.plantingUnits = plantingUnits
+                                let newBlock = Block(data: newBlockData)
+                                blocks.append(newBlock)
+                                saveBlocks()
+                                isPresentingNewBlockView = false
+                                newBlockData = Block.Data()
+                            }
+                        }
                     }
                 }
             }
@@ -309,6 +339,6 @@ struct DisplayRowItem3: View {
 
 struct CreateBlockView_Previews: PreviewProvider {
     static var previews: some View {
-        CreateBlockView(newBlockData: .constant(Block.Data()), blocks: .constant([]), isPresentingNewBlockView: .constant(true))
+        CreateBlockView(newBlockData: .constant(Block.Data()), blocks: .constant([]), isPresentingNewBlockView: .constant(true), saveBlocks: {})
     }
 }

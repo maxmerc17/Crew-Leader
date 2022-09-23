@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		853A791B28DCEC87003A2384 /* CrewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853A791A28DCEC87003A2384 /* CrewView.swift */; };
 		8545285E28CBC63B00DF64F2 /* Crew_LeaderApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8545285D28CBC63B00DF64F2 /* Crew_LeaderApp.swift */; };
 		8545286028CBC63B00DF64F2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8545285F28CBC63B00DF64F2 /* ContentView.swift */; };
 		8545286228CBC63C00DF64F2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8545286128CBC63C00DF64F2 /* Assets.xcassets */; };
@@ -15,6 +16,17 @@
 		8545287928CBC63C00DF64F2 /* Crew_LeaderUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8545287828CBC63C00DF64F2 /* Crew_LeaderUITests.swift */; };
 		8545287B28CBC63C00DF64F2 /* Crew_LeaderUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8545287A28CBC63C00DF64F2 /* Crew_LeaderUITestsLaunchTests.swift */; };
 		854DE9B828D269AC0099C722 /* CacheCalculatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 854DE9B728D269AC0099C722 /* CacheCalculatorTests.swift */; };
+		8581321C28DB659D006102FB /* SpeciesStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8581321B28DB659D006102FB /* SpeciesStore.swift */; };
+		8581321E28DB6693006102FB /* PersonStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8581321D28DB6693006102FB /* PersonStore.swift */; };
+		8581322128DB6A41006102FB /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8581322028DB6A41006102FB /* SettingsView.swift */; };
+		8581322328DB6C44006102FB /* MyCrewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8581322228DB6C44006102FB /* MyCrewView.swift */; };
+		8581322528DB6CC0006102FB /* SpeciesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8581322428DB6CC0006102FB /* SpeciesListView.swift */; };
+		85896DC028D8FD46007FA1ED /* PlantingSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85896DBF28D8FD46007FA1ED /* PlantingSummaryView.swift */; };
+		85896DC228D90EFB007FA1ED /* Data Store Locations.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 85896DC128D90EFB007FA1ED /* Data Store Locations.rtf */; };
+		85896DC428DA03B6007FA1ED /* PieChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85896DC328DA03B6007FA1ED /* PieChartView.swift */; };
+		85A7AE7C28DA28F800A7636D /* PieChartParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A7AE7B28DA28F800A7636D /* PieChartParameters.swift */; };
+		85A7AE7E28DA6DF300A7636D /* PlanterProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A7AE7D28DA6DF300A7636D /* PlanterProgressView.swift */; };
+		85A7AE8028DA6E5C00A7636D /* BlockProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A7AE7F28DA6E5C00A7636D /* BlockProgressView.swift */; };
 		85C6306928D2493100A5066F /* TrailingIconLabelStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85C6306828D2493100A5066F /* TrailingIconLabelStyle.swift */; };
 		85C6306B28D24C2800A5066F /* CacheCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85C6306A28D24C2800A5066F /* CacheCalculator.swift */; };
 		85C6306E28D257C400A5066F /* ResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85C6306D28D257C400A5066F /* ResultsView.swift */; };
@@ -47,6 +59,7 @@
 		85FF802928D8D2DA00B55666 /* TallyStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85FF802828D8D2DA00B55666 /* TallyStore.swift */; };
 		85FF802B28D8D4AE00B55666 /* ErrorWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85FF802A28D8D4AE00B55666 /* ErrorWrapper.swift */; };
 		85FF802D28D8D5A600B55666 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85FF802C28D8D5A600B55666 /* ErrorView.swift */; };
+		85FF802F28D8F85300B55666 /* BlockStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85FF802E28D8F85300B55666 /* BlockStore.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +80,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		853A791A28DCEC87003A2384 /* CrewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrewView.swift; sourceTree = "<group>"; };
 		8545285A28CBC63B00DF64F2 /* Crew Leader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Crew Leader.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8545285D28CBC63B00DF64F2 /* Crew_LeaderApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Crew_LeaderApp.swift; sourceTree = "<group>"; };
 		8545285F28CBC63B00DF64F2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -78,6 +92,17 @@
 		8545287828CBC63C00DF64F2 /* Crew_LeaderUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Crew_LeaderUITests.swift; sourceTree = "<group>"; };
 		8545287A28CBC63C00DF64F2 /* Crew_LeaderUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Crew_LeaderUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		854DE9B728D269AC0099C722 /* CacheCalculatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheCalculatorTests.swift; sourceTree = "<group>"; };
+		8581321B28DB659D006102FB /* SpeciesStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeciesStore.swift; sourceTree = "<group>"; };
+		8581321D28DB6693006102FB /* PersonStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonStore.swift; sourceTree = "<group>"; };
+		8581322028DB6A41006102FB /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		8581322228DB6C44006102FB /* MyCrewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCrewView.swift; sourceTree = "<group>"; };
+		8581322428DB6CC0006102FB /* SpeciesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeciesListView.swift; sourceTree = "<group>"; };
+		85896DBF28D8FD46007FA1ED /* PlantingSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlantingSummaryView.swift; sourceTree = "<group>"; };
+		85896DC128D90EFB007FA1ED /* Data Store Locations.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = "Data Store Locations.rtf"; sourceTree = "<group>"; };
+		85896DC328DA03B6007FA1ED /* PieChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieChartView.swift; sourceTree = "<group>"; };
+		85A7AE7B28DA28F800A7636D /* PieChartParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieChartParameters.swift; sourceTree = "<group>"; };
+		85A7AE7D28DA6DF300A7636D /* PlanterProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanterProgressView.swift; sourceTree = "<group>"; };
+		85A7AE7F28DA6E5C00A7636D /* BlockProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockProgressView.swift; sourceTree = "<group>"; };
 		85C6306828D2493100A5066F /* TrailingIconLabelStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrailingIconLabelStyle.swift; sourceTree = "<group>"; };
 		85C6306A28D24C2800A5066F /* CacheCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheCalculator.swift; sourceTree = "<group>"; };
 		85C6306D28D257C400A5066F /* ResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsView.swift; sourceTree = "<group>"; };
@@ -110,6 +135,7 @@
 		85FF802828D8D2DA00B55666 /* TallyStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TallyStore.swift; sourceTree = "<group>"; };
 		85FF802A28D8D4AE00B55666 /* ErrorWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorWrapper.swift; sourceTree = "<group>"; };
 		85FF802C28D8D5A600B55666 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
+		85FF802E28D8F85300B55666 /* BlockStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockStore.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,6 +163,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		853A791928DCEC76003A2384 /* Crew View */ = {
+			isa = PBXGroup;
+			children = (
+				853A791A28DCEC87003A2384 /* CrewView.swift */,
+			);
+			path = "Crew View";
+			sourceTree = "<group>";
+		};
 		8545285128CBC63B00DF64F2 = {
 			isa = PBXGroup;
 			children = (
@@ -165,11 +199,13 @@
 				85EF067B28CBCD70008D006A /* Models */,
 				8545285D28CBC63B00DF64F2 /* Crew_LeaderApp.swift */,
 				8545285F28CBC63B00DF64F2 /* ContentView.swift */,
+				85EF067928CBCA49008D006A /* template_view.swift */,
 				8545286128CBC63C00DF64F2 /* Assets.xcassets */,
 				8545286328CBC63C00DF64F2 /* Preview Content */,
 				85C6306828D2493100A5066F /* TrailingIconLabelStyle.swift */,
 				85FF802A28D8D4AE00B55666 /* ErrorWrapper.swift */,
 				85FF802C28D8D5A600B55666 /* ErrorView.swift */,
+				85896DC328DA03B6007FA1ED /* PieChartView.swift */,
 			);
 			path = "Crew Leader";
 			sourceTree = "<group>";
@@ -200,6 +236,16 @@
 			path = "Crew LeaderUITests";
 			sourceTree = "<group>";
 		};
+		8581321F28DB6A27006102FB /* Settings View */ = {
+			isa = PBXGroup;
+			children = (
+				8581322028DB6A41006102FB /* SettingsView.swift */,
+				8581322228DB6C44006102FB /* MyCrewView.swift */,
+				8581322428DB6CC0006102FB /* SpeciesListView.swift */,
+			);
+			path = "Settings View";
+			sourceTree = "<group>";
+		};
 		85C6306C28D2579B00A5066F /* Cache Calculator View */ = {
 			isa = PBXGroup;
 			children = (
@@ -220,6 +266,7 @@
 				85EF068E28CE695A008D006A /* utilites.swift */,
 				85EF069928CFAEF9008D006A /* Partial.swift */,
 				85C6306A28D24C2800A5066F /* CacheCalculator.swift */,
+				85A7AE7B28DA28F800A7636D /* PieChartParameters.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -266,6 +313,9 @@
 				85FF802028D4EA2C00B55666 /* BlockView.swift */,
 				85FF802228D4EAD200B55666 /* BlockCardView.swift */,
 				85FF802428D4EB3000B55666 /* CreateBlockView.swift */,
+				85896DBF28D8FD46007FA1ED /* PlantingSummaryView.swift */,
+				85A7AE7D28DA6DF300A7636D /* PlanterProgressView.swift */,
+				85A7AE7F28DA6E5C00A7636D /* BlockProgressView.swift */,
 			);
 			path = "Block View";
 			sourceTree = "<group>";
@@ -273,10 +323,11 @@
 		85FF802628D8D25600B55666 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				853A791928DCEC76003A2384 /* Crew View */,
+				8581321F28DB6A27006102FB /* Settings View */,
 				85EF069628CF895B008D006A /* Tally View */,
 				85FF801D28D4E96000B55666 /* Block View */,
 				85C6306C28D2579B00A5066F /* Cache Calculator View */,
-				85EF067928CBCA49008D006A /* template_view.swift */,
 				85EF068C28CE6462008D006A /* BlockSwitchView.swift */,
 			);
 			path = Views;
@@ -286,6 +337,10 @@
 			isa = PBXGroup;
 			children = (
 				85FF802828D8D2DA00B55666 /* TallyStore.swift */,
+				85FF802E28D8F85300B55666 /* BlockStore.swift */,
+				85896DC128D90EFB007FA1ED /* Data Store Locations.rtf */,
+				8581321B28DB659D006102FB /* SpeciesStore.swift */,
+				8581321D28DB6693006102FB /* PersonStore.swift */,
 			);
 			path = "Data Stores";
 			sourceTree = "<group>";
@@ -396,6 +451,7 @@
 			files = (
 				8545286528CBC63C00DF64F2 /* Preview Assets.xcassets in Resources */,
 				8545286228CBC63C00DF64F2 /* Assets.xcassets in Resources */,
+				85896DC228D90EFB007FA1ED /* Data Store Locations.rtf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -420,19 +476,27 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8581322528DB6CC0006102FB /* SpeciesListView.swift in Sources */,
 				85C6306B28D24C2800A5066F /* CacheCalculator.swift in Sources */,
+				8581322328DB6C44006102FB /* MyCrewView.swift in Sources */,
 				85C6306E28D257C400A5066F /* ResultsView.swift in Sources */,
 				85EF068F28CE695A008D006A /* utilites.swift in Sources */,
 				85FF802B28D8D4AE00B55666 /* ErrorWrapper.swift in Sources */,
 				85EF069A28CFAEF9008D006A /* Partial.swift in Sources */,
 				85EF068D28CE6462008D006A /* BlockSwitchView.swift in Sources */,
+				85A7AE7E28DA6DF300A7636D /* PlanterProgressView.swift in Sources */,
 				85EF067D28CBCD86008D006A /* Person.swift in Sources */,
 				85EF068B28CE5C45008D006A /* DailyTallyView.swift in Sources */,
 				85EF06A828D21ECE008D006A /* CacheCalculatorView.swift in Sources */,
 				85EF068328CBD68E008D006A /* DailyTally.swift in Sources */,
 				85EF069128CE8B2F008D006A /* CreateTallyView.swift in Sources */,
+				8581322128DB6A41006102FB /* SettingsView.swift in Sources */,
+				8581321E28DB6693006102FB /* PersonStore.swift in Sources */,
+				85A7AE7C28DA28F800A7636D /* PieChartParameters.swift in Sources */,
 				85EF06A228CFBF7C008D006A /* CreatePartialView.swift in Sources */,
+				85FF802F28D8F85300B55666 /* BlockStore.swift in Sources */,
 				85EF068128CBD35B008D006A /* Block.swift in Sources */,
+				8581321C28DB659D006102FB /* SpeciesStore.swift in Sources */,
 				85EF067A28CBCA49008D006A /* template_view.swift in Sources */,
 				85EF068728CE4467008D006A /* CardView.swift in Sources */,
 				85EF06A628D1097E008D006A /* AddBlocksView.swift in Sources */,
@@ -441,7 +505,9 @@
 				85EF069E28CFB54E008D006A /* PartialCardView.swift in Sources */,
 				85EF068528CE402C008D006A /* PlanterTallyView.swift in Sources */,
 				85EF067F28CBD054008D006A /* Crew.swift in Sources */,
+				85896DC028D8FD46007FA1ED /* PlantingSummaryView.swift in Sources */,
 				85FF802D28D8D5A600B55666 /* ErrorView.swift in Sources */,
+				85896DC428DA03B6007FA1ED /* PieChartView.swift in Sources */,
 				85EF069328CEA95A008D006A /* AddSpeciesView.swift in Sources */,
 				85EF069C28CFB055008D006A /* EnterSpeciesView.swift in Sources */,
 				85FF802128D4EA2C00B55666 /* BlockView.swift in Sources */,
@@ -452,6 +518,8 @@
 				85FF802328D4EAD200B55666 /* BlockCardView.swift in Sources */,
 				85EF068928CE52F8008D006A /* Species.swift in Sources */,
 				8545285E28CBC63B00DF64F2 /* Crew_LeaderApp.swift in Sources */,
+				85A7AE8028DA6E5C00A7636D /* BlockProgressView.swift in Sources */,
+				853A791B28DCEC87003A2384 /* CrewView.swift in Sources */,
 				85FF802928D8D2DA00B55666 /* TallyStore.swift in Sources */,
 				85EF067828CBCA2B008D006A /* TalliesView.swift in Sources */,
 			);

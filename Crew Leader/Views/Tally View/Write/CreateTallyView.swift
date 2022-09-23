@@ -11,14 +11,18 @@ import SwiftUI
 // TODO: add create new block button - create a block if it doesn't yet exist
 
 struct CreateTallyView: View {
-    @Binding var newTallyData : DailyTally.Data
+    @Binding var newTallyData : DailyTally
     
+    /// for pickers
     @State var selectedBlock : String = ""
-    @State var selectedPlanter : Person = Crew.sampleCrew.members[0]
+    
+    /// keep track of selected planter in child views. Including wheel picker in EnterTallyDataView
+    @State var selectedPlanter : Person = Person(data: Person.Data())  /// updatedOnAppear ,  FOD
+
     
     @State var partials : [Partial] = []
-    @State var newPartialData : Partial.Data = Partial.Data()
-
+    @State var newPartialData : Partial = Partial(data: Partial.Data())
+    
     @Binding var isShowingAlert : Bool
     @Binding var alertText : alertTextType
     
@@ -27,6 +31,15 @@ struct CreateTallyView: View {
     var blocksList : [String] {
         get {
             return Array(newTallyData.blocks.keys)
+        }
+    }
+    
+    @EnvironmentObject var personStore : PersonStore
+    
+    func load() {
+        if selectedPlanter.fullName == " "{
+            selectedPlanter = personStore.getCrew()[0] /// FOD
+            print(selectedPlanter)
         }
     }
     
@@ -60,7 +73,7 @@ struct CreateTallyView: View {
                     }
                 }
                 
-                AddBlocksView(newTallyData: $newTallyData)
+                AddBlocksView(newTallyData: $newTallyData, initSelectedBlock: $selectedBlock)
                 
             }.scrollContentBackground(.hidden)
             
@@ -68,9 +81,16 @@ struct CreateTallyView: View {
                 Divider()
                 if blocksList.count > 0 {
                     AddSpeciesView(newTallyData: $newTallyData,
-                                   selectedBlock: blocksList[0])
+                                   selectedBlock: blocksList[0],
+                                   showAlert: $isShowingAlert,
+                                   alertText: $alertText)
                     
-                    NavigationLink(destination: EnterTallyDataView(newTallyData: $newTallyData, selectedBlock: $selectedBlock, selectedPlanter: $selectedPlanter, partials: $partials, newPartialData: $newPartialData), isActive: $isShowingTallies){
+                    NavigationLink(destination: EnterTallyDataView(newTallyData: $newTallyData,
+                                                                   selectedBlock: $selectedBlock,
+                                                                   selectedPlanter: $selectedPlanter,
+                                                                   partials: $partials,
+                                                                   newPartialData: $newPartialData),
+                                   isActive: $isShowingTallies){
                         
                     }
                 }
@@ -80,7 +100,11 @@ struct CreateTallyView: View {
                 }.padding()
             }
             
-        }.alert(isPresented: $isShowingAlert) {
+        }
+        .onAppear(){
+            load()
+        }
+        .alert(isPresented: $isShowingAlert) {
             Alert(
                 title: Text(alertText.title),
                 message: Text(alertText.message)
@@ -91,6 +115,6 @@ struct CreateTallyView: View {
 
 struct CreateTallyView_Previews: PreviewProvider {
     static var previews: some View {
-        CreateTallyView(newTallyData: .constant(DailyTally.Data()), isShowingAlert: .constant(false), alertText: .constant(alertTextType()))
+        CreateTallyView(newTallyData: .constant(DailyTally.sampleData[0]), isShowingAlert: .constant(false), alertText: .constant(alertTextType()))
     }
 }

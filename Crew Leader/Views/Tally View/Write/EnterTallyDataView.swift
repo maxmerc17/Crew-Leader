@@ -10,24 +10,21 @@
 import SwiftUI
 
 struct EnterTallyDataView: View {
-    @Binding var newTallyData : DailyTally.Data
+    @Binding var newTallyData : DailyTally
     @Binding var selectedBlock : String
     @Binding var selectedPlanter : Person
     
     @Binding var partials : [Partial]
-    @Binding var newPartialData : Partial.Data
+    @Binding var newPartialData : Partial
     
     @State var isPresentingCreatePartialView : Bool = false
     
-    func addToPartials() {
-        let newPartial = Partial(data: newPartialData)
-        partials.append(newPartial)
-    }
+    @EnvironmentObject var personStore : PersonStore
     
     var body: some View {
         VStack {
             Picker("Planter", selection: $selectedPlanter){
-                ForEach(Crew.sampleData.members){ member in
+                ForEach(personStore.getCrew()){ member in
                     Text("\(member.fullName)").tag(member)
                 }
             }.pickerStyle(.wheel)
@@ -39,7 +36,7 @@ struct EnterTallyDataView: View {
                     EnterSpeciesView(newTallyData: $newTallyData, planter: $selectedPlanter, species: species, block: $selectedBlock, partials: $partials)
                 }
             }
-            Text("\(selectedPlanter.firstName) has planted \(newTallyData.blocks[selectedBlock]?.individualTallies[selectedPlanter]?.treesPlanted ?? 0) trees for \(selectedBlock)")
+            Text("\(selectedPlanter.firstName) has planted \(newTallyData.blocks[selectedBlock]?.individualTallies[selectedPlanter.id]?.treesPlanted ?? 0) trees for \(selectedBlock)")
         }.popover(isPresented: $isPresentingCreatePartialView){
             CreatePartialView(newTallyData: $newTallyData,
                               newPartialData: $newPartialData,
@@ -60,6 +57,6 @@ struct EnterTallyDataView: View {
 
 struct EnterTallyDataView_Previews: PreviewProvider {
     static var previews: some View {
-        EnterTallyDataView(newTallyData: .constant(DailyTally.Data()), selectedBlock: .constant(Block.sampleData[0].blockNumber), selectedPlanter: .constant(Crew.sampleCrew.members[0]), partials: .constant([Partial(data: Partial.Data())]), newPartialData: .constant(Partial.Data()))
+        EnterTallyDataView(newTallyData: .constant(DailyTally.sampleData[0]), selectedBlock: .constant(Block.sampleData[0].blockNumber), selectedPlanter: .constant(Crew.sampleCrew.members[0]), partials: .constant([Partial(data: Partial.Data())]), newPartialData: .constant(Partial(data: Partial.Data()))).environmentObject(BlockStore()).environmentObject(PersonStore())
     }
 }

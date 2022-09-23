@@ -11,16 +11,21 @@
 import SwiftUI
 
 struct TalliesView: View {
-    @Binding var tallies : [DailyTally] //= DailyTally.sampleData
+    @Binding var tallies : [DailyTally] // binding to data store
     let saveTallies : () -> Void
     
     @State var isPresentingNewTallyView : Bool = false
-    @State var newTallyData : DailyTally.Data = DailyTally.Data()
+    @State var newTallyData : DailyTally = DailyTally(data: DailyTally.Data())
     
     @State var isShowingAlert = false
     @State var alertText = alertTextType()
     
-    func verifyInput() -> Bool {
+    var sortedTallies : [DailyTally] {
+        return tallies.sorted(by: { $0.date > $1.date })
+    }
+    
+    
+    func verifyInput() -> Bool { // verify input for save
         if newTallyData.blocks.isEmpty {
             alertText.title = "Improper Input"
             alertText.message = "One or more blocks must be selected to submit a tally. Select one or more blocks."
@@ -44,8 +49,9 @@ struct TalliesView: View {
                 if tallies.isEmpty {
                     Text("No tallies to view.").foregroundColor(.gray)
                 }
-                ForEach(tallies) { tally in
-                    NavigationLink (destination: DailyTallyView(tally: tally, selectedBlock: Block.sampleData.first(where:  { $0.blockNumber == Array(tally.blocks.keys)[0] } )!.blockNumber)){
+                ForEach(sortedTallies) { tally in
+                    NavigationLink (destination: DailyTallyView(tally: tally,
+                                                                selectedBlock: tally.blocks.first!.key)){ // !! - tally must contain at least one block to be created
                         CardView(tally: tally)
                     }
                 }
@@ -63,16 +69,16 @@ struct TalliesView: View {
                             ToolbarItem(placement: .cancellationAction) {
                                 Button("Dismiss") {
                                     isPresentingNewTallyView = false
-                                    newTallyData = DailyTally.Data()
+                                    newTallyData = DailyTally(data: DailyTally.Data())
                                 }
                             }
                             ToolbarItem(placement: .confirmationAction) {
                                 Button("Add") {
                                     if verifyInput() {
-                                        let newTally = DailyTally(data: newTallyData)
-                                        tallies.append(newTally)
+                                        //let newTally = DailyTally(data: newTallyData)
+                                        tallies.append(newTallyData)
                                         isPresentingNewTallyView = false
-                                        newTallyData = DailyTally.Data()
+                                        newTallyData = DailyTally(data: DailyTally.Data())
                                         saveTallies()
                                     }
                                     

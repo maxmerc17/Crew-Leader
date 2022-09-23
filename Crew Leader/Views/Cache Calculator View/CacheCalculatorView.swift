@@ -22,7 +22,7 @@ struct CacheCalculatorView: View {
     @State var numberOfTrees = ""
     @State var cutsArray : [(Species, String)] = []
     
-    @State var selectedSpecies = Species.sampleData[0]
+    @State var selectedSpecies = Species(data: Species.Data()) // updateOnAppear, FOD
     @State var mix = ""
     
     @State var isShowingAlert = false
@@ -32,7 +32,19 @@ struct CacheCalculatorView: View {
     @State var calculatedObject = CacheCalculator(data: CacheCalculator.Data())
     
     @State var history : [CacheCalculator] = []
+    
+    @EnvironmentObject var speciesStore : SpeciesStore
 
+    @State var requirementsNotMet : Bool = false
+    
+    func load() {
+        if !speciesStore.species.isEmpty{
+            selectedSpecies = speciesStore.species[0]/// FOD
+        } else {
+            requirementsNotMet = true
+        }
+    }
+    
     func addSpecies() {
         if mix.isEmpty{
             alertText.title = "Improper Input"
@@ -96,64 +108,84 @@ struct CacheCalculatorView: View {
     
     var body: some View {
         NavigationView {
-            Form{
-                Section("Input"){
-                    HStack{
-                        Label("Number of Trees: ", systemImage: "number")
-                        TextField("0", text: $numberOfTrees).frame(width:80).keyboardType(.numberPad)
+            VStack{
+                if selectedSpecies.name == "" {
+                    if (requirementsNotMet){
+                        VStack{
+                            Text("Cache Calculator cannot load due to lack of species data.").font(.headline).foregroundColor(.gray).multilineTextAlignment(.center)
+                            Text("Species data may be taking longer to load. Or no species data exists.").font(.caption).foregroundColor(.gray).multilineTextAlignment(.center)
+                        }.padding()
                     }
-                    ForEach($cutsArray, id: \.0) { $item in
-                        DisplayRowItem(species: $item.0, mix: $item.1, inputArray: $cutsArray)
+                    Button(action: load){
+                        Label("Reload", systemImage: "arrow.clockwise")
                     }
-                }
-                Section("Add Species"){
-                    HStack {
-                        Label("Species", systemImage: "leaf")
-                        Picker("", selection: $selectedSpecies){
-                            ForEach(Species.sampleData){ species in
-                                Text("\(species.name)").tag(species)
+                } else {
+                    Form{
+                        Section("Input"){
+                            HStack{
+                                Label("Number of Trees ", systemImage: "number")
+                                TextField("0", text: $numberOfTrees).frame(width:80).keyboardType(.numberPad)
                             }
                         }
-                    }
-                    HStack{
-                        Label("Mix", systemImage: "percent")
-                        TextField("ex. 67", text: $mix).multilineTextAlignment(.trailing).keyboardType(.numberPad)
-                        Text("%")
-                    }
-                    HStack {
-                        Spacer()
-                        Button(action: addSpecies){
-                            Text("Add")
-                        }
-                        Spacer()
-                    }
-                    
-                    
-                }
-                Section(""){
-                    ZStack {
-                        NavigationLink("View Results", destination: ResultsView(calculatedObject: calculatedObject), isActive: $isShowingResults).hidden()
-                        HStack {
-                            Spacer()
-                            Button(action: calculate){
-                                Text("Calculate").foregroundColor(.green)
+                        Section("Species"){
+                            if cutsArray.isEmpty{
+                                Text("No species entered.").foregroundColor(.gray)
+                            } else {
+                                ForEach($cutsArray, id: \.0) { $item in
+                                    DisplayRowItem(species: $item.0, mix: $item.1, inputArray: $cutsArray)
+                                }
                             }
-                            Spacer()
                         }
-                    }
-                }
-                
-                Section("History"){
-                    if history.isEmpty{
-                        Text("No history to display").foregroundColor(.gray)
-                    } else{
-                        ForEach(history.reversed()){ co in
-                            NavigationLink(destination: ResultsView(calculatedObject: co)){
-                                HStack{
-                                    Text("\(co.desiredTrees) ").font(.headline)
-                                    HStack(alignment: .center){
-                                        ForEach(co.cuts) { cut in
-                                            Text("\(cut.species.name) - \(cut.percent)%  ").font(.caption)
+                        Section("Add Species"){
+                            HStack {
+                                Label("Species", systemImage: "leaf")
+                                Picker("", selection: $selectedSpecies){
+                                    ForEach(speciesStore.species){ species in
+                                        Text("\(species.name)").tag(species)
+                                    }
+                                }
+                            }
+                            HStack{
+                                Label("Mix", systemImage: "percent")
+                                TextField("ex. 67", text: $mix).multilineTextAlignment(.trailing).keyboardType(.numberPad)
+                                Text("%")
+                            }
+                            HStack {
+                                Spacer()
+                                Button(action: addSpecies){
+                                    Text("Add")
+                                }
+                                Spacer()
+                            }
+                            
+                            
+                        }
+                        Section(""){
+                            ZStack {
+                                NavigationLink("View Results", destination: ResultsView(calculatedObject: calculatedObject), isActive: $isShowingResults).hidden()
+                                HStack {
+                                    Spacer()
+                                    Button(action: calculate){
+                                        Text("Calculate").foregroundColor(.green)
+                                    }
+                                    Spacer()
+                                }
+                            }
+                        }
+                        
+                        Section("History"){
+                            if history.isEmpty{
+                                Text("No history to display").foregroundColor(.gray)
+                            } else{
+                                ForEach(history.reversed()){ co in
+                                    NavigationLink(destination: ResultsView(calculatedObject: co)){
+                                        HStack{
+                                            Text("\(co.desiredTrees) ").font(.headline)
+                                            HStack(alignment: .center){
+                                                ForEach(co.cuts) { cut in
+                                                    Text("\(cut.species.name) - \(cut.percent)%  ").font(.caption)
+                                                }
+                                            }
                                         }
                                     }
                                 }
@@ -163,6 +195,9 @@ struct CacheCalculatorView: View {
                 }
             }
             .navigationTitle("Cache Calculator")
+            .onAppear(){
+                load()
+            }
             .alert(isPresented: $isShowingAlert) {
                 Alert(
                     title: Text("\(alertText.title)"),
@@ -189,7 +224,8 @@ struct DisplayRowItem: View {
     
     var body: some View {
         HStack{
-            Label("\(species.name)", systemImage: "leaf")
+            //Label("\(species.name)", systemImage: "leaf")
+            Text(species.name)
             Spacer()
             Text("\(species.treesPerBox) trees / box")
             Spacer()
@@ -204,7 +240,7 @@ struct DisplayRowItem: View {
 
 struct CacheCalculatorView_Previews: PreviewProvider {
     static var previews: some View {
-        CacheCalculatorView()
+        CacheCalculatorView().environmentObject(SpeciesStore())
     }
 }
 

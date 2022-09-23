@@ -35,10 +35,52 @@ struct DailyTally : Identifiable, Codable {
     }
 }
 
+extension DailyTally {
+    /// returns a dictionary containing trees planter per each species given some block name in a Daily tally
+    func getTreesPlantedPerSpecies(block: String) -> [Species: Int]? {
+        if let blockTally = blocks[block] {
+            return blockTally.treesPlantedPerSpecies
+        }
+        return nil
+    }
+    
+    /// returns number of trees planted given some block name in a daily tally
+    func getTreesPlanted(block: String) -> Int? {
+        if let blockTally = blocks[block]{
+            return blockTally.treesPlanted
+        }
+        return nil
+    }
+    
+    /// returns individualTallies given some block in a daily tally
+    func getIndividualTallies(block: String) -> [UUID : DailyPlanterTally]? {
+        if let blockTally = blocks[block]{
+            return blockTally.individualTallies
+        }
+        return nil
+    }
+    
+    /// returns species list given some block in a daily tally 
+    func getSpeciesList(block: String) -> [Species]?{
+        if let blockTally = blocks[block]{
+            return blockTally.species
+        }
+        return nil
+    }
+    
+    /// adds a given species to a given block
+    /// TODO: have result return type to signal success or faillure
+    mutating func addSpecies(block: String, add: Species){
+        if let _ = blocks[block]{
+            blocks[block]!.species.append(add)
+        }
+    }
+}
+
 struct DailyBlockTally : Identifiable, Codable {
     var id : UUID
     var species : [Species]
-    var individualTallies : [Person : DailyPlanterTally]
+    var individualTallies : [UUID : DailyPlanterTally] // person UUID
     var treesPlanted : Int {
         return individualTallies.reduce(0) { partialResult, tally in
             partialResult + tally.value.treesPlanted
@@ -54,7 +96,7 @@ struct DailyBlockTally : Identifiable, Codable {
         return dict
     }
     
-    init(id: UUID, species: [Species], individualTallies: [Person : DailyPlanterTally]) {
+    init(id: UUID, species: [Species], individualTallies: [UUID : DailyPlanterTally]) {
         self.id = id
         self.species = species
         self.individualTallies = individualTallies
@@ -114,7 +156,7 @@ extension DailyBlockTally {
     
     struct Data {
         var species : [Species] = []
-        var individualTallies : [Person : DailyPlanterTally] = [:]
+        var individualTallies : [UUID : DailyPlanterTally] = [:]
     }
     
     init(data: Data){
@@ -176,14 +218,14 @@ extension DailyBlockTally {
         DailyBlockTally(id: UUID(),
                         species: Array(Species.sampleData[0...3]),
                         individualTallies:[
-                            Person.sampleData[0] : DailyPlanterTally.sampleData[0],
-                            Person.sampleData[1] : DailyPlanterTally.sampleData[1]
+                            Person.sampleData[0].id : DailyPlanterTally.sampleData[0],
+                            Person.sampleData[1].id : DailyPlanterTally.sampleData[1]
                         ]),
         DailyBlockTally(id: UUID(),
                         species: Array(Species.sampleData[0...3]),
                         individualTallies: [
-                            Person.sampleData[2] : DailyPlanterTally.sampleData[2],
-                            Person.sampleData[3] : DailyPlanterTally.sampleData[3]
+                            Person.sampleData[2].id : DailyPlanterTally.sampleData[2],
+                            Person.sampleData[3].id : DailyPlanterTally.sampleData[3]
                         ])
     ]
 }
