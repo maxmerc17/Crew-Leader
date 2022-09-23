@@ -116,7 +116,13 @@ class TallyStore: ObservableObject {
         return returnArray
     }
     
-    /// returns total number of trees planted per date for a given block .. returns [date string : (trees planted, date object)]
+    /// returns record number of trees the crew has planted in a  day for a given block block
+    func getBlockRecord(block: String) -> Int {
+        let treesPerDate = getTreesPerDate(block: block)
+        return treesPerDate.max{ $0.trees < $1.trees }?.trees ?? 0
+    }
+    
+    /// returns total number of trees planted per date for a given block .. returns
     func getTreesPerDate(block: String) -> [(day: String, trees: Int)]{
         var tempArray : [String: (trees: Int, date: Date)] = [:]
         var returnArray : [(day: String, trees: Int)]

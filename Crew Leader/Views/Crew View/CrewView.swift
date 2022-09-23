@@ -14,11 +14,11 @@ struct CrewView: View {
     var body: some View {
         NavigationView {
             ScrollView{
-                ChartContainerView().frame(width: 350, height: 320)
+                ChartContainerView()
                 List{
                     Section("Report") {
                         HStack{
-                            Text("Planting days")
+                            Text("Planting Days")
                             Spacer()
                             Text("\(tallyStore.getNumPlantingDays())")
                         }
@@ -28,7 +28,7 @@ struct CrewView: View {
                             Text("\(tallyStore.getCrewAverage())")
                         }
                         HStack{
-                            Text("Crew PB")
+                            Text("Crew Record")
                             Spacer()
                             Text("\(tallyStore.getCrewPB())")
                         }
@@ -42,14 +42,15 @@ struct CrewView: View {
                         ForEach(personStore.getCrew()){ member in
                             NavigationLink(destination: {}) {
                                 HStack{
-                                    Text("\(member.fullName)")
+                                    //Text("\(member.fullName)")
+                                    Label("\(member.fullName)", systemImage: "person")
                                     Spacer()
                                 }
                             }
                         }
                         
                     }
-                }.navigationTitle("My Crew").frame(height: 500)
+                }.scrollDisabled(true).navigationTitle("My Crew").frame(height: 500)
             }
         }
     }
@@ -61,12 +62,12 @@ struct ChartContainerView: View {
     
     func chartChanged(new chart: String) {
         selectedChart = chart
-        switch chart {
-            case "Progress": return
-            case "Species": return
-            case "Date" : return
-            default: print("error")
-        }
+//        switch chart {
+//            case "Progress": return
+//            case "Species": return
+//            case "Date" : return
+//            default: print("error")
+//        }
     }
     
     var body: some View {
@@ -106,7 +107,7 @@ struct ProductionChartView: View {
     
     func updateProductionData() {
         productionData = tallyStore.getProductionPerDay()
-        print(productionData)
+        //print(productionData)
     }
     
     var body: some View {
@@ -128,7 +129,7 @@ struct ProductionChartView: View {
                         }
                     }
                 }
-            }.padding().background(.regularMaterial)
+            }.padding().background()
             
             .onAppear(){
             updateProductionData()

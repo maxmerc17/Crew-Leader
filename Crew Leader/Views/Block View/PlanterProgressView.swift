@@ -40,56 +40,71 @@ struct PlanterProgressView: View {
     }
     
     var body: some View {
-        Form {
-            Section(""){
-                HStack {
-                    Label("Planter", systemImage: "person")
-                    Spacer()
-                    Picker("", selection: $selectedPerson){
-                        ForEach(peopleList){ member in
-                            Text("\(member.fullName)").tag(member)
+        ScrollView{
+            List {
+                Section("Select Planter"){
+                    HStack {
+                        Label("Planter", systemImage: "person")
+                        Spacer()
+                        Picker("", selection: $selectedPerson){
+                            ForEach(peopleList){ member in
+                                Text("\(member.fullName)").tag(member)
+                            }
+                        }.onChange(of: selectedPerson){ val in
+                            //print(val)
+                            updateTreesPerDayData()
                         }
-                    }.onChange(of: selectedPerson){ val in
-                        print(val)
-                        updateTreesPerDayData()
                     }
                 }
             }
-            Section("") {
-                HStack{
-                    Label("Total Planted", systemImage: "sum")
-                    Spacer()
-                    Text("\(total)")
-                }
-                HStack{
-                    Label("Most Planted", systemImage: "arrow.up")
-                    Spacer()
-                    Text("\(maxVal)")
-                }
-                HStack{
-                    Label("Average", systemImage: "calendar.day.timeline.left")
-                    Spacer()
-                    Text("\(averageVal)")
-                }
-            }
-            Section(""){
-                VStack {
-                    Text("Trees Per Day").font(.title3).padding()
+            .scrollDisabled(true)
+            .frame(height: 80)
+            
+            VStack {
+                if treesPerDayData.isEmpty{
+                    Button(action: updateTreesPerDayData){
+                        Label("Reload", systemImage: "arrow.clockwise")
+                    }
+                } else {
+                    Text("\(selectedPerson.firstName)'s Daily Production for \(block.blockNumber)").font(.title3).padding().multilineTextAlignment(.center)
                     Chart{
                         ForEach(treesPerDayData, id: \.day){ item in
                             BarMark(
                                 x: .value("Day", item.day),
                                 y: .value("Trees Planted", item.trees)
                             ).annotation{
-                                Text("\(item.trees) trees")
+                                Text("\(item.trees) trees").font(.caption2)
                             }
                         }
-                    }.frame(height: 200)
-                }.padding().background(.regularMaterial)
-            }
+                    }
+                }
+            }.frame(width: 300, height: 250).background()
+            
+            List{
+                Section("Report") {
+                    HStack{
+                        //Label("Average", systemImage: "calendar.day.timeline.left")
+                        Text("Average")
+                        Spacer()
+                        Text("\(averageVal) trees / day")
+                    }
+                    HStack{
+                        //Label("Block Record", systemImage: "arrow.up")
+                        Text("Block Record")
+                        Spacer()
+                        Text("\(maxVal) trees")
+                    }
+                    HStack{
+                        //Label("Block Total", systemImage: "sum")
+                        Text("Block Total")
+                        Spacer()
+                        Text("\(total) trees")
+                    }
+                }
+            }.frame(height: 200)
         }.navigationTitle("Planter Progress")
         .onAppear(){
-            peopleList = personStore.getCrew()
+            peopleList = personStore.getCrew() // initials here
             selectedPerson = peopleList[0]
             updateTreesPerDayData()
         }

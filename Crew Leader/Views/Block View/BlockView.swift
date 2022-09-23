@@ -115,16 +115,14 @@ struct BlockView: View {
     }
     
     var body: some View {
-        VStack {
+        ScrollView {
             PieChartView(pieChartParameters: $pieChartParameters, selectedSlice: $selectedSlice).frame(width: 400, height: 220)
-            
             Text(additionalDetails).font(.caption)
             
             HStack(spacing: 25) {
                 ForEach(categories, id: \.self) { category in
                     Button {
                         categoryChanged(category)
-                        
                     } label: {
                         HStack {
                             Text("\(category)")
@@ -135,33 +133,54 @@ struct BlockView: View {
                     }
                 }
             }.padding()
+            
+            
             List{
                 Section(""){
                     HStack{
-                        Label("Total trees planted", systemImage: "sum")
+                        Text("Planting Days")
                         Spacer()
-                        Text(utilities.formatInteger(tallyStore.getTotalTreesPlanted(block: block.blockNumber)))
+                        Text("\(tallyStore.getTreesPerDate(block: block.blockNumber).count) days")
                     }
                     HStack{
-                        Label("Average", systemImage: "calendar.day.timeline.left")
+                        //Label("Block Average", systemImage: "calendar.day.timeline.left")
+                        Text("Block Average")
                         Spacer()
-                        Text(utilities.formatInteger(tallyStore.getAverageTreesPerDay(block: block.blockNumber)))
+                        Text("\(utilities.formatInteger(tallyStore.getAverageTreesPerDay(block: block.blockNumber))) trees / day")
+                    }
+                    HStack{
+                        Text("Block Record")
+                        Spacer()
+                        Text("\(tallyStore.getBlockRecord(block: block.blockNumber)) trees")
+                    }
+                    HStack{
+                        //Label("Block Total", systemImage: "sum")
+                        Text("Block Total")
+                        Spacer()
+                        Text("\(utilities.formatInteger(tallyStore.getTotalTreesPlanted(block: block.blockNumber))) trees")
+                    }
+                    
+                }
+                Section("Reports"){
+                    NavigationLink(destination: PlantingSummaryView(block: block)){
+                        //Text("Planting Summary")
+                        Label("Planting Summary", systemImage: "doc.plaintext.fill")
+                    }
+                    NavigationLink(destination: PlanterProgressView(block: $block)){
+                        //Text("Planter Reports")
+                        Label("Planter Reports", systemImage: "doc.on.doc")
+                    }
+                    NavigationLink(destination: BlockProgressView(block: $block)){
+                        //Text("Block Report")
+                        Label("Block Report", systemImage: "doc")
                     }
                 }
-                NavigationLink(destination: PlantingSummaryView(block: block)){
-                    Text("Planting Summary")
-                }
-                NavigationLink(destination: PlanterProgressView(block: $block)){
-                    Text("Planter Progress")
-                }
-                NavigationLink(destination: BlockProgressView(block: $block)){
-                    Text("Block Progress")
-                }
-            }
-        }.navigationTitle("\(block.blockNumber)")
-            .onAppear(){
-                categoryChanged(selectedCategory)
-            }
+            }.scrollDisabled(true).frame(height: 500)
+        }
+        .navigationTitle("\(block.blockNumber)")
+        .onAppear(){
+            categoryChanged(selectedCategory)
+        }
     }
 }
 
