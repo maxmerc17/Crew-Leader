@@ -20,16 +20,16 @@ struct PieChartView: View {
                               selectedSlice: $selectedSlice)
                 }
                 
-                if pieChartParameters.slices.last == nil || pieChartParameters.slices.last!.endAngle < .pi*2 {
-
-                    SliceView(radius: $pieChartParameters.radius,
-                              slice: .constant(Slice(name: "Remaining",
-                                                     value: pieChartParameters.total - pieChartParameters.slices.reduce(0) { tot, slice in tot + slice.value },
-                                                     total: pieChartParameters.total, color: .gray,
-                                                     startAngle: (pieChartParameters.slices.last == nil) ? 0 :  pieChartParameters.slices.last!.endAngle ,
-                                                     endAngle: .pi*2 )),
-                              selectedSlice: $selectedSlice)
-                }
+//                if pieChartParameters.slices.last == nil || pieChartParameters.slices.last!.endAngle < .pi*2 {
+//
+//                    SliceView(radius: $pieChartParameters.radius,
+//                              slice: .constant(Slice(name: "Remaining",
+//                                                     value: pieChartParameters.total - pieChartParameters.slices.reduce(0) { tot, slice in tot + slice.value },
+//                                                     total: pieChartParameters.total, color: .gray,
+//                                                     startAngle: (pieChartParameters.slices.last == nil) ? 0 :  pieChartParameters.slices.last!.endAngle ,
+//                                                     endAngle: .pi*2 )),
+//                              selectedSlice: $selectedSlice)
+//                }
                 
                 GeometryReader { geometry in
                     let width: CGFloat = min(geometry.size.width, geometry.size.height)

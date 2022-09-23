@@ -27,45 +27,45 @@ struct PlantingSummaryView: View {
     }
     
     var body: some View {
-        NavigationView {
-            Form{
-                Section(""){
-                    HStack{
-                        Label("Block Name: ", systemImage: "textformat")
-                        Spacer()
-                        Text(block.blockNumber).multilineTextAlignment(.trailing)
-                    }
-                    HStack{
-                        Label("Start Date", systemImage: "calendar")
-                        Spacer()
-                        Text(utilities.formatDate(date: block.blockDetails.workStartDate))
+        Form{
+            Section("Static Data"){
+                HStack{
+                    //Label("Block Name ", systemImage: "textformat")
+                    Text("Block Name")
+                    Spacer()
+                    Text(block.blockNumber).multilineTextAlignment(.trailing)
+                }
+                HStack{
+                    //Label("Start Date", systemImage: "calendar")
+                    Text("Start Date")
+                    Spacer()
+                    Text(utilities.formatDate(date: block.blockDetails.workStartDate))
+                }
+            }
+            Section("Planting Units"){
+                if (block.plantingUnits.isEmpty){
+                    Text("No planting units added").foregroundColor(.gray)
+                }
+                else{
+                    ForEach($block.plantingUnits) { $item in
+                        DisplayRowItem4(plantingUnit: $item)
                     }
                 }
-                Section("Planting Units"){
-                    if (block.plantingUnits.isEmpty){
-                        Text("No planting units added").foregroundColor(.gray)
-                    }
-                    else{
-                        ForEach($block.plantingUnits) { $item in
-                            DisplayRowItem4(plantingUnit: $item)
-                        }
+            }
+            
+            Section("Species and Mix"){
+                if (cutsArray.isEmpty){
+                    Text("No species added").foregroundColor(.gray)
+                }
+                else{
+                    ForEach(cutsArray, id: \.3) { item in
+                        DisplayRowItem5(species: item.0, mix: item.1, plantingUnit: item.2)
                     }
                 }
                 
-                Section("Species and Mix"){
-                    if (cutsArray.isEmpty){
-                        Text("No species added").foregroundColor(.gray)
-                    }
-                    else{
-                        ForEach(cutsArray, id: \.3) { item in
-                            DisplayRowItem5(species: item.0, mix: item.1, plantingUnit: item.2)
-                        }
-                    }
-                    
-                }
-            }.onAppear(){
-                updateCutsArray()
             }
+        }.onAppear(){
+            updateCutsArray()
         }.navigationTitle("Planting Summary")
     }
 }
@@ -91,7 +91,8 @@ struct DisplayRowItem5: View {
     
     var body: some View {
         HStack{
-            Label("\(species.name)", systemImage: "leaf")
+            //Label("\(species.name)", systemImage: "leaf")
+            Text("\(species.name)")
             Spacer()
             Text("Unit \(plantingUnit)")
             Spacer()

@@ -11,6 +11,51 @@ import SwiftUI
 class TallyStore: ObservableObject {
     @Published var tallies: [DailyTally] = []
     
+    func getCrewAverage() -> Int {
+        let numPlantingDays = getNumPlantingDays()
+        let seasonTotal = getSeasonTotal()
+        var average = 0
+        if numPlantingDays != 0 {
+            average = Int ( Float(seasonTotal) / Float (numPlantingDays) )
+        }
+        return average
+    }
+    
+    func getNumPlantingDays() -> Int {
+        return getProductionPerDay().count
+    }
+    
+    func getSeasonTotal() -> Int {
+        return tallies.reduce(0) { tot, elem in tot + elem.treesPlanted }
+    }
+    
+    func getCrewPB() -> Int {
+        let dailyProduction = getProductionPerDay()
+        return dailyProduction.max{ $0.production < $1.production}?.production ?? 0 // !!
+    }
+    
+    /// returns number of trees planted for each planting day of the season
+    func getProductionPerDay() -> [(day: String, production: Int)] {
+        var tempArray : [String: (trees: Int, date: Date)] = [:]
+        var returnArray : [(day: String, production: Int)] = []
+        
+        for tally in tallies {
+            let date = tally.date
+            let day = utilities.formatDate(date: tally.date)
+            let trees = tally.treesPlanted
+            if tempArray[day] == nil {
+                tempArray[day] = (trees: trees, date: date)
+            } else {
+                tempArray[day]!.trees = tempArray[day]!.trees + trees
+            }
+        }
+        
+        let sortedArrray = tempArray.sorted(by: { $0.value.date < $1.value.date })
+        returnArray = sortedArrray.map { (day: $0.key, production: $0.value.trees)}
+        
+        return returnArray
+    }
+    
     /// returns number of trees planted for a given block
     func getTotalTreesPlanted(block: String) -> Int {
         var total = 0
@@ -71,7 +116,13 @@ class TallyStore: ObservableObject {
         return returnArray
     }
     
-    /// returns total number of trees planted per date for a given block .. returns [date string : (trees planted, date object)]
+    /// returns record number of trees the crew has planted in a  day for a given block block
+    func getBlockRecord(block: String) -> Int {
+        let treesPerDate = getTreesPerDate(block: block)
+        return treesPerDate.max{ $0.trees < $1.trees }?.trees ?? 0
+    }
+    
+    /// returns total number of trees planted per date for a given block .. returns
     func getTreesPerDate(block: String) -> [(day: String, trees: Int)]{
         var tempArray : [String: (trees: Int, date: Date)] = [:]
         var returnArray : [(day: String, trees: Int)]
