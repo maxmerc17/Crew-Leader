@@ -29,14 +29,16 @@ struct PlantingSummaryView: View {
     var body: some View {
         NavigationView {
             Form{
-                Section(""){
+                Section("Static Data"){
                     HStack{
-                        Label("Block Name: ", systemImage: "textformat")
+                        //Label("Block Name ", systemImage: "textformat")
+                        Text("Block Name")
                         Spacer()
                         Text(block.blockNumber).multilineTextAlignment(.trailing)
                     }
                     HStack{
-                        Label("Start Date", systemImage: "calendar")
+                        //Label("Start Date", systemImage: "calendar")
+                        Text("Start Date")
                         Spacer()
                         Text(utilities.formatDate(date: block.blockDetails.workStartDate))
                     }
@@ -91,7 +93,8 @@ struct DisplayRowItem5: View {
     
     var body: some View {
         HStack{
-            Label("\(species.name)", systemImage: "leaf")
+            //Label("\(species.name)", systemImage: "leaf")
+            Text("\(species.name)")
             Spacer()
             Text("Unit \(plantingUnit)")
             Spacer()

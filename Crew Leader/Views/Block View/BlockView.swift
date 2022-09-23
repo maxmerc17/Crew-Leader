@@ -16,14 +16,10 @@ struct BlockView: View {
     
     var body: some View {
         ScrollView {
-            PieChartHeaderView(block: $block, selectedCategory: $selectedCategory).frame(width: 350, height: 270)
-            
-            Divider()
-            
             ChartView3(block: block).frame(width: 350, height: 270)
             
             List{
-                Section(""){
+                Section("Report"){
                     HStack{
                         Text("Planting Days")
                         Spacer()
@@ -46,8 +42,21 @@ struct BlockView: View {
                         Spacer()
                         Text("\(utilities.formatInteger(tallyStore.getTotalTreesPlanted(block: block.blockNumber))) trees")
                     }
-                    
                 }
+                
+                Section("Data"){
+                    NavigationLink(destination: {}){
+                        Label("Loads", systemImage: "box.truck")
+                    }
+                    NavigationLink(destination: {}){
+                        Label("Plots", systemImage: "mappin.and.ellipse")
+                    }
+                }
+            }.scrollDisabled(true).frame(height: 400)
+            
+            PieChartHeaderView(block: $block, selectedCategory: $selectedCategory).frame(width: 350, height: 270)
+            
+            List{
                 Section("Reports"){
                     NavigationLink(destination: PlantingSummaryView(block: block)){
                         //Text("Planting Summary")
@@ -57,12 +66,13 @@ struct BlockView: View {
                         //Text("Planter Reports")
                         Label("Planter Reports", systemImage: "doc.on.doc")
                     }
-                    NavigationLink(destination: BlockProgressView(block: $block)){
-                        //Text("Block Report")
-                        Label("Block Report", systemImage: "doc")
-                    }
+//                    NavigationLink(destination: BlockProgressView(block: $block)){
+//                        //Text("Block Report")
+//                        Label("Block Report", systemImage: "doc")
+//                    }
                 }
-            }.scrollDisabled(true).frame(height: 500)
+            }.scrollDisabled(true).frame(height: 250)
+            
         }
         .navigationTitle("\(block.blockNumber)")
     }
@@ -82,13 +92,6 @@ struct PieChartHeaderView : View {
     
     var body: some View{
         VStack{
-            switch selectedCategory {
-                case "Progress": ProgressChartView(block: block)
-                case "Species": SpeciesChartView(block: block)
-                    //case "Date" : updateParametersWithDate()
-                    default: Text("") // should do something more here -- this point should not be reached
-            }
-            
             HStack(spacing: 25) {ForEach(categories, id: \.self) { category in
                     Button {
                         categoryChanged(category)
@@ -101,51 +104,48 @@ struct PieChartHeaderView : View {
                                 : .gray)
                     }
                 }
-            }.padding()
-        }
+            }
+            
+            switch selectedCategory {
+                case "Progress": ProgressChartView(block: block)
+                case "Species": SpeciesChartView(block: block)
+                    //case "Date" : updateParametersWithDate()
+                    default: Text("") // should do something more here -- this point should not be reached
+            }
+        }.padding()
         
     }
 }
 
 struct ProgressChartView : View {
     @State var block : Block
-    @State var pieChartParameters : PieChartParameters = PieChartParameters(radius: 100, slices: [], title: "", dataType: "trees", total: 0)
+    @State var pieChartParameters : PieChartParameters = PieChartParameters(radius: 90, slices: [], title: "", dataType: "trees", total: 0)
     @State var selectedSlice : Slice? = nil
     
     @EnvironmentObject var tallyStore : TallyStore
     @EnvironmentObject var personStore : PersonStore
     
     func updateParameters() {
-        let crewPlantedDict = tallyStore.getTreesPerCrewMember(block: block.blockNumber)
-        let sortedDict = crewPlantedDict.sorted(by: { $0.value > $1.value })
-        let totalPlanted = sortedDict.reduce(0){ currTotal, item in
-            currTotal + item.value
-        }
-        
-        let colors: [Color] = [.red, .blue, .green, .yellow, .cyan, .indigo, .mint, .orange]
-        var colorIndex = 0
+        let blockTotal = tallyStore.getTotalTreesPlanted(block: block.blockNumber)
         
         var total = 0
-        if totalPlanted > block.totalAlloction{
-            total = totalPlanted
+        if blockTotal > block.totalAlloction{
+            total = blockTotal
         } else {
             total = block.totalAlloction
         }
         
         var pieSlicesData : [Slice] = []
-        for item in sortedDict {
-            let newSlice = Slice(name: personStore.getPlanter(id: item.key)!.fullName, value: item.value, total: total, color: colors[colorIndex%colors.count])
-            pieSlicesData.append(newSlice)
-            colorIndex+=1
-        }
         
-//        additionalDetails = (totalPlanted > block.totalAlloction)
-//        ? "\(utilities.formatInteger(totalPlanted-block.totalAlloction)) trees over allocation"
-//        : "\(utilities.formatInteger(block.totalAlloction-totalPlanted)) trees under allocation"
+        pieSlicesData.append(Slice(name: "Planted", value: blockTotal, total: total, color: .red))
+        if blockTotal < block.totalAlloction {
+            let value = block.totalAlloction-blockTotal-1
+            pieSlicesData.append(Slice(name: "Remaining", value: value, total: total, color: .blue))
+        }
         
         selectedSlice = nil
         pieChartParameters.total = total
-        pieChartParameters.title = "Total Planted: \(utilities.formatInteger(totalPlanted))"
+        pieChartParameters.title = "Total Planted: \(utilities.formatInteger(total))"
         pieChartParameters.slices = pieSlicesData
         pieChartParameters.updateSliceHeaders()
     }
@@ -157,9 +157,10 @@ struct ProgressChartView : View {
                     Label("Refresh", systemImage: "arrow.clockwise")
                 }
             } else {
+                Text("")
                 PieChartView(pieChartParameters: $pieChartParameters, selectedSlice: $selectedSlice)
             }
-        }.frame(width: 350, height: 270)
+        }.frame(width: 350, height: 240)
         .onAppear(){
             updateParameters()
         }
@@ -168,7 +169,7 @@ struct ProgressChartView : View {
 
 struct SpeciesChartView : View {
     @State var block : Block
-    @State var pieChartParameters : PieChartParameters = PieChartParameters(radius: 100, slices: [], title: "", dataType: "trees", total: 0)
+    @State var pieChartParameters : PieChartParameters = PieChartParameters(radius: 90, slices: [], title: "", dataType: "trees", total: 0)
     @State var selectedSlice : Slice? = nil
     
     @EnvironmentObject var tallyStore : TallyStore
@@ -191,7 +192,6 @@ struct SpeciesChartView : View {
             colorIndex+=1
         }
         
-        //additionalDetails = " "
         selectedSlice = nil
         pieChartParameters.total = totalPlanted
         pieChartParameters.title = "Total Planted: \(utilities.formatInteger(totalPlanted))"
@@ -206,9 +206,11 @@ struct SpeciesChartView : View {
                     Label("Refresh", systemImage: "arrow.clockwise")
                 }
             } else {
+                //Text("Total Trees Planted Per Species on \(block.blockNumber)").multilineTextAlignment(.center)
+                Text("")
                 PieChartView(pieChartParameters: $pieChartParameters, selectedSlice: $selectedSlice)
             }
-        }.frame(width: 350, height: 270)
+        }.frame(width: 350, height: 240)
         .onAppear(){
             updateParameters()
         }
