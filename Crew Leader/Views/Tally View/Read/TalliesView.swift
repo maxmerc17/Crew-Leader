@@ -20,6 +20,10 @@ struct TalliesView: View {
     @State var isShowingAlert = false
     @State var alertText = alertTextType()
     
+    var sortedTallies : [DailyTally] {
+        return tallies.sorted(by: { $0.date > $1.date })
+    }
+    
     
     func verifyInput() -> Bool { // verify input for save
         if newTallyData.blocks.isEmpty {
@@ -45,7 +49,7 @@ struct TalliesView: View {
                 if tallies.isEmpty {
                     Text("No tallies to view.").foregroundColor(.gray)
                 }
-                ForEach(tallies) { tally in
+                ForEach(sortedTallies) { tally in
                     NavigationLink (destination: DailyTallyView(tally: tally,
                                                                 selectedBlock: tally.blocks.first!.key)){ // !! - tally must contain at least one block to be created
                         CardView(tally: tally)
