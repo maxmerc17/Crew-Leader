@@ -129,8 +129,7 @@ struct ProductionChartView: View {
                         }
                     }
                 }
-            }.padding().background()
-            
+            }.padding()
             .onAppear(){
             updateProductionData()
         }

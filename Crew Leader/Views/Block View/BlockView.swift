@@ -134,6 +134,9 @@ struct BlockView: View {
                 }
             }.padding()
             
+            Divider()
+            
+            ChartView3(block: block).frame(width: 350, height: 270)
             
             List{
                 Section(""){
@@ -181,6 +184,42 @@ struct BlockView: View {
         .onAppear(){
             categoryChanged(selectedCategory)
         }
+    }
+}
+
+import Charts
+
+struct ChartView3 : View {
+    @State var block : Block
+    
+    @State var productionData : [(day: String, trees: Int)] = []
+    
+    @EnvironmentObject var tallyStore : TallyStore
+    
+    func updateProductionData() {
+        productionData = tallyStore.getTreesPerDate(block: block.blockNumber)
+    }
+    
+    var body: some View {
+        VStack {
+            if productionData.isEmpty{
+                Button(action: updateProductionData){
+                    Label("Refresh", systemImage: "arrow.clockwise")
+                }
+            } else {
+                Text("Crew's Daily Production for \(block.blockNumber)").font(.title3).padding().multilineTextAlignment(.center)
+                Chart{
+                    ForEach(productionData, id: \.day){ elem in
+                        BarMark(
+                            x: .value("Day", elem.day),
+                            y: .value("Trees Planted", elem.trees)
+                        ).annotation{
+                            Text("\(elem.trees) trees").font(.caption2)
+                        }
+                    }
+                }
+            }
+        }.padding()
     }
 }
 
