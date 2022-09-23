@@ -17,12 +17,14 @@ struct ResultsView: View {
             Section("Input") {
                 HStack{
                     Label("Desired number of trees", systemImage: "number")
+                    //Text("Desired number of trees")
                     Spacer()
                     Text("\(calculatedObject.desiredTrees)")
                 }
                 ForEach(calculatedObject.cuts){ cut in
                     HStack{
                         Label("\(cut.species.name)", systemImage: "leaf")
+                        //Text(cut.species.name)
                         Spacer()
                         Text("\(cut.species.treesPerBox) trees / box")
                         Spacer()
@@ -46,16 +48,14 @@ struct ResultsView: View {
                         } else {
                             Text("\(calculatedObject.calculateActualPercent(cut: cut))%").foregroundColor(.red)
                         }
-                        
-                        
-                        
                     }
                 }
             }
             
             Section("Totals"){
                 HStack{
-                    Label("Total Percent", systemImage: "percent")
+                    //Label("Total Percent", systemImage: "percent")
+                    Text("Total Percent")
                     Spacer()
                     if (calculatedObject.totalPercentage == 100) {
                         Text("\(calculatedObject.totalPercentage)%").foregroundColor(.green)
@@ -64,17 +64,20 @@ struct ResultsView: View {
                     }
                 }
                 HStack{
-                    Label("Total Boxes", systemImage: "square.fill")
+                    //Label("Total Boxes", systemImage: "shippingbox")
+                    Text("Total Boxes")
                     Spacer()
                     Text("\(calculatedObject.totalBoxes)")
                 }
                 HStack{
-                    Label("Total Trees", systemImage: "leaf.fill")
+                    //Label("Total Trees", systemImage: "leaf.fill")
+                    Text("Total Trees")
                     Spacer()
                     Text("\(calculatedObject.totalTrees)")
                 }
                 HStack{
-                    Label("Over / Under", systemImage: "plusminus")
+                    //Label("Over / Under", systemImage: "plusminus")
+                    Text("Over / Under")
                     Spacer()
                     if (calculatedObject.desiredTrees < calculatedObject.totalTrees){
                         Text("+\(calculatedObject.totalTrees - calculatedObject.desiredTrees)").foregroundColor(.green)

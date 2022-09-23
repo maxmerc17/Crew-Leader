@@ -178,18 +178,18 @@ struct PlantingUnit : Identifiable, Codable, Hashable{
 
 extension PlantingUnit{
     struct Data : Equatable {
-        var area: Float
-        var density: Int
-        var TreesPU: Int
-        var cuts : [Cut]
+        var area: Float = 0
+        var density: Int = 0
+        var TreesPU: Int = 0
+        var cuts : [Cut] = []
     }
     
     init(data: Data){
         self.id = UUID()
-        self.area = 0
-        self.density = 0
-        self.TreesPU = 0
-        self.cuts = []
+        self.area = data.area
+        self.density = data.density
+        self.TreesPU = data.TreesPU
+        self.cuts = data.cuts
     }
     
     mutating func upate(data: Data){
