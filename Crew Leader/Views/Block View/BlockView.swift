@@ -62,7 +62,7 @@ struct BlockView: View {
                 }
                 
                 Section("Data"){
-                    NavigationLink(destination: {}){
+                    NavigationLink(destination: LoadsView(block: block)){
                         Label("Loads", systemImage: "box.truck")
                     }
                     NavigationLink(destination: {}){

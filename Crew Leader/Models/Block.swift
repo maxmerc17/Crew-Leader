@@ -63,6 +63,33 @@ struct Block: Identifiable, Codable, Hashable, Comparable {
 }
 
 extension Block {
+    /// returns loads as an data array that can be used for a chart
+    func getLoadsData() -> [(day: String, species: Species, boxes: Int)] {
+        var returnArray : [(day: String, species: Species, boxes: Int)] = []
+        var tempArray : [(date: Date, species: Species, boxes: Int)] = []
+        for load in loads {
+            for boxesTaken in load.boxesPerSpeciesTaken {
+                tempArray.append((date: load.date, species: boxesTaken.key, boxes: boxesTaken.value))
+            }
+            for boxesReturned in load.boxesPerSpeciesReturned {
+                tempArray.append((date: load.date, species: boxesReturned.key, boxes: boxesReturned.value*(-1)))
+            }
+        }
+        
+        tempArray = tempArray.sorted { $0.date < $1.date }
+        returnArray = tempArray.map{ (day: utilities.formatDate(date: $0.date), species: $0.species, boxes: $0.boxes ) }
+        
+        return returnArray
+    }
+    
+    func getBoxesPerSpeciesTaken(species: Species) -> Int{
+        loads.reduce(0) { tot, elem in
+            tot + (elem.boxesPerSpeciesTaken[species] ?? 0) - (elem.boxesPerSpeciesReturned[species] ?? 0)
+        }
+    }
+}
+
+extension Block {
     struct Data {
         var blockNumber : String = ""
         var blockDetails : BlockDetails = BlockDetails(data: BlockDetails.Data())
@@ -207,6 +234,14 @@ struct Load: Identifiable, Codable, Hashable {
     var boxesPerSpeciesTaken : [Species: Int]
     var boxesPerSpeciesReturned : [Species: Int]
     
+    var boxesTaken : Int {
+        boxesPerSpeciesTaken.reduce(0) { tot, elem in tot + elem.value }
+    }
+    
+    var boxesReturned : Int {
+        boxesPerSpeciesReturned.reduce(0) { tot, elem in tot + elem.value }
+    }
+    
     var treesTaken : Int {
         boxesPerSpeciesTaken.reduce(0, { x, y in x + (y.0.treesPerBox*y.1) })
     }
@@ -227,10 +262,20 @@ struct Load: Identifiable, Codable, Hashable {
 }
 
 extension Load {
+    func getBoxesTakenTuple() -> [(species: Species, boxes: Int)] {
+        return boxesPerSpeciesTaken.map{ ($0.key, $0.value) }
+    }
+    
+    func getBoxesReturnedTuple() -> [(species: Species, boxes: Int)] {
+        return boxesPerSpeciesReturned.map{ ($0.key, $0.value) }
+    }
+}
+
+extension Load {
     struct Data {
-        var date : Date
-        var boxesPerSpeciesTaken : [Species: Int]
-        var boxesPerSpeciesReturned : [Species: Int]
+        var date : Date = Date.now
+        var boxesPerSpeciesTaken : [Species: Int] = [:]
+        var boxesPerSpeciesReturned : [Species: Int] = [:]
     }
     
     init(data: Data){
@@ -246,9 +291,6 @@ extension Load {
         boxesPerSpeciesReturned = data.boxesPerSpeciesReturned
     }
 }
-
-
-
 
 extension Block {
     static let sampleData : [Block] =

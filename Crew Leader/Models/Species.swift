@@ -13,7 +13,7 @@ struct Species : Hashable, Identifiable, Comparable, Equatable, Codable {
     var treesPerBox : Int
     var treesPerBundle : Int
     var numBundles : Int {
-        return self.treesPerBox / self.treesPerBundle
+        return treesPerBox / treesPerBundle
     }
     
     init(id: UUID = UUID(), name: String, treesPerBox: Int, treesPerBundle: Int) {
