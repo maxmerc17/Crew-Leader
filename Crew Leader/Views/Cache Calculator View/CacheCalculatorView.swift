@@ -34,8 +34,15 @@ struct CacheCalculatorView: View {
     @State var history : [CacheCalculator] = []
     
     @EnvironmentObject var speciesStore : SpeciesStore
+    
+    @State var isPresentingImportView : Bool = false
+    @State var selectedPlantingUnit : PlantingUnit = PlantingUnit.init(data: PlantingUnit.Data())
 
     @State var requirementsNotMet : Bool = false
+    
+    var totalPercentage : Int {
+        return cutsArray.reduce(0) { tot, elem in tot + Int(elem.1)! } // !!
+    }
     
     func load() {
         if !speciesStore.species.isEmpty{
@@ -127,15 +134,7 @@ struct CacheCalculatorView: View {
                                 TextField("0", text: $numberOfTrees).frame(width:80).keyboardType(.numberPad)
                             }
                         }
-                        Section("Species"){
-                            if cutsArray.isEmpty{
-                                Text("No species entered.").foregroundColor(.gray)
-                            } else {
-                                ForEach($cutsArray, id: \.0) { $item in
-                                    DisplayRowItem(species: $item.0, mix: $item.1, inputArray: $cutsArray)
-                                }
-                            }
-                        }
+                        
                         Section("Add Species"){
                             HStack {
                                 Label("Species", systemImage: "leaf")
@@ -157,9 +156,18 @@ struct CacheCalculatorView: View {
                                 }
                                 Spacer()
                             }
-                            
-                            
                         }
+                        
+                        Section("Species - \(totalPercentage)%"){
+                            if cutsArray.isEmpty{
+                                Text("No species entered.").foregroundColor(.gray)
+                            } else {
+                                ForEach($cutsArray, id: \.0) { $item in
+                                    DisplayRowItem(species: $item.0, mix: $item.1, inputArray: $cutsArray)
+                                }
+                            }
+                        }
+                        
                         Section(""){
                             ZStack {
                                 NavigationLink("View Results", destination: ResultsView(calculatedObject: calculatedObject), isActive: $isShowingResults).hidden()
@@ -203,6 +211,33 @@ struct CacheCalculatorView: View {
                     title: Text("\(alertText.title)"),
                     message: Text("\(alertText.message)")
                 )
+            }
+            
+            .toolbar {
+                Button(action: { isPresentingImportView = true }){
+                    Image(systemName: "arrow.down.circle")
+                }
+            }
+            .sheet(isPresented: $isPresentingImportView){
+                NavigationView(){
+                    ImportPlantingUnitView(selectedPlantingUnit: $selectedPlantingUnit)
+                        .toolbar(){
+                            ToolbarItem(placement: .cancellationAction) {
+                                Button("Dismiss") {
+                                    isPresentingImportView = false
+                                }
+                            }
+                            if !selectedPlantingUnit.cuts.isEmpty{
+                                ToolbarItem(placement: .confirmationAction) {
+                                    Button("Import") {
+                                        cutsArray = selectedPlantingUnit.cuts.map { cut in (cut.species, String(cut.percent) ) }
+                                        isPresentingImportView = false
+                                    }
+                                }
+                            }
+                            
+                        }
+                }
             }
         }
             
