@@ -14,6 +14,21 @@ struct BlockView: View {
     @EnvironmentObject var tallyStore : TallyStore
     @EnvironmentObject var personStore : PersonStore
     
+    func overUnder() -> Int {
+        let blockTotal : Int = tallyStore.getTotalTreesPlanted(block: block.blockNumber)
+        let allocation : Int = block.totalAlloction
+        
+        return blockTotal - allocation
+    }
+    
+    func overUnderPerHectare() -> Int {
+        let hectaresPerUnit : [Float] = block.plantingUnits.map{ $0.area }
+        let totalHectares : Float = hectaresPerUnit.reduce(0){ tot, elem in tot + elem }
+        
+        let overUnderPerHectare : Float = Float(overUnder()) / totalHectares
+        return Int(overUnderPerHectare)
+    }
+    
     var body: some View {
         ScrollView {
             ChartView3(block: block).frame(width: 350, height: 270)
@@ -71,7 +86,47 @@ struct BlockView: View {
 //                        Label("Block Report", systemImage: "doc")
 //                    }
                 }
-            }.scrollDisabled(true).frame(height: 250)
+                Section("Allocation"){
+                    HStack{
+                        Text("Block Allocation")
+                        Spacer()
+                        Text("\(block.totalAlloction) trees")
+                    }
+                    HStack{
+                        Text("Over / Under")
+                        Spacer()
+                        let overunder = overUnder()//tallyStore.getTotalTreesPlanted(block: block.blockNumber) - block.totalAlloction
+                        if overunder > 0{
+                            Text("+\(overunder) trees")
+                        } else if overunder == 0{
+                            Text("0").bold().foregroundColor(.green)
+                        } else { // less than 0
+                            Text("\(overunder) trees")
+                        }
+                    }
+                    
+                    let overUnderPerHectare = overUnderPerHectare()
+                    let ouString : String = overUnderPerHectare > 0 ? "+" + String(overUnderPerHectare) : String(overUnderPerHectare)
+                    HStack{
+                        Text("Over / Under Per Hectare")
+                        Spacer()
+                        if overUnderPerHectare < -20 || 50 < overUnderPerHectare {
+                            Text("\(ouString) trees / ha").foregroundColor(.red)
+                        } else {
+                            Text("\(ouString) trees / ha").foregroundColor(.green)
+                        }
+                    }
+                    HStack{
+                        Text("Status")
+                        Spacer()
+                        if overUnderPerHectare < -20 || 50 < overUnderPerHectare {
+                            Text("Failing").foregroundColor(.red)
+                        } else {
+                            Text("Passing").foregroundColor(.green)
+                        }
+                    }
+                }
+            }.scrollDisabled(true).frame(height: 500)
             
         }
         .navigationTitle("\(block.blockNumber)")

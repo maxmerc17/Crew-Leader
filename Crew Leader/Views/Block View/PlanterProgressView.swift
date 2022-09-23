@@ -58,7 +58,7 @@ struct PlanterProgressView: View {
                 }
             }
             .scrollDisabled(true)
-            .frame(height: 80)
+            .frame(height: 90)
             
             VStack {
                 if treesPerDayData.isEmpty{
