@@ -8,12 +8,13 @@
 import SwiftUI
 
 struct BlockView: View {
-    @Binding var block : Block
+    @State var block : Block
     @Binding var selectedCategory : String
     
     @EnvironmentObject var tallyStore : TallyStore
     @EnvironmentObject var personStore : PersonStore
     
+    // prolly better to have this in the backend
     func overUnder() -> Int {
         let blockTotal : Int = tallyStore.getTotalTreesPlanted(block: block.blockNumber)
         let allocation : Int = block.totalAlloction
@@ -21,6 +22,7 @@ struct BlockView: View {
         return blockTotal - allocation
     }
     
+    // prolly better to have this in the backend
     func overUnderPerHectare() -> Int {
         let hectaresPerUnit : [Float] = block.plantingUnits.map{ $0.area }
         let totalHectares : Float = hectaresPerUnit.reduce(0){ tot, elem in tot + elem }
@@ -336,7 +338,7 @@ struct ChartView3 : View {
 
 struct BlockView_Previews: PreviewProvider {
     static var previews: some View {
-        BlockView(block: .constant(Block.sampleData[0]), selectedCategory: .constant("Progress")).environmentObject(TallyStore())
+        BlockView(block: Block.sampleData[0], selectedCategory: .constant("Progress")).environmentObject(TallyStore())
     }
 }
 

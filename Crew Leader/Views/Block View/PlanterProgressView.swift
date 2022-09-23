@@ -70,7 +70,7 @@ struct PlanterProgressView: View {
                     if (noDataToView) {
                         VStack{
                             Text("Planter has no data for this block.").font(.headline).foregroundColor(.gray).multilineTextAlignment(.center)
-                            Text("Enter a tally to create planter data for this block.").font(.caption).foregroundColor(.gray).multilineTextAlignment(.center)
+                            Text("Enter a tally to create planter data.").font(.caption).foregroundColor(.gray).multilineTextAlignment(.center)
                         }.padding()
                     }
                     Button(action: updateTreesPerDayData){

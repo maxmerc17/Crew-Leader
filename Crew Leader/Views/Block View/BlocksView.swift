@@ -16,14 +16,18 @@ struct BlocksView: View {
     
     @State var selectedCategory = "Progress"
     
+    var sortedBlocks : [Block] {
+        return blocks.sorted(by: { $0.blockDetails.workStartDate >  $1.blockDetails.workStartDate})
+    }
+    
     var body: some View {
         NavigationView {
             List {
                 if blocks.isEmpty {
                     Text("No blocks to view").foregroundColor(.gray)
                 }else {
-                    ForEach($blocks) { $block in
-                        NavigationLink (destination: BlockView(block: $block, selectedCategory: $selectedCategory)){
+                    ForEach(sortedBlocks) { block in
+                        NavigationLink (destination: BlockView(block: block, selectedCategory: $selectedCategory)){
                             BlockCardView(block: block)
                         }
                     }
