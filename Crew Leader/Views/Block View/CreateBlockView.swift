@@ -31,6 +31,8 @@ struct CreateBlockView: View {
     
     @State var key = 0
     
+    @EnvironmentObject var speciesStore : SpeciesStore
+    
     func Validate() -> Bool {
         if newBlockData.blockNumber == "" {
             alertText.title = "Improper Input"
@@ -208,7 +210,7 @@ struct CreateBlockView: View {
                 HStack {
                     Label("Species", systemImage: "leaf")
                     Picker("", selection: $selectedSpecies){
-                        ForEach(Species.sampleData){ species in
+                        ForEach(speciesStore.species){ species in
                             Text("\(species.name)").tag(species)
                         }
                     }

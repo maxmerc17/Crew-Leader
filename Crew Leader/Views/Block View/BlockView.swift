@@ -72,20 +72,6 @@ struct BlockView: View {
             PieChartHeaderView(block: $block, selectedCategory: $selectedCategory).frame(width: 350, height: 270)
             
             List{
-                Section("Reports"){
-                    NavigationLink(destination: PlantingSummaryView(block: block)){
-                        //Text("Planting Summary")
-                        Label("Planting Summary", systemImage: "doc.plaintext.fill")
-                    }
-                    NavigationLink(destination: PlanterProgressView(block: $block)){
-                        //Text("Planter Reports")
-                        Label("Planter Reports", systemImage: "doc.on.doc")
-                    }
-//                    NavigationLink(destination: BlockProgressView(block: $block)){
-//                        //Text("Block Report")
-//                        Label("Block Report", systemImage: "doc")
-//                    }
-                }
                 Section("Allocation"){
                     HStack{
                         Text("Block Allocation")
@@ -126,7 +112,21 @@ struct BlockView: View {
                         }
                     }
                 }
-            }.scrollDisabled(true).frame(height: 500)
+                Section("Reports"){
+                    NavigationLink(destination: PlantingSummaryView(block: block)){
+                        //Text("Planting Summary")
+                        Label("Planting Summary", systemImage: "doc.plaintext.fill")
+                    }
+                    NavigationLink(destination: PlanterProgressView(block: $block)){
+                        //Text("Planter Reports")
+                        Label("Planter Reports", systemImage: "doc.on.doc")
+                    }
+//                    NavigationLink(destination: BlockProgressView(block: $block)){
+//                        //Text("Block Report")
+//                        Label("Block Report", systemImage: "doc")
+//                    }
+                }
+            }.scrollDisabled(true).frame(height: 400)
             
         }
         .navigationTitle("\(block.blockNumber)")
@@ -192,15 +192,15 @@ struct ProgressChartView : View {
         
         var pieSlicesData : [Slice] = []
         
-        pieSlicesData.append(Slice(name: "Planted", value: blockTotal, total: total, color: .red))
+        pieSlicesData.append(Slice(name: "Planted", value: blockTotal, total: total, color: .blue))
         if blockTotal < block.totalAlloction {
             let value = block.totalAlloction-blockTotal-1
-            pieSlicesData.append(Slice(name: "Remaining", value: value, total: total, color: .blue))
+            pieSlicesData.append(Slice(name: "Remaining", value: value, total: total, color: .gray))
         }
         
         selectedSlice = nil
         pieChartParameters.total = total
-        pieChartParameters.title = "Total Planted: \(utilities.formatInteger(total))"
+        pieChartParameters.title = "Total Planted: \(utilities.formatInteger(blockTotal))"
         pieChartParameters.slices = pieSlicesData
         pieChartParameters.updateSliceHeaders()
     }
@@ -227,6 +227,8 @@ struct SpeciesChartView : View {
     @State var pieChartParameters : PieChartParameters = PieChartParameters(radius: 90, slices: [], title: "", dataType: "trees", total: 0)
     @State var selectedSlice : Slice? = nil
     
+    @State var noDataToView : Bool = false
+    
     @EnvironmentObject var tallyStore : TallyStore
     @EnvironmentObject var personStore : PersonStore
     
@@ -252,11 +254,21 @@ struct SpeciesChartView : View {
         pieChartParameters.title = "Total Planted: \(utilities.formatInteger(totalPlanted))"
         pieChartParameters.slices = pieSlicesData
         pieChartParameters.updateSliceHeaders()
+        
+        if pieChartParameters.slices.isEmpty{
+            noDataToView = true
+        }
     }
     
     var body: some View {
         VStack{
             if pieChartParameters.slices.isEmpty{
+                if (noDataToView) {
+                    VStack{
+                        Text("There is currently no species data to view.").font(.headline).foregroundColor(.gray).multilineTextAlignment(.center)
+                        Text("Enter a tally to create species data.").font(.caption).foregroundColor(.gray)
+                    }.padding()
+                }
                 Button(action: updateParameters){
                     Label("Refresh", systemImage: "arrow.clockwise")
                 }
@@ -279,16 +291,26 @@ struct ChartView3 : View {
     @State var block : Block
     
     @State var productionData : [(day: String, trees: Int)] = []
+    @State var noDataToView : Bool = false
     
     @EnvironmentObject var tallyStore : TallyStore
     
     func updateProductionData() {
         productionData = tallyStore.getTreesPerDate(block: block.blockNumber)
+        if productionData.isEmpty{
+            noDataToView = true
+        }
     }
     
     var body: some View {
         VStack {
             if productionData.isEmpty{
+                if (noDataToView) {
+                    VStack{
+                        Text("There is currently no block data to view.").font(.headline).foregroundColor(.gray).multilineTextAlignment(.center)
+                        Text("Enter a tally to create block data.").font(.caption).foregroundColor(.gray)
+                    }.padding()
+                }
                 Button(action: updateProductionData){
                     Label("Refresh", systemImage: "arrow.clockwise")
                 }
@@ -306,6 +328,9 @@ struct ChartView3 : View {
                 }
             }
         }.padding()
+        .onAppear(){
+            updateProductionData()
+        }
     }
 }
 

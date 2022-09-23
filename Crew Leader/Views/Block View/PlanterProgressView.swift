@@ -15,6 +15,8 @@ struct PlanterProgressView: View {
     @State var treesPerDayData : [(day: String, trees: Int)] = [] /// updateOnAppear
     @State var selectedPerson : Person = Person(data: Person.Data()) /// updateOnAppear
     
+    @State var noDataToView : Bool = false
+    
     @EnvironmentObject var tallyStore : TallyStore
     @EnvironmentObject var personStore : PersonStore
     
@@ -37,6 +39,9 @@ struct PlanterProgressView: View {
     
     func updateTreesPerDayData() {
         treesPerDayData = tallyStore.getTreesPerDate(block: block.blockNumber, person: selectedPerson)
+        if treesPerDayData.isEmpty{
+            noDataToView = true
+        }
     }
     
     var body: some View {
@@ -62,6 +67,12 @@ struct PlanterProgressView: View {
             
             VStack {
                 if treesPerDayData.isEmpty{
+                    if (noDataToView) {
+                        VStack{
+                            Text("Planter has no data for this block.").font(.headline).foregroundColor(.gray).multilineTextAlignment(.center)
+                            Text("Enter a tally to create planter data for this block.").font(.caption).foregroundColor(.gray).multilineTextAlignment(.center)
+                        }.padding()
+                    }
                     Button(action: updateTreesPerDayData){
                         Label("Reload", systemImage: "arrow.clockwise")
                     }

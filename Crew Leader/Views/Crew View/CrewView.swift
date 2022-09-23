@@ -103,16 +103,26 @@ import Charts
 struct ProductionChartView: View {
     @State var productionData : [(day: String, production: Int)] = []
     
+    @State var noDataToView : Bool = false
+    
     @EnvironmentObject var tallyStore : TallyStore
     
     func updateProductionData() {
         productionData = tallyStore.getProductionPerDay()
-        //print(productionData)
+        if productionData.isEmpty{
+            noDataToView = true
+        }
     }
     
     var body: some View {
             VStack {
                 if productionData.isEmpty{
+                    if (noDataToView) {
+                        VStack{
+                            Text("There is currently no crew data to view.").font(.headline).foregroundColor(.gray).multilineTextAlignment(.center)
+                            Text("Data may be taking longer to load. Or no tallies have been submitted.").font(.caption).foregroundColor(.gray).multilineTextAlignment(.center)
+                        }.padding()
+                    }
                     Button(action: updateProductionData){
                         Label("Reload", systemImage: "arrow.clockwise")
                     }
