@@ -286,7 +286,6 @@ struct SpeciesChartView : View {
     }
 }
 
-
 import Charts
 
 struct ChartView3 : View {

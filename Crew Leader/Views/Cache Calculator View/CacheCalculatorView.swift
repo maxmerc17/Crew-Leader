@@ -111,8 +111,10 @@ struct CacheCalculatorView: View {
             VStack{
                 if selectedSpecies.name == "" {
                     if (requirementsNotMet){
-                        Text("Cache Calculator cannot load due to lack of species data.").font(.headline).foregroundColor(.gray).multilineTextAlignment(.center).padding()
-                        Text("Species data may be taking longer to load. Or no species data exists.").font(.caption).foregroundColor(.gray).multilineTextAlignment(.center).padding()
+                        VStack{
+                            Text("Cache Calculator cannot load due to lack of species data.").font(.headline).foregroundColor(.gray).multilineTextAlignment(.center)
+                            Text("Species data may be taking longer to load. Or no species data exists.").font(.caption).foregroundColor(.gray).multilineTextAlignment(.center)
+                        }.padding()
                     }
                     Button(action: load){
                         Label("Reload", systemImage: "arrow.clockwise")

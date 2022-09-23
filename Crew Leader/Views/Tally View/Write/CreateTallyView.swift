@@ -36,6 +36,13 @@ struct CreateTallyView: View {
     
     @EnvironmentObject var personStore : PersonStore
     
+    func load() {
+        if selectedPlanter.fullName == " "{
+            selectedPlanter = personStore.getCrew()[0] /// FOD
+            print(selectedPlanter)
+        }
+    }
+    
     func verifyInput(){
         if blocksList.isEmpty {
             alertText.title = "Improper Input"
@@ -95,11 +102,7 @@ struct CreateTallyView: View {
             
         }
         .onAppear(){
-            if selectedPlanter.fullName == " "{
-                selectedPlanter = personStore.getCrew()[0] /// FOD
-                print(selectedPlanter)
-            }
-            
+            load()
         }
         .alert(isPresented: $isShowingAlert) {
             Alert(
