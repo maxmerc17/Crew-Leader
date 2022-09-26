@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct BlockView: View {
-    @State var block : Block
+    @Binding var block : Block
     @Binding var selectedCategory : String
     
     @EnvironmentObject var tallyStore : TallyStore
@@ -62,7 +62,7 @@ struct BlockView: View {
                 }
                 
                 Section("Data"){
-                    NavigationLink(destination: LoadsView(block: block)){
+                    NavigationLink(destination: LoadsView(block: $block)){
                         Label("Loads", systemImage: "box.truck")
                     }
                     NavigationLink(destination: {}){
@@ -337,7 +337,7 @@ struct ChartView3 : View {
 
 struct BlockView_Previews: PreviewProvider {
     static var previews: some View {
-        BlockView(block: Block.sampleData[0], selectedCategory: .constant("Progress")).environmentObject(TallyStore())
+        BlockView(block: .constant(Block.sampleData[0]), selectedCategory: .constant("Progress")).environmentObject(TallyStore())
     }
 }
 

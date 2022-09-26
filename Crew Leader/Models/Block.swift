@@ -249,7 +249,7 @@ struct Load: Identifiable, Codable, Hashable {
         boxesPerSpeciesReturned.reduce(0, { x, y in x + (y.0.treesPerBox*y.1) })
     }
     
-    init(id: UUID, date: Date, boxesPerSpeciesTaken: [Species: Int], boxesPerSpeciesReturned: [Species: Int]) {
+    init(id: UUID = UUID(), date: Date, boxesPerSpeciesTaken: [Species: Int], boxesPerSpeciesReturned: [Species: Int]) {
         self.id = id
         self.date = date
         self.boxesPerSpeciesTaken = boxesPerSpeciesTaken
