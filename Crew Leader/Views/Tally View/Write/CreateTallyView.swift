@@ -91,6 +91,7 @@ struct CreateTallyView: View {
                                                                    partials: $partials,
                                                                    newPartialData: $newPartialData),
                                    isActive: $isShowingTallies){
+                        EmptyView()
                         
                     }
                 }

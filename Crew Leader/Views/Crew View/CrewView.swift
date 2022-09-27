@@ -62,12 +62,6 @@ struct ChartContainerView: View {
     
     func chartChanged(new chart: String) {
         selectedChart = chart
-//        switch chart {
-//            case "Progress": return
-//            case "Species": return
-//            case "Date" : return
-//            default: print("error")
-//        }
     }
     
     var body: some View {
