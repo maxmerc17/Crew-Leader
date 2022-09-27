@@ -27,7 +27,8 @@ struct BlocksView: View {
                     Text("No blocks to view").foregroundColor(.gray)
                 }else {
                     ForEach(sortedBlocks) { block in
-                        NavigationLink (destination: BlockView(block: block, selectedCategory: $selectedCategory)){
+                        let index = blocks.firstIndex(where: { block.blockNumber == $0.blockNumber })!
+                        NavigationLink (destination: BlockView(block: $blocks[index], selectedCategory: $selectedCategory)){
                             BlockCardView(block: block)
                         }
                     }

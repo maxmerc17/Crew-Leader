@@ -8,7 +8,13 @@
 import SwiftUI
 
 struct LoadsView: View {
-    @State var block : Block
+    @Binding var block : Block
+    
+    @State var isPresentingAddLoadView : Bool = false
+    
+    @EnvironmentObject var speciesStore : SpeciesStore
+    
+    
     
     var blockLoads : [Load] {
         return block.loads.sorted(by: { $0.date > $1.date } )
@@ -21,6 +27,7 @@ struct LoadsView: View {
     }
     
     var body: some View {
+        
         ScrollView{
             ChartView4(block: block).frame(width: 350, height: 270)
             ProgressSectionView(block: block)
@@ -42,6 +49,17 @@ struct LoadsView: View {
                 }
             }.frame(height: frameHeight ).scrollDisabled(true)
         }.navigationTitle("Loads")
+            .toolbar {
+                NavigationLink(destination: AddLoadView(block: block,
+                                                        isPresentingAddLoadView: $isPresentingAddLoadView )) {
+                    Image(systemName: "plus")
+                }
+            }
+//            .sheet(isPresented: $isPresentingAddLoadView) {
+//                NavigationView {
+//                    AddLoadView(block: block, isPresentingAddLoadView: $isPresentingAddLoadView, selectedSpecies: selectedSpecies, selectedSpecies2: selectedSpecies) // FOD
+//                }
+//            }
     }
 }
 
@@ -56,6 +74,7 @@ struct ProgressSectionView : View {
         return boxesPerSpecies.first(where: { $0.0 == species })?.1 ?? 0 // ????
     }
     
+    /// this is poorly written
     var ProgressRowData : [(species: Species, taken: Int, toGet: Int)] {
         var returnArray : [(species: Species, taken: Int, toGet: Int)] = []
         
@@ -70,6 +89,21 @@ struct ProgressSectionView : View {
                 }
             }
         }
+        
+        var newArray : [(species: Species, taken: Int, toGet: Int)] = []
+        for load in block.loads {
+            for bps in load.boxesPerSpeciesTaken {
+                if !returnArray.contains(where: { $0.species == bps.key } ) {
+                    if let i = newArray.firstIndex(where: { $0.species == bps.key }){
+                        newArray[i].taken = newArray[i].taken + block.getBoxesPerSpeciesTaken(species: bps.key)
+                    } else {
+                        newArray.append((species: bps.key, taken: block.getBoxesPerSpeciesTaken(species: bps.key), toGet: 0))
+                    }
+                }
+            }
+        }
+        
+        returnArray = returnArray + newArray
         return returnArray
     }
     
@@ -78,9 +112,9 @@ struct ProgressSectionView : View {
     }
     
     var frameHeight : CGFloat {
-        let extra = 30
+        let extra = 50
         let progressHeight = block.plantingUnits.reduce(0) { tot, elem in
-            tot + (elem.cuts.count)*40
+            tot + (elem.cuts.count)*60
         }
         
         return CGFloat(extra + progressHeight)
@@ -89,14 +123,14 @@ struct ProgressSectionView : View {
     var body: some View {
         VStack(alignment: .center){
             Form{
-                Section("Progress"){
+                Section("Net Progress - Includes all pickups and returns."){
                     isShowingByBoxes
                     ?
                         ForEach(ProgressRowData, id: \.species) { row in
                             HStack{
                                 Text("\(row.species.name)")
                                 Spacer()
-                                Text("\(row.taken) / \(row.toGet) boxes taken")
+                                row.toGet == 0 ? Text("\(row.taken) boxes taken") : Text("\(row.taken) / \(row.toGet) boxes taken")
                             }
                         }
                     :
@@ -104,7 +138,7 @@ struct ProgressSectionView : View {
                             HStack{
                                 Text("\(row.species.name)")
                                 Spacer()
-                                Text("\(row.taken) / \(row.toGet) trees taken")
+                                row.toGet == 0 ? Text("\(row.taken) trees taken") : Text("\(row.taken) / \(row.toGet) trees taken")
                             }
                         }
                     Text("Tap form to see progress by trees or by boxes.").font(.caption2)
@@ -171,6 +205,6 @@ struct ChartView4 : View {
 
 struct LoadsView_Previews: PreviewProvider {
     static var previews: some View {
-        LoadsView(block: Block.sampleData[0])
+        LoadsView(block: .constant(Block.sampleData[0]))
     }
 }
