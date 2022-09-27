@@ -40,7 +40,7 @@ struct CrewView: View {
                     }
                     Section("Planter Reports"){
                         ForEach(personStore.getCrew()){ member in
-                            NavigationLink(destination: {}) {
+                            NavigationLink(destination: PlanterReportView(planter: member)) {
                                 HStack{
                                     //Text("\(member.fullName)")
                                     Label("\(member.fullName)", systemImage: "person")
