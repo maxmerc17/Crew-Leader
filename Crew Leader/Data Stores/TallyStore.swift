@@ -11,6 +11,71 @@ import SwiftUI
 class TallyStore: ObservableObject {
     @Published var tallies: [DailyTally] = []
     
+    
+    // MARK: Planter Report View getters
+    
+    // returns average number of trees a planter plants per day
+    func getPlanterAverage(planter: Person) -> Int?{
+        let treesPerDay = getTreesPerDay(planter: planter)
+        let numPlantingDays = treesPerDay.reduce(0) { tot, elem in tot + (elem.trees == 0 ? 0 : 1) }
+        let totalTreesPlanted = treesPerDay.reduce(0) { tot, elem in tot + elem.trees }
+        
+        if numPlantingDays != 0 {
+            return totalTreesPlanted / numPlantingDays
+        } else {
+            return nil
+        }
+        
+    }
+    
+    // returns the number of days a planter has planted
+    func getNumPlantingDays(planter: Person) -> Int {
+        let treesPerDay = getTreesPerDay(planter: planter)
+        return treesPerDay.reduce(0) { tot, elem in tot + (elem.trees == 0 ? 0 : 1) }
+    }
+    
+    func getPlanterPB(planter: Person) -> Int? {
+        let treesPerDay = getTreesPerDay(planter: planter)
+        return treesPerDay.max(by: { day, trees in trees > trees } )?.trees
+    }
+    
+    // returns the total number of trees that a planter has planted
+    func getTotalTreesPlanted(planter: Person) -> Int {
+        let treesPerDay = getTreesPerDay(planter: planter)
+        return treesPerDay.reduce(0) { tot, elem in tot + elem.trees }
+    }
+    
+    // returns the number of trees that a planter has planted for everyday of the season
+    func getTreesPerDay(planter: Person) -> [(day: String, trees: Int)] {
+        var returnArray : [(day: String, trees: Int)] = []
+        var tempArray : [(date: Date, day: String, trees: Int)] = []
+        
+        for tally in tallies {
+            for (_, blockTally) in tally.blocks{
+                if let indvTally = blockTally.individualTallies[planter.id]{
+                    let dayString = utilities.formatDate(date: tally.date)
+                    
+                    if let index = tempArray.firstIndex(where: { $0.day == dayString }) {
+                        tempArray[index].trees = indvTally.treesPlanted
+                    } else {
+                        tempArray.append((date: tally.date, day: dayString, trees: indvTally.treesPlanted))
+                    }
+                }
+            }
+        }
+        
+        let sortedArrray = tempArray.sorted(by: { $0.date < $1.date })
+        returnArray = sortedArrray.map { (day: $0.day, trees: $0.trees)}
+
+        return returnArray
+    }
+    
+    // MARK: Crew View getters
+    
+    func getNumPlantingDays() -> Int {
+        return getProductionPerDay().count
+    }
+    
     func getCrewAverage() -> Int {
         let numPlantingDays = getNumPlantingDays()
         let seasonTotal = getSeasonTotal()
@@ -21,17 +86,13 @@ class TallyStore: ObservableObject {
         return average
     }
     
-    func getNumPlantingDays() -> Int {
-        return getProductionPerDay().count
+    func getCrewPB() -> Int {
+        let dailyProduction = getProductionPerDay()
+        return dailyProduction.max{ $0.production < $1.production}?.production ?? 0 // !!
     }
     
     func getSeasonTotal() -> Int {
         return tallies.reduce(0) { tot, elem in tot + elem.treesPlanted }
-    }
-    
-    func getCrewPB() -> Int {
-        let dailyProduction = getProductionPerDay()
-        return dailyProduction.max{ $0.production < $1.production}?.production ?? 0 // !!
     }
     
     /// returns number of trees planted for each planting day of the season
@@ -56,16 +117,8 @@ class TallyStore: ObservableObject {
         return returnArray
     }
     
-    /// returns number of trees planted for a given block
-    func getTotalTreesPlanted(block: String) -> Int {
-        var total = 0
-        for tally in tallies {
-            if let blockTally = tally.blocks[block]{
-                total += blockTally.treesPlanted
-            }
-        }
-        return total
-    }
+    
+    // MARK: Block View getters
     
     /// returns average number of trees planted per day for a given block
     func getAverageTreesPerDay(block: String) -> Int {
@@ -77,6 +130,23 @@ class TallyStore: ObservableObject {
         } else {
             return total/numDays
         }
+    }
+    
+    /// returns record number of trees the crew has planted in a  day for a given block block
+    func getBlockRecord(block: String) -> Int {
+        let treesPerDate = getTreesPerDate(block: block)
+        return treesPerDate.max{ $0.trees < $1.trees }?.trees ?? 0
+    }
+    
+    /// returns number of trees planted for a given block
+    func getTotalTreesPlanted(block: String) -> Int {
+        var total = 0
+        for tally in tallies {
+            if let blockTally = tally.blocks[block]{
+                total += blockTally.treesPlanted
+            }
+        }
+        return total
     }
     
     /// returns total number of trees planted per crew member for a given block
@@ -116,12 +186,6 @@ class TallyStore: ObservableObject {
         return returnArray
     }
     
-    /// returns record number of trees the crew has planted in a  day for a given block block
-    func getBlockRecord(block: String) -> Int {
-        let treesPerDate = getTreesPerDate(block: block)
-        return treesPerDate.max{ $0.trees < $1.trees }?.trees ?? 0
-    }
-    
     /// returns total number of trees planted per date for a given block .. returns
     func getTreesPerDate(block: String) -> [(day: String, trees: Int)]{
         var tempArray : [String: (trees: Int, date: Date)] = [:]
@@ -142,6 +206,9 @@ class TallyStore: ObservableObject {
         returnArray = sortedArrray.map { (day: $0.key, trees: $0.value.trees)}
         return returnArray
     }
+    
+    
+    // MARK: Planter Progress View Getters
     
     /// returns total number of trees planted per day for a given block and person
     func getTreesPerDate(block: String, person: Person) -> [(day: String, trees: Int)]{
@@ -171,7 +238,7 @@ class TallyStore: ObservableObject {
     }
     
     
-    /// LOAD AND SAVE
+    // MARK: LOAD AND SAVE
     
     private static func fileURL() throws -> URL {
         try FileManager.default.url(for: .documentDirectory,

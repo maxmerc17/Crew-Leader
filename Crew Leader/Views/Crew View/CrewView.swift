@@ -40,7 +40,7 @@ struct CrewView: View {
                     }
                     Section("Planter Reports"){
                         ForEach(personStore.getCrew()){ member in
-                            NavigationLink(destination: {}) {
+                            NavigationLink(destination: PlanterReportView(planter: member)) {
                                 HStack{
                                     //Text("\(member.fullName)")
                                     Label("\(member.fullName)", systemImage: "person")
@@ -62,12 +62,6 @@ struct ChartContainerView: View {
     
     func chartChanged(new chart: String) {
         selectedChart = chart
-//        switch chart {
-//            case "Progress": return
-//            case "Species": return
-//            case "Date" : return
-//            default: print("error")
-//        }
     }
     
     var body: some View {

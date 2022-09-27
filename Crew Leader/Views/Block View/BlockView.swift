@@ -34,7 +34,6 @@ struct BlockView: View {
     var body: some View {
         ScrollView {
             ChartView3(block: block).frame(width: 350, height: 270)
-            
             List{
                 Section("Report"){
                     HStack{
