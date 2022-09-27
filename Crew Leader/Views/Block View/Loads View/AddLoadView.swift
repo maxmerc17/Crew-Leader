@@ -7,14 +7,13 @@
 
 import SwiftUI
 
-let defaultSpecies : Species = Species(data: Species.Data())
 
 struct AddLoadView: View {
     @State var block: Block
     @Binding var isPresentingAddLoadView : Bool
     
     @State var selectedDate : Date = Date.now
-    @State var selectedSpecies = defaultSpecies // updateOnAppear, FOD
+    @State var selectedSpecies : Species = Species(data: Species.Data()) // updateOnAppear, FOD
     @State var inputtedNumBoxes : String = ""
     @State var takeArray : [(species: Species, taken: Int)] = []
     var boxesTaken : Int {
@@ -25,7 +24,7 @@ struct AddLoadView: View {
     }
     @State var displayTrees : Bool = false
     
-    @State var selectedSpecies2 = defaultSpecies // updateOnAppear, FOD
+    @State var selectedSpecies2 : Species = Species(data: Species.Data()) // updateOnAppear, FOD
     @State var inputtedNumBoxes2 : String = ""
     @State var returnArray : [(species: Species, returned: Int)] = []
     var boxesReturned : Int {
@@ -46,13 +45,25 @@ struct AddLoadView: View {
     @State private var errorWrapper: ErrorWrapper?
     
     @State var requirementsNotMet : Bool = false
+    
     func load() {
-        if !speciesStore.species.isEmpty && !blockStore.blocks.isEmpty {
+        if selectedSpecies2.name == "" { //!speciesStore.species.isEmpty && !blockStore.blocks.isEmpty {
             selectedSpecies = speciesStore.species[0]/// FOD
             selectedSpecies2 = speciesStore.species[0]
         } else {
             requirementsNotMet = true
         }
+    }
+    
+    func Validate() -> Bool {
+        if takeArray.isEmpty && returnArray.isEmpty {
+            alertText.title = "Improper Input"
+            alertText.message = "Add at least one load."
+            isShowingAlert = true
+            return false
+        }
+        
+        return true
     }
     
     func AddBoxesTaken() {
@@ -269,38 +280,39 @@ struct AddLoadView: View {
             )
         }
         .toolbar {
-            ToolbarItem(placement: .cancellationAction) {
+            ToolbarItem(placement: .navigationBarLeading) {
                 Button(action : {
                     isPresentingAddLoadView = false
                 }){
                     Text("Dismiss")
                 }
             }
-            ToolbarItem(placement: .confirmationAction) {
+            ToolbarItem(placement: .navigationBarTrailing) {
                 Button(action : {
-                    var boxesPerSpeciesTaken : [Species: Int] = [:]
-                    for elem in takeArray {
-                        boxesPerSpeciesTaken[elem.species] = elem.taken
-                    }
-                    
-                    var boxesPerSpeciesRetured : [Species: Int] = [:]
-                    for elem in returnArray {
-                        boxesPerSpeciesRetured[elem.species] = elem.returned
-                    }
-                    
-                    let newLoad = Load(date: selectedDate, boxesPerSpeciesTaken: boxesPerSpeciesTaken, boxesPerSpeciesReturned: boxesPerSpeciesRetured)
-                    let index : Int = blockStore.blocks.firstIndex(where: { $0.blockNumber == block.blockNumber })!
-                    blockStore.blocks[index].loads.append(newLoad)
-                    
-                    Task {
-                        do {
-                            try await BlockStore.save(blocks: blockStore.blocks)
-                        } catch {
-                            errorWrapper = ErrorWrapper(error: error, guidance: "Try again later.")
+                    if Validate() {
+                        var boxesPerSpeciesTaken : [Species: Int] = [:]
+                        for elem in takeArray {
+                            boxesPerSpeciesTaken[elem.species] = elem.taken
                         }
+                        
+                        var boxesPerSpeciesRetured : [Species: Int] = [:]
+                        for elem in returnArray {
+                            boxesPerSpeciesRetured[elem.species] = elem.returned
+                        }
+                        
+                        let newLoad = Load(date: selectedDate, boxesPerSpeciesTaken: boxesPerSpeciesTaken, boxesPerSpeciesReturned: boxesPerSpeciesRetured)
+                        let index : Int = blockStore.blocks.firstIndex(where: { $0.blockNumber == block.blockNumber })!
+                        blockStore.blocks[index].loads.append(newLoad)
+                        
+                        Task {
+                            do {
+                                try await BlockStore.save(blocks: blockStore.blocks)
+                            } catch {
+                                errorWrapper = ErrorWrapper(error: error, guidance: "Try again later.")
+                            }
+                        }
+                        isPresentingAddLoadView = false
                     }
-                    
-                    isPresentingAddLoadView = false
                 } ) {
                     Text("Add")
                 }
@@ -312,9 +324,9 @@ struct AddLoadView: View {
     }
 }
 
-struct AddLoadView_Previews: PreviewProvider {
-    static var previews: some View {
-        AddLoadView(block: Block.sampleData[0], isPresentingAddLoadView: .constant(true))
-    }
-}
+//struct AddLoadView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        AddLoadView(block: Block.sampleData[0], selec isPresentingAddLoadView: .constant(true))
+//    }
+//}
 

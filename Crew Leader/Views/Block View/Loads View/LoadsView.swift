@@ -12,6 +12,10 @@ struct LoadsView: View {
     
     @State var isPresentingAddLoadView : Bool = false
     
+    @EnvironmentObject var speciesStore : SpeciesStore
+    
+    
+    
     var blockLoads : [Load] {
         return block.loads.sorted(by: { $0.date > $1.date } )
     }
@@ -23,6 +27,7 @@ struct LoadsView: View {
     }
     
     var body: some View {
+        
         ScrollView{
             ChartView4(block: block).frame(width: 350, height: 270)
             ProgressSectionView(block: block)
@@ -45,15 +50,16 @@ struct LoadsView: View {
             }.frame(height: frameHeight ).scrollDisabled(true)
         }.navigationTitle("Loads")
             .toolbar {
-                Button(action: {isPresentingAddLoadView = true}){
+                NavigationLink(destination: AddLoadView(block: block,
+                                                        isPresentingAddLoadView: $isPresentingAddLoadView )) {
                     Image(systemName: "plus")
                 }
             }
-            .sheet(isPresented: $isPresentingAddLoadView) {
-                NavigationView {
-                    AddLoadView(block: block, isPresentingAddLoadView: $isPresentingAddLoadView)
-                }
-            }
+//            .sheet(isPresented: $isPresentingAddLoadView) {
+//                NavigationView {
+//                    AddLoadView(block: block, isPresentingAddLoadView: $isPresentingAddLoadView, selectedSpecies: selectedSpecies, selectedSpecies2: selectedSpecies) // FOD
+//                }
+//            }
     }
 }
 
