@@ -154,7 +154,7 @@ struct ChartView4_2 : View {
     @State var noDataToView : Bool = false
     
     func updateLoadData() {
-        loadsData = block.getLoadsData()
+        
         if loadsData.isEmpty{
             noDataToView = true
         }

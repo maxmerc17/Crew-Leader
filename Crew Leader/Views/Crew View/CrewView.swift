@@ -70,7 +70,7 @@ struct ChartContainerView: View {
                 switch selectedChart {
                     case "Production": ProductionChartView()
                     case "Allocation": Text("hello")
-                    default: Text("bye")
+                    default: Text("Error displaying chart")
                 }
             }.frame(width: 350, height: 270)
             

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		851872E928E39F3E00325800 /* LoadsView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851872E828E39F3E00325800 /* LoadsView2.swift */; };
+		851872EB28E4DDF500325800 /* AddLoadView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851872EA28E4DDF500325800 /* AddLoadView2.swift */; };
 		853A791B28DCEC87003A2384 /* CrewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853A791A28DCEC87003A2384 /* CrewView.swift */; };
 		8545285E28CBC63B00DF64F2 /* Crew_LeaderApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8545285D28CBC63B00DF64F2 /* Crew_LeaderApp.swift */; };
 		8545286028CBC63B00DF64F2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8545285F28CBC63B00DF64F2 /* ContentView.swift */; };
@@ -86,6 +87,7 @@
 
 /* Begin PBXFileReference section */
 		851872E828E39F3E00325800 /* LoadsView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadsView2.swift; sourceTree = "<group>"; };
+		851872EA28E4DDF500325800 /* AddLoadView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddLoadView2.swift; sourceTree = "<group>"; };
 		853A791A28DCEC87003A2384 /* CrewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrewView.swift; sourceTree = "<group>"; };
 		8545285A28CBC63B00DF64F2 /* Crew Leader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Crew Leader.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8545285D28CBC63B00DF64F2 /* Crew_LeaderApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Crew_LeaderApp.swift; sourceTree = "<group>"; };
@@ -270,6 +272,7 @@
 			isa = PBXGroup;
 			children = (
 				851872E828E39F3E00325800 /* LoadsView2.swift */,
+				851872EA28E4DDF500325800 /* AddLoadView2.swift */,
 			);
 			path = "Loads View 2";
 			sourceTree = "<group>";
@@ -554,6 +557,7 @@
 				85EF068928CE52F8008D006A /* Species.swift in Sources */,
 				85B479D928E1FECD006647B5 /* AddLoadView.swift in Sources */,
 				8545285E28CBC63B00DF64F2 /* Crew_LeaderApp.swift in Sources */,
+				851872EB28E4DDF500325800 /* AddLoadView2.swift in Sources */,
 				85A7AE8028DA6E5C00A7636D /* BlockProgressView.swift in Sources */,
 				853A791B28DCEC87003A2384 /* CrewView.swift in Sources */,
 				85FF802928D8D2DA00B55666 /* TallyStore.swift in Sources */,

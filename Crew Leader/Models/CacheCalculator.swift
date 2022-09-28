@@ -72,7 +72,7 @@ struct CacheCalculator : Identifiable {
         formatter.minimumFractionDigits = 0*/
         
         if let item = cuts.first(where: {$0 == cut}){
-            let treesCalculated = item.numTrees(desiredTrees)
+            let treesCalculated = item.numTrees2(desiredTrees)
             let floatResult = (Float(treesCalculated) / Float(totalTrees)) * 100
             return utilities.formatFloat(float: floatResult)//Double(String(floatResult).prefix(4))!
         } else {
@@ -121,8 +121,17 @@ struct Cut : Identifiable, Equatable, Codable, Hashable {
     }
     
     func numTrees(_ totalTrees: Int) -> Int {
+        let percentage = Float(percent) / 100
+        let numTrees : Int = Int(Float(totalTrees) * percentage)
+        return numTrees
+    }
+    
+    func numTrees2(_ totalTrees: Int) -> Int {
+        /// calculated using number of boxes
         return numBoxes(totalTrees)*species.treesPerBox
     }
+    
+    
     
     static func == (lhs: Cut, rhs: Cut) -> Bool {
         return lhs.species == rhs.species && lhs.percent == rhs.percent

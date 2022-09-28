@@ -192,10 +192,10 @@ struct AddLoadView: View {
                                 displayTrees ? Text("Total Trees: \(treesTaken)") : Text("Total Boxes: \(boxesTaken)")
                                 Spacer()
                             }
-                            
+
                         }
                     }
-                    
+
                     Section("Add to Boxes Taken"){
                         HStack{
                             Label("Species", systemImage: "leaf")
@@ -219,7 +219,7 @@ struct AddLoadView: View {
                             Spacer()
                         }
                     }
-                    
+
                     Section("Boxes Returned"){
                         if (returnArray.isEmpty){
                             Text("No entries.").foregroundColor(.gray)
@@ -241,10 +241,10 @@ struct AddLoadView: View {
                                 displayTrees2 ? Text("Total Trees: \(treesReturned)") : Text("Total Boxes: \(boxesReturned)")
                                 Spacer()
                             }
-                            
+
                         }
                     }
-                    
+
                     Section("Add to Boxes Returned"){
                         HStack{
                             Label("Species", systemImage: "leaf")
@@ -280,13 +280,13 @@ struct AddLoadView: View {
             )
         }
         .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                Button(action : {
-                    isPresentingAddLoadView = false
-                }){
-                    Text("Dismiss")
-                }
-            }
+//            ToolbarItem(placement: .navigationBarLeading) {
+//                Button(action : {
+//                    isPresentingAddLoadView = false
+//                }){
+//                    Text("Dismiss")
+//                }
+//            }
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button(action : {
                     if Validate() {
@@ -294,16 +294,16 @@ struct AddLoadView: View {
                         for elem in takeArray {
                             boxesPerSpeciesTaken[elem.species] = elem.taken
                         }
-                        
+
                         var boxesPerSpeciesRetured : [Species: Int] = [:]
                         for elem in returnArray {
                             boxesPerSpeciesRetured[elem.species] = elem.returned
                         }
-                        
+
                         let newLoad = Load(date: selectedDate, boxesPerSpeciesTaken: boxesPerSpeciesTaken, boxesPerSpeciesReturned: boxesPerSpeciesRetured)
                         let index : Int = blockStore.blocks.firstIndex(where: { $0.blockNumber == block.blockNumber })!
                         blockStore.blocks[index].loads.append(newLoad)
-                        
+
                         Task {
                             do {
                                 try await BlockStore.save(blocks: blockStore.blocks)

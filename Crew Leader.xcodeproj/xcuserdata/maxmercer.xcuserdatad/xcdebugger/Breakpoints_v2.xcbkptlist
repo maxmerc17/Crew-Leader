@@ -375,54 +375,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "E4192FA4-FC77-454F-9F72-9B00ED32BE24"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Crew Leader/Views/Block View/Loads View/LoadsView.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "24"
-            endingLineNumber = "24"
-            landmarkName = "frameHeight"
-            landmarkType = "24">
-            <Locations>
-               <Location
-                  uuid = "E4192FA4-FC77-454F-9F72-9B00ED32BE24 - a21962c2a81bae83"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Crew_Leader.LoadsView.frameHeight.getter : CoreGraphics.CGFloat"
-                  moduleName = "Crew Leader"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/maxmercer/Desktop/Crew%20Leader/Crew%20Leader/Views/Block%20View/Loads%20View/LoadsView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "19"
-                  endingLineNumber = "19"
-                  offsetFromSymbolStart = "188">
-               </Location>
-               <Location
-                  uuid = "E4192FA4-FC77-454F-9F72-9B00ED32BE24 - 75ed1b9fdb70a9f7"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Int, Crew_Leader.PlantingUnit) -&gt; Swift.Int in Crew_Leader.LoadsView.frameHeight.getter : CoreGraphics.CGFloat"
-                  moduleName = "Crew Leader"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/maxmercer/Desktop/Crew%20Leader/Crew%20Leader/Views/Block%20View/Loads%20View/LoadsView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "20"
-                  endingLineNumber = "20"
-                  offsetFromSymbolStart = "56">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "941E1B0A-A7F9-4A2D-B5EB-A75B42129852"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -446,74 +398,10 @@
             filePath = "Crew Leader/Views/Block View/Loads View/LoadsView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "79"
-            endingLineNumber = "79"
+            startingLineNumber = "108"
+            endingLineNumber = "108"
             landmarkName = "ProgressRowData"
             landmarkType = "24">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "6A056A87-2AB0-4027-9E56-3F3BF9BD2F4F"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Crew Leader/Models/Block.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "86"
-            endingLineNumber = "86"
-            landmarkName = "getBoxesPerSpeciesTaken(species:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "6A056A87-2AB0-4027-9E56-3F3BF9BD2F4F - 82049723d71d831e"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Crew_Leader.Block.getBoxesPerSpeciesTaken(species: Crew_Leader.Species) -&gt; Swift.Int"
-                  moduleName = "Crew Leader"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/maxmercer/Desktop/Crew%20Leader/Crew%20Leader/Models/Block.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "86"
-                  endingLineNumber = "86"
-                  offsetFromSymbolStart = "108">
-               </Location>
-               <Location
-                  uuid = "6A056A87-2AB0-4027-9E56-3F3BF9BD2F4F - c0d7b0f69d96598c"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Int, Crew_Leader.Load) -&gt; Swift.Int in Crew_Leader.Block.getBoxesPerSpeciesTaken(species: Crew_Leader.Species) -&gt; Swift.Int"
-                  moduleName = "Crew Leader"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/maxmercer/Desktop/Crew%20Leader/Crew%20Leader/Models/Block.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "87"
-                  endingLineNumber = "87"
-                  offsetFromSymbolStart = "168">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "2F345C2A-C0C9-4A44-9DC1-A035CF05BD18"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Crew Leader/Models/Block.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "87"
-            endingLineNumber = "87"
-            landmarkName = "getBoxesPerSpeciesTaken(species:)"
-            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy

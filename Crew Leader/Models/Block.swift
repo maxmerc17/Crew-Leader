@@ -64,20 +64,21 @@ struct Block: Identifiable, Codable, Hashable, Comparable {
 
 extension Block {
     /// returns loads as an data array that can be used for a chart
-    func getLoadsData() -> [(day: String, species: Species, boxes: Int)] {
-        var returnArray : [(day: String, species: Species, boxes: Int)] = []
-        var tempArray : [(date: Date, species: Species, boxes: Int)] = []
+    func getLoadsData() -> [(day: String, boxesTaken: Int, boxesReturned: Int)] {
+        var returnArray : [(day: String, boxesTaken: Int, boxesReturned: Int)] = []
+        var tempArray : [(day: String, date: Date, boxesReturned: Int, boxesTaken: Int)] = []
         for load in loads {
-            for boxesTaken in load.boxesPerSpeciesTaken {
-                tempArray.append((date: load.date, species: boxesTaken.key, boxes: boxesTaken.value))
-            }
-            for boxesReturned in load.boxesPerSpeciesReturned {
-                tempArray.append((date: load.date, species: boxesReturned.key, boxes: boxesReturned.value*(-1)))
+            let day = utilities.formatDate(date: load.date)
+            if let index = tempArray.firstIndex(where: { $0.day == day }){
+                tempArray[index].boxesTaken += load.boxesTaken
+                tempArray[index].boxesReturned += load.boxesReturned
+            } else {
+                tempArray.append((day: day, date: load.date, boxesReturned: load.boxesReturned, boxesTaken: load.boxesTaken))
             }
         }
         
         tempArray = tempArray.sorted { $0.date < $1.date }
-        returnArray = tempArray.map{ (day: utilities.formatDate(date: $0.date), species: $0.species, boxes: $0.boxes ) }
+        returnArray = tempArray.map{ (day: utilities.formatDate(date: $0.date), boxesTaken: $0.boxesTaken, boxesReturned: $0.boxesReturned ) }
         
         return returnArray
     }
@@ -85,6 +86,47 @@ extension Block {
     func getBoxesPerSpeciesTaken(species: Species) -> Int{
         loads.reduce(0) { tot, elem in
             tot + (elem.boxesPerSpeciesTaken[species] ?? 0) - (elem.boxesPerSpeciesReturned[species] ?? 0)
+        }
+    }
+    
+    
+    // MARK: Planting Summary
+    func getBoxesToBringPerSpecies() -> [(species: Species, boxesToBring: Int)]{
+        var array : [(species: Species, boxesToBring: Int)] = []
+        
+        for plantingUnit in plantingUnits {
+            for cut in plantingUnit.cuts {
+                if let index = array.firstIndex(where: { $0.species == cut.species }){
+                    array[index].boxesToBring += cut.numBoxes(plantingUnit.TreesPU)
+                }
+                else {
+                    array.append((species: cut.species, boxesToBring: cut.numBoxes(plantingUnit.TreesPU)))
+                }
+            }
+        }
+        return array
+    }
+    
+    func getCutsPerPlantingUnit() -> [(Species, String, Int)]{
+        var array : [(Species, String, Int)] = []
+        
+        var unitNumber = 1
+        for plantingUnit in plantingUnits {
+            for cut in plantingUnit.cuts {
+                array.append((cut.species, String(cut.percent), unitNumber))
+            }
+            unitNumber+=1
+        }
+        return array
+    }
+    
+    /// given a planting unit the unit number in the block is returned
+    func getUnitNumber(_ plantingUnit: PlantingUnit) -> Int? {
+        if let index = plantingUnits.firstIndex(of: plantingUnit ){
+            return index + 1
+        }
+        else {
+            return nil
         }
     }
 }
