@@ -36,7 +36,8 @@ class TallyStore: ObservableObject {
     
     func getPlanterPB(planter: Person) -> Int? {
         let treesPerDay = getTreesPerDay(planter: planter)
-        return treesPerDay.max(by: { day, trees in trees > trees } )?.trees
+        //return treesPerDay.max(by: { day, trees in trees > trees } )?.trees
+        return treesPerDay.reduce(0) { tot, elem in max(tot, elem.trees) }
     }
     
     // returns the total number of trees that a planter has planted

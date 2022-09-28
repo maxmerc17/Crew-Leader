@@ -108,6 +108,13 @@ struct CacheCalculatorView: View {
             return
         }
         
+        if totalPercentage != 100 {
+            alertText.title = "Improper Input"
+            alertText.message = "The sum of all species mixes should equal 100%."
+            isShowingAlert = true
+            return
+        }
+        
         calculatedObject = CacheCalculator(desiredTrees: Int(numberOfTrees)!, cuts: cutsArray)
         history.append(calculatedObject)
         isShowingResults = true
@@ -130,8 +137,18 @@ struct CacheCalculatorView: View {
                     Form{
                         Section("Input"){
                             HStack{
-                                Label("Number of Trees ", systemImage: "number")
-                                TextField("0", text: $numberOfTrees).frame(width:80).keyboardType(.numberPad)
+                                Label("Number of Trees ", systemImage: "number").frame(width: 200)
+                                TextField("0", text: $numberOfTrees).multilineTextAlignment(.trailing).keyboardType(.numberPad)
+                            }
+                        }
+                        
+                        Section(cutsArray.count > 1 ? "Species - \(totalPercentage)%" : "Species"){
+                            if cutsArray.isEmpty{
+                                Text("No species entered.").foregroundColor(.gray)
+                            } else {
+                                ForEach($cutsArray, id: \.0) { $item in
+                                    DisplayRowItem(species: $item.0, mix: $item.1, inputArray: $cutsArray)
+                                }
                             }
                         }
                         
@@ -140,7 +157,7 @@ struct CacheCalculatorView: View {
                                 Label("Species", systemImage: "leaf")
                                 Picker("", selection: $selectedSpecies){
                                     ForEach(speciesStore.species){ species in
-                                        Text("\(species.name)").tag(species)
+                                        Text("\(species.name) (\(species.treesPerBox) trees/box)").tag(species)
                                     }
                                 }
                             }
@@ -158,15 +175,7 @@ struct CacheCalculatorView: View {
                             }
                         }
                         
-                        Section("Species - \(totalPercentage)%"){
-                            if cutsArray.isEmpty{
-                                Text("No species entered.").foregroundColor(.gray)
-                            } else {
-                                ForEach($cutsArray, id: \.0) { $item in
-                                    DisplayRowItem(species: $item.0, mix: $item.1, inputArray: $cutsArray)
-                                }
-                            }
-                        }
+                        
                         
                         Section(""){
                             ZStack {

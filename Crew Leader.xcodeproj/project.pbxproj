@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		851872E928E39F3E00325800 /* LoadsView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851872E828E39F3E00325800 /* LoadsView2.swift */; };
 		853A791B28DCEC87003A2384 /* CrewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853A791A28DCEC87003A2384 /* CrewView.swift */; };
 		8545285E28CBC63B00DF64F2 /* Crew_LeaderApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8545285D28CBC63B00DF64F2 /* Crew_LeaderApp.swift */; };
 		8545286028CBC63B00DF64F2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8545285F28CBC63B00DF64F2 /* ContentView.swift */; };
@@ -84,6 +85,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		851872E828E39F3E00325800 /* LoadsView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadsView2.swift; sourceTree = "<group>"; };
 		853A791A28DCEC87003A2384 /* CrewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrewView.swift; sourceTree = "<group>"; };
 		8545285A28CBC63B00DF64F2 /* Crew Leader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Crew Leader.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8545285D28CBC63B00DF64F2 /* Crew_LeaderApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Crew_LeaderApp.swift; sourceTree = "<group>"; };
@@ -264,6 +266,14 @@
 			path = "Settings View";
 			sourceTree = "<group>";
 		};
+		85B479DC28E39F01006647B5 /* Loads View 2 */ = {
+			isa = PBXGroup;
+			children = (
+				851872E828E39F3E00325800 /* LoadsView2.swift */,
+			);
+			path = "Loads View 2";
+			sourceTree = "<group>";
+		};
 		85C6306C28D2579B00A5066F /* Cache Calculator View */ = {
 			isa = PBXGroup;
 			children = (
@@ -293,6 +303,7 @@
 		85EF069628CF895B008D006A /* Tally View */ = {
 			isa = PBXGroup;
 			children = (
+				85EF067728CBCA2B008D006A /* TalliesView.swift */,
 				85EF06A428D00863008D006A /* Write */,
 				85EF06A328D0082B008D006A /* Read */,
 			);
@@ -302,7 +313,6 @@
 		85EF06A328D0082B008D006A /* Read */ = {
 			isa = PBXGroup;
 			children = (
-				85EF067728CBCA2B008D006A /* TalliesView.swift */,
 				85EF068A28CE5C45008D006A /* DailyTallyView.swift */,
 				85EF068428CE402C008D006A /* PlanterTallyView.swift */,
 				85EF068628CE4467008D006A /* CardView.swift */,
@@ -327,6 +337,7 @@
 		85FF801D28D4E96000B55666 /* Block View */ = {
 			isa = PBXGroup;
 			children = (
+				85B479DC28E39F01006647B5 /* Loads View 2 */,
 				8581185528DE3C0700C6D0B7 /* Loads View */,
 				85EF069F28CFBCCE008D006A /* PopupView.swift */,
 				85FF801E28D4E97100B55666 /* BlocksView.swift */,
@@ -525,6 +536,7 @@
 				85EF06A028CFBCCE008D006A /* PopupView.swift in Sources */,
 				85EF069E28CFB54E008D006A /* PartialCardView.swift in Sources */,
 				85EF068528CE402C008D006A /* PlanterTallyView.swift in Sources */,
+				851872E928E39F3E00325800 /* LoadsView2.swift in Sources */,
 				85EF067F28CBD054008D006A /* Crew.swift in Sources */,
 				85896DC028D8FD46007FA1ED /* PlantingSummaryView.swift in Sources */,
 				85B479DB28E33F5F006647B5 /* PlanterReportView.swift in Sources */,

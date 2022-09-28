@@ -322,7 +322,7 @@ struct ChartView3 : View {
                             x: .value("Day", elem.day),
                             y: .value("Trees Planted", elem.trees)
                         ).annotation{
-                            Text("\(elem.trees) trees").font(.caption2)
+                            Text("\(elem.trees)").font(.caption2)
                         }
                     }
                 }

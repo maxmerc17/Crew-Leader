@@ -40,22 +40,22 @@ struct PlanterReportView: View {
                         HStack{
                             Text("Planting Days")
                             Spacer()
-                            Text("\(numPlantingDays_text)")
+                            Text("\(numPlantingDays_text) days")
                         }
                         HStack{
                             Text("Average")
                             Spacer()
-                            Text("\(average_text)")
+                            Text("\(average_text) trees / day")
                         }
                         HStack{
                             Text("Personal Record")
                             Spacer()
-                            Text("\(record_text)")
+                            Text("\(record_text) trees")
                         }
                         HStack {
                             Text("Season Total")
                             Spacer()
-                            Text("\(total_text)")
+                            Text("\(total_text) trees")
                         }
                     }
                 }.scrollDisabled(true).frame(minHeight: minRowHeight*5)

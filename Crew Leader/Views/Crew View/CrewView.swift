@@ -20,22 +20,22 @@ struct CrewView: View {
                         HStack{
                             Text("Planting Days")
                             Spacer()
-                            Text("\(tallyStore.getNumPlantingDays())")
+                            Text("\(tallyStore.getNumPlantingDays()) days")
                         }
                         HStack{
                             Text("Crew Average")
                             Spacer()
-                            Text("\(tallyStore.getCrewAverage())")
+                            Text("\(tallyStore.getCrewAverage()) trees / day")
                         }
                         HStack{
                             Text("Crew Record")
                             Spacer()
-                            Text("\(tallyStore.getCrewPB())")
+                            Text("\(tallyStore.getCrewPB()) trees")
                         }
                         HStack{
                             Text("Season Total")
                             Spacer()
-                            Text("\(tallyStore.getSeasonTotal())")
+                            Text("\(tallyStore.getSeasonTotal()) trees")
                         }
                     }
                     Section("Planter Reports"){
@@ -128,7 +128,7 @@ struct ProductionChartView: View {
                                 x: .value("Day", item.day),
                                 y: .value("Trees Planted", item.production)
                             ).annotation{
-                                Text("\(item.production) trees").font(.caption2)
+                                Text("\(item.production)").font(.caption2)
                             }
                         }
                     }
