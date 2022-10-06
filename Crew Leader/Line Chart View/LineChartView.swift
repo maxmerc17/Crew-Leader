@@ -100,33 +100,18 @@ struct Point<T: Conforming>: Identifiable {
     
     var posX : CGFloat = 0
     var posY : CGFloat = 0
+    var visable : Bool = false
     
     var position : CGPoint {
         CGPoint(x: posX, y: posY)
     }
-    
-//    func draw() -> some View {
-//        Circle().frame(width: 10).foregroundColor(.blue).position(x: posX, y: posY)
-//        PointView<T>(x: x, y: y, posX: posX, posY: posY)
-//        var showingDetails = false
-//        return (
-//            ZStack {
-//                Circle().frame(width: 10).foregroundColor(.blue).position(x: posX, y: posY).onTapGesture {
-//                    showingDetails = !showingDetails
-//                }
-//                if showingDetails{
-//                    Text("\(x), \(y.toString())").pointDetail().position(x: posX, y: posY + 20)
-//                }
-//            }
-//        )
-//    }
 }
 
 
 
 struct PointArray<Val: Conforming> {
-    
     var points : [Point<Val>]
+    
     var maxPoint : Point<Val>? {
         guard !points.isEmpty else { return nil }
         
@@ -164,6 +149,8 @@ struct PointArray<Val: Conforming> {
         return nil
     }
     
+    let numVisable = 10
+    
     init() {
         self.points = []
     }
@@ -171,6 +158,23 @@ struct PointArray<Val: Conforming> {
     mutating func update(xyData: [(x: String, y: Val)]){
         let points = xyData.map { x, y in Point<Val>(x: x, y: y) }
         self.points = points
+    }
+    mutating func setPosition(w: W) {
+        guard !points.isEmpty else {
+            return
+        }
+        
+        let start = w.O.x + w.W*0.05
+        let end = w.O.x + w.W*0.95
+        let buffer = (end - start) / CGFloat(min(points.count-1, numVisable))
+        
+        let scale = w.H / CGFloat(yAxisMax!)
+        
+        for i in 0..<points.count {
+            points[i].posX = start + ( CGFloat(i % numVisable) * buffer )
+            points[i].posY = w.O.y - ( points[i].dubY * scale )
+            points[i].visable = i < numVisable ? true : false
+        }
     }
     
     func ScaleVals() -> [String] { /// returns values for scale that will be displayed. If yAxisMax is nil it returns ["3", "6", ... ]
@@ -187,7 +191,6 @@ struct PointArray<Val: Conforming> {
         }
         return ["3", "6", "9", "12"]
     }
-    
     func ScaleWidth() -> CGFloat {
         if let yam = yAxisMax {
            let order = floor(log10(yam))
@@ -204,22 +207,33 @@ struct PointArray<Val: Conforming> {
         return 40
     }
     
-    mutating func setPosition(w: W) {
-        guard !points.isEmpty else {
-            return
+    // MARK: Visability
+    var numSets : Int {
+        Int(ceil(Double(points.count) / Double(numVisable)))
+    }
+    
+    var _visableSet : Int = 1
+    var visableSet : Int {
+        get {
+            return _visableSet
         }
-        
-        let start = w.O.x + w.W*0.05
-        let end = w.O.x + w.W*0.95
-        let buffer = (end - start) / CGFloat(min(points.count-1, 10))
-        
-        let scale = w.H / CGFloat(yAxisMax!)
-        
-        for i in 0..<points.count {
-            points[i].posX = start + ( CGFloat(i) * buffer )
-            points[i].posY = w.O.y - ( points[i].dubY * scale )
+        set {
+            guard newValue <= numSets && 0 < newValue else {
+                return
+            }
+            _visableSet = newValue
+            for i in 0..<points.count {
+                points[i].visable = (newValue-1)*numVisable < i+1 && i+1 <= newValue*numVisable
+            }
         }
     }
+    mutating func increment() {
+        visableSet += 1
+    }
+    mutating func decrement() {
+        visableSet -= 1
+    }
+    
 }
 
 struct W: Equatable {
@@ -261,6 +275,7 @@ struct LineChartView<Val: Conforming>: View {
     
     func mapDataToObjectArray() { // onAppear
         pointArray.update(xyData: xyData)
+        pointArray.setPosition(w: w)
     }
     
     var body: some View {
@@ -288,9 +303,11 @@ struct ChartContentView<Val : Conforming> : View {
     @Binding var w : W
     @Binding var pointArray : PointArray<Val>
     @State var selectedPoint : UUID? = nil
+    
     var body: some View {
         ZStack {
             ChartView<Val>(w: $w, pointArray : $pointArray)
+            ControlView<Val>(w: $w, pointArray: $pointArray)
             LineView<Val>(w: $w, pointArray: $pointArray, selectedPoint: $selectedPoint)
         }.background().onTapGesture {
             selectedPoint = nil
@@ -345,6 +362,27 @@ struct ChartView<Val: Conforming> : View {
     }
 }
 
+struct ControlView<Val: Conforming> : View {
+    @Binding var w : W
+    @Binding var pointArray: PointArray<Val>
+    
+    var body: some View{
+        ZStack {
+            if pointArray.visableSet < pointArray.numSets {
+                Button(action: { pointArray.increment() }) {
+                    Image(systemName: "arrow.right").frame(width: 40)
+                }.position(x: w.O.x + w.W*0.95, y: w.O.y - w.H/2)
+            }
+            if 1 < pointArray.visableSet {
+                Button(action: { pointArray.decrement() }) {
+                    Image(systemName: "arrow.left")
+                }.position(x: w.O.x + w.W*0.03, y: w.O.y - w.H/2)
+            }
+        }
+        
+    }
+}
+
 struct LineView<Val : Conforming>: View {
     @Binding var w : W
     @Binding var pointArray : PointArray<Val>
@@ -353,9 +391,12 @@ struct LineView<Val : Conforming>: View {
     
     var body: some View {
         ZStack {
-            ConnectionsView<Val>(pointArray: $pointArray)
+            //ConnectionsView<Val>(pointArray: $pointArray)
             ForEach($pointArray.points, id: \.id) { $point in
-                PointView(p: $point, selectedPoint: $selectedPoint)
+                if point.visable {
+                    PointView(p: $point, selectedPoint: $selectedPoint)
+                }
+                
             }
         }
     }
@@ -371,7 +412,7 @@ struct PointView<Val: Conforming>: View {
                 selectedPoint = p.id
             }
             if selectedPoint == p.id {
-                Text("\(p.x), \(p.y.toString())").pointDetail().position(x: p.posX, y: p.posY + 20)
+                Text("\(p.x), \(p.y.toString()), \(String(p.visable))").pointDetail().position(x: p.posX, y: p.posY + 20)
             }
         }
     }
@@ -384,9 +425,10 @@ struct ConnectionsView<Val: Conforming> : View {
     var body: some View {
         ZStack {
             if pointArray.points.count > 1 {
+                let firstVisableIndex = pointArray.points.firstIndex(where: { $0.visable == true })!
                 Path { p in
-                    p.move(to: pointArray.points[0].position)
-                    for i in 1..<pointArray.points.count {
+                    p.move(to: pointArray.points[firstVisableIndex].position)
+                    for i in firstVisableIndex+1..<firstVisableIndex+10 {
                         p.addLine(to: pointArray.points[i].position)
                     }
                 }.stroke(.blue, lineWidth: 1)
