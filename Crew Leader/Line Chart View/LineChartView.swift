@@ -101,6 +101,10 @@ struct Point<T: Conforming>: Identifiable {
     var posX : CGFloat = 0
     var posY : CGFloat = 0
     
+    var position : CGPoint {
+        CGPoint(x: posX, y: posY)
+    }
+    
 //    func draw() -> some View {
 //        Circle().frame(width: 10).foregroundColor(.blue).position(x: posX, y: posY)
 //        PointView<T>(x: x, y: y, posX: posX, posY: posY)
@@ -268,7 +272,6 @@ struct LineChartView<Val: Conforming>: View {
             let O = CGPoint(x: minDim * 0.1, y: minDim * 0.9) /// origin
             
             let _ : () = w.update(W: CW, H: CH, O: O, SW: SW)
-            //let _ : () = pointArray.setPosition(w: w)
             
             ChartContentView<Val>(w: $w, pointArray: $pointArray)
                 .frame(width: minDim, height: minDim).border(.blue)
@@ -284,10 +287,13 @@ struct LineChartView<Val: Conforming>: View {
 struct ChartContentView<Val : Conforming> : View {
     @Binding var w : W
     @Binding var pointArray : PointArray<Val>
+    @State var selectedPoint : UUID? = nil
     var body: some View {
         ZStack {
             ChartView<Val>(w: $w, pointArray : $pointArray)
-            LineView<Val>(w: $w, pointArray: $pointArray)
+            LineView<Val>(w: $w, pointArray: $pointArray, selectedPoint: $selectedPoint)
+        }.background().onTapGesture {
+            selectedPoint = nil
         }
     }
 }
@@ -342,12 +348,15 @@ struct ChartView<Val: Conforming> : View {
 struct LineView<Val : Conforming>: View {
     @Binding var w : W
     @Binding var pointArray : PointArray<Val>
+    @Binding var selectedPoint: UUID?
     
-    @State var selectedPoint : UUID? = nil
     
     var body: some View {
-        ForEach($pointArray.points, id: \.id) { $point in
-            PointView(p: $point, selectedPoint: $selectedPoint)
+        ZStack {
+            ConnectionsView<Val>(pointArray: $pointArray)
+            ForEach($pointArray.points, id: \.id) { $point in
+                PointView(p: $point, selectedPoint: $selectedPoint)
+            }
         }
     }
 }
@@ -369,6 +378,22 @@ struct PointView<Val: Conforming>: View {
                   
 }
 
+struct ConnectionsView<Val: Conforming> : View {
+    @Binding var pointArray: PointArray<Val>
+
+    var body: some View {
+        ZStack {
+            if pointArray.points.count > 1 {
+                Path { p in
+                    p.move(to: pointArray.points[0].position)
+                    for i in 1..<pointArray.points.count {
+                        p.addLine(to: pointArray.points[i].position)
+                    }
+                }.stroke(.blue, lineWidth: 1)
+            }
+        }
+    }
+}
 
  
 struct LineChartView_Previews: PreviewProvider {

@@ -35,7 +35,15 @@ struct ContentView: View {
                 (x: "two", y: 1800),
                 (x: "three", y: 2100),
                 (x: "four", y: 2000),
-                (x: "five", y: 2200)
+                (x: "five", y: 2200),
+                (x: "six", y: 2500),
+                (x: "seven", y: 2200),
+                (x: "eight", y: 2100),
+                (x: "nine", y: 2250),
+                (x: "ten", y: 2360),
+                (x: "eleven", y: 2050),
+                (x: "twelve", y: 1910),
+                (x: "thirteen", y: 1820),
             ])).frame(width: 390).tabItem { Text("Line Chart View") }.tag(6)
         }.onChange(of: scenePhase) { phase in
             if phase == .inactive {
