@@ -30,6 +30,13 @@ struct ContentView: View {
             //Text("Plots tab").tabItem { Label("Plots", systemImage: "mappin.and.ellipse") }.tag(5)
             /// add plots tab tool to the block tab
             SettingsView(savePersons: savePersons, saveSpecies: saveSpecies).tabItem { Label("Settings", systemImage: "gear") }.tag(5)
+            LineChartView<Int>(xyData: .constant([
+                (x: "one", y: 1500),
+                (x: "two", y: 1800),
+                (x: "three", y: 2100),
+                (x: "four", y: 2000),
+                (x: "five", y: 2200)
+            ])).frame(width: 390).tabItem { Text("Line Chart View") }.tag(6)
         }.onChange(of: scenePhase) { phase in
             if phase == .inactive {
                 saveTallies()

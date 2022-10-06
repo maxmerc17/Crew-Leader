@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		850F5B8328EDF41E00361F3B /* LineChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850F5B8228EDF41E00361F3B /* LineChartView.swift */; };
 		851872E928E39F3E00325800 /* LoadsView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851872E828E39F3E00325800 /* LoadsView2.swift */; };
 		851872EB28E4DDF500325800 /* AddLoadView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851872EA28E4DDF500325800 /* AddLoadView2.swift */; };
 		853A791B28DCEC87003A2384 /* CrewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853A791A28DCEC87003A2384 /* CrewView.swift */; };
@@ -86,6 +87,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		850F5B8228EDF41E00361F3B /* LineChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartView.swift; sourceTree = "<group>"; };
 		851872E828E39F3E00325800 /* LoadsView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadsView2.swift; sourceTree = "<group>"; };
 		851872EA28E4DDF500325800 /* AddLoadView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddLoadView2.swift; sourceTree = "<group>"; };
 		853A791A28DCEC87003A2384 /* CrewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrewView.swift; sourceTree = "<group>"; };
@@ -175,6 +177,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		850F5B8428EDF42400361F3B /* Line Chart View */ = {
+			isa = PBXGroup;
+			children = (
+				850F5B8228EDF41E00361F3B /* LineChartView.swift */,
+			);
+			path = "Line Chart View";
+			sourceTree = "<group>";
+		};
 		853A791928DCEC76003A2384 /* Crew View */ = {
 			isa = PBXGroup;
 			children = (
@@ -219,6 +229,7 @@
 				85FF802A28D8D4AE00B55666 /* ErrorWrapper.swift */,
 				85FF802C28D8D5A600B55666 /* ErrorView.swift */,
 				85896DC328DA03B6007FA1ED /* PieChartView.swift */,
+				850F5B8428EDF42400361F3B /* Line Chart View */,
 			);
 			path = "Crew Leader";
 			sourceTree = "<group>";
@@ -552,6 +563,7 @@
 				8545286028CBC63B00DF64F2 /* ContentView.swift in Sources */,
 				85FF802528D4EB3000B55666 /* CreateBlockView.swift in Sources */,
 				85EF069828CF9319008D006A /* EnterTallyDataView.swift in Sources */,
+				850F5B8328EDF41E00361F3B /* LineChartView.swift in Sources */,
 				85FF801F28D4E97100B55666 /* BlocksView.swift in Sources */,
 				85FF802328D4EAD200B55666 /* BlockCardView.swift in Sources */,
 				85EF068928CE52F8008D006A /* Species.swift in Sources */,
