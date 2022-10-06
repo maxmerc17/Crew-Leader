@@ -391,7 +391,7 @@ struct LineView<Val : Conforming>: View {
     
     var body: some View {
         ZStack {
-            //ConnectionsView<Val>(pointArray: $pointArray)
+            ConnectionsView<Val>(pointArray: $pointArray)
             ForEach($pointArray.points, id: \.id) { $point in
                 if point.visable {
                     PointView(p: $point, selectedPoint: $selectedPoint)
@@ -425,11 +425,13 @@ struct ConnectionsView<Val: Conforming> : View {
     var body: some View {
         ZStack {
             if pointArray.points.count > 1 {
-                let firstVisableIndex = pointArray.points.firstIndex(where: { $0.visable == true })!
+                let firstVisableIndex = pointArray.numVisable*(pointArray.visableSet-1)
                 Path { p in
                     p.move(to: pointArray.points[firstVisableIndex].position)
                     for i in firstVisableIndex+1..<firstVisableIndex+10 {
-                        p.addLine(to: pointArray.points[i].position)
+                        if i < pointArray.points.count { // prolly not the best way to check index in bounds
+                            p.addLine(to: pointArray.points[i].position)
+                        }
                     }
                 }.stroke(.blue, lineWidth: 1)
             }
