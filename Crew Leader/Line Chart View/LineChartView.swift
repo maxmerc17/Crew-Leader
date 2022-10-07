@@ -73,10 +73,11 @@ struct ScaleItem : ViewModifier {
 struct PointDetail : ViewModifier {
     func body(content: Content) -> some View {
         content
-            .font(.caption)
+            .bold()
+            .font(.headline)
             .foregroundColor(.gray)
             .padding(2)
-            .background(.ultraThickMaterial)
+            .background(.ultraThickMaterial).opacity(0.75)
             .cornerRadius(10)
     }
 }
@@ -111,6 +112,9 @@ struct Point<T: Conforming>: Identifiable {
 
 struct PointArray<Val: Conforming> {
     var points : [Point<Val>]
+    var count : Int {
+        points.count
+    }
     
     var maxPoint : Point<Val>? {
         guard !points.isEmpty else { return nil }
@@ -149,7 +153,7 @@ struct PointArray<Val: Conforming> {
         return nil
     }
     
-    let numVisable = 10
+    var numVisable = 10
     
     init() {
         self.points = []
@@ -273,8 +277,14 @@ struct LineChartView<Val: Conforming>: View {
     @State var w : W = W()
     @State var pointArray : PointArray<Val> = PointArray()
     
-    func mapDataToObjectArray() { // onAppear
+    func map_Data_to_array_of_objects() { // onAppear
         pointArray.update(xyData: xyData)
+        pointArray.setPosition(w: w)
+    }
+    
+    @State var zoom : Double = 5
+    func changeZoom(_ newZoom: Double) {
+        pointArray.numVisable = Int(newZoom)
         pointArray.setPosition(w: w)
     }
     
@@ -287,12 +297,30 @@ struct LineChartView<Val: Conforming>: View {
             let O = CGPoint(x: minDim * 0.1, y: minDim * 0.9) /// origin
             
             let _ : () = w.update(W: CW, H: CH, O: O, SW: SW)
+            VStack{
+//                HStack{
+//                    Spacer()
+//                    Button(action: changeZoom){
+//                        Image(systemName: "arrow.up.left.and.arrow.down.right")
+//                    }
+//                }
+                
+                ChartContentView<Val>(w: $w, pointArray: $pointArray)
+                    .frame(width: minDim, height: minDim).border(.blue)
+                
+                if !pointArray.points.isEmpty {
+                    Slider(value: $zoom, in: 1...Double(pointArray.count+2), step: 1) {
+                        Text("Length")
+                    }.frame(width: w.W*0.6).onChange(of: zoom){ newZoom in
+                        changeZoom(newZoom)
+                    }
+                }
+                
+            }
             
-            ChartContentView<Val>(w: $w, pointArray: $pointArray)
-                .frame(width: minDim, height: minDim).border(.blue)
             
         }.onAppear(){
-            mapDataToObjectArray()
+            map_Data_to_array_of_objects()
         }.onChange(of: w){ newW in
             pointArray.setPosition(w: newW)
         }
@@ -311,6 +339,9 @@ struct ChartContentView<Val : Conforming> : View {
             LineView<Val>(w: $w, pointArray: $pointArray, selectedPoint: $selectedPoint)
         }.background().onTapGesture {
             selectedPoint = nil
+        }.onLongPressGesture {
+            print("Long pressed")
+            
         }
     }
 }
@@ -391,10 +422,10 @@ struct LineView<Val : Conforming>: View {
     
     var body: some View {
         ZStack {
-            ConnectionsView<Val>(pointArray: $pointArray)
+            //ConnectionsView<Val>(pointArray: $pointArray)
             ForEach($pointArray.points, id: \.id) { $point in
                 if point.visable {
-                    PointView(p: $point, selectedPoint: $selectedPoint)
+                    PointView(p: $point, selectedPoint: $selectedPoint, w: $w)
                 }
                 
             }
@@ -405,14 +436,49 @@ struct LineView<Val : Conforming>: View {
 struct PointView<Val: Conforming>: View {
     @Binding var p : Point<Val>
     @Binding var selectedPoint : UUID?
+    @Binding var w: W
+    
+    var isSelectedPoint : Bool  {
+        selectedPoint == p.id
+    }
     
     var body: some View {
         ZStack {
-            Circle().frame(width: 10).foregroundColor(.blue).position(x: p.posX, y: p.posY).onTapGesture {
-                selectedPoint = p.id
-            }
-            if selectedPoint == p.id {
-                Text("\(p.x), \(p.y.toString()), \(String(p.visable))").pointDetail().position(x: p.posX, y: p.posY + 20)
+            Path { path in
+                path.move(to: CGPoint(x: p.posX, y: w.O.y))
+                path.addLine(to: p.position )
+            }.strokedPath(StrokeStyle(dash: [3])).foregroundColor(.blue)
+            
+            Circle()
+                .frame(width: isSelectedPoint ? 20 : 10)
+                .foregroundColor(.blue).position(x: p.posX, y: p.posY)
+                .onTapGesture { selectedPoint = p.id }
+            
+            var dim : CGFloat = isSelectedPoint ? 100 : 30
+            
+            Text("\(p.x)")
+                .background(.ultraThickMaterial).opacity(0.75)
+                .frame(width: dim, height: 30)
+                .font(isSelectedPoint ? .headline : .caption)
+                .foregroundColor(isSelectedPoint ? .blue : .gray)
+                .position(x: isSelectedPoint ? p.posX : p.posX,
+                          y: isSelectedPoint ? w.O.y : w.O.y + 20)
+                
+            
+//            if isSelectedPoint {
+//                Text("\(p.y.toString())")
+//                    .frame(width: 70, height: 30)
+//                    .font(.headline)
+//                    .foregroundColor(.blue)
+//                    .position(x: w.O.x + w.W + w.SW/2, y: p.posY)
+//            }
+            
+            
+            if isSelectedPoint {
+                VStack{
+                    //Text("\(p.x),")
+                    Text("\(p.y.toString())").foregroundColor(.blue)
+                }.pointDetail().position(x: p.posX-35, y: p.posY)
             }
         }
     }
