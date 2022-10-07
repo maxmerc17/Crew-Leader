@@ -291,10 +291,11 @@ struct LineChartView<Val: Conforming>: View {
     var body: some View {
         GeometryReader { g in
             let minDim = min(g.size.width, g.size.height)
+            
             let SW : CGFloat = pointArray.ScaleWidth() /// scale width
             let CH = minDim * 0.8 /// chart height
-            let CW = minDim * 0.9 - SW /// chart width
-            let O = CGPoint(x: minDim * 0.1, y: minDim * 0.9) /// origin
+            let CW = ( g.size.width * 0.9 ) - SW /// chart width
+            let O = CGPoint(x: g.size.width * 0.1, y: minDim * 0.9) /// origin
             
             let _ : () = w.update(W: CW, H: CH, O: O, SW: SW)
             VStack{
@@ -306,7 +307,7 @@ struct LineChartView<Val: Conforming>: View {
 //                }
                 
                 ChartContentView<Val>(w: $w, pointArray: $pointArray)
-                    .frame(width: minDim, height: minDim).border(.blue)
+                    .frame(width: g.size.width, height: minDim).border(.blue)
                 
                 if !pointArray.points.isEmpty {
                     Slider(value: $zoom, in: 1...Double(pointArray.count+2), step: 1) {

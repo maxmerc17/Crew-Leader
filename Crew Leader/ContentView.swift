@@ -53,7 +53,7 @@ struct ContentView: View {
                 (x: "twenty", y: 2940),
                 (x: "twentyone", y: 2890),
                 (x: "twentytwo", y: 3120),
-            ])).frame(width: 390).tabItem { Text("Line Chart View") }.tag(6)
+            ])).frame(height: 300).tabItem { Text("Line Chart View") }.tag(6)
         }.onChange(of: scenePhase) { phase in
             if phase == .inactive {
                 saveTallies()
