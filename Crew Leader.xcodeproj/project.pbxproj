@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		850F5B8328EDF41E00361F3B /* LineChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850F5B8228EDF41E00361F3B /* LineChartView.swift */; };
+		850F5BBF28F076D200361F3B /* LineChartProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850F5BBE28F076D200361F3B /* LineChartProtocols.swift */; };
+		850F5BC228F0778600361F3B /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850F5BC128F0778600361F3B /* Point.swift */; };
+		850F5BC428F077EA00361F3B /* PointArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850F5BC328F077EA00361F3B /* PointArray.swift */; };
+		850F5BC828F0787600361F3B /* LineChartStyling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850F5BC728F0787600361F3B /* LineChartStyling.swift */; };
+		850F5BCC28F078EF00361F3B /* Window.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850F5BCB28F078EF00361F3B /* Window.swift */; };
 		851872E928E39F3E00325800 /* LoadsView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851872E828E39F3E00325800 /* LoadsView2.swift */; };
 		851872EB28E4DDF500325800 /* AddLoadView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851872EA28E4DDF500325800 /* AddLoadView2.swift */; };
 		853A791B28DCEC87003A2384 /* CrewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853A791A28DCEC87003A2384 /* CrewView.swift */; };
@@ -88,6 +93,11 @@
 
 /* Begin PBXFileReference section */
 		850F5B8228EDF41E00361F3B /* LineChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartView.swift; sourceTree = "<group>"; };
+		850F5BBE28F076D200361F3B /* LineChartProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartProtocols.swift; sourceTree = "<group>"; };
+		850F5BC128F0778600361F3B /* Point.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Point.swift; sourceTree = "<group>"; };
+		850F5BC328F077EA00361F3B /* PointArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointArray.swift; sourceTree = "<group>"; };
+		850F5BC728F0787600361F3B /* LineChartStyling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartStyling.swift; sourceTree = "<group>"; };
+		850F5BCB28F078EF00361F3B /* Window.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Window.swift; sourceTree = "<group>"; };
 		851872E828E39F3E00325800 /* LoadsView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadsView2.swift; sourceTree = "<group>"; };
 		851872EA28E4DDF500325800 /* AddLoadView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddLoadView2.swift; sourceTree = "<group>"; };
 		853A791A28DCEC87003A2384 /* CrewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrewView.swift; sourceTree = "<group>"; };
@@ -180,9 +190,22 @@
 		850F5B8428EDF42400361F3B /* Line Chart View */ = {
 			isa = PBXGroup;
 			children = (
+				850F5BC028F0776600361F3B /* Models */,
 				850F5B8228EDF41E00361F3B /* LineChartView.swift */,
+				850F5BBE28F076D200361F3B /* LineChartProtocols.swift */,
+				850F5BC728F0787600361F3B /* LineChartStyling.swift */,
 			);
 			path = "Line Chart View";
+			sourceTree = "<group>";
+		};
+		850F5BC028F0776600361F3B /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				850F5BC128F0778600361F3B /* Point.swift */,
+				850F5BC328F077EA00361F3B /* PointArray.swift */,
+				850F5BCB28F078EF00361F3B /* Window.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		853A791928DCEC76003A2384 /* Crew View */ = {
@@ -531,10 +554,12 @@
 				85EF068D28CE6462008D006A /* BlockSwitchView.swift in Sources */,
 				85A7AE7E28DA6DF300A7636D /* PlanterProgressView.swift in Sources */,
 				85EF067D28CBCD86008D006A /* Person.swift in Sources */,
+				850F5BBF28F076D200361F3B /* LineChartProtocols.swift in Sources */,
 				85EF068B28CE5C45008D006A /* DailyTallyView.swift in Sources */,
 				85EF06A828D21ECE008D006A /* CacheCalculatorView.swift in Sources */,
 				85EF068328CBD68E008D006A /* DailyTally.swift in Sources */,
 				85EF069128CE8B2F008D006A /* CreateTallyView.swift in Sources */,
+				850F5BCC28F078EF00361F3B /* Window.swift in Sources */,
 				8581322128DB6A41006102FB /* SettingsView.swift in Sources */,
 				8581321E28DB6693006102FB /* PersonStore.swift in Sources */,
 				85A7AE7C28DA28F800A7636D /* PieChartParameters.swift in Sources */,
@@ -564,13 +589,16 @@
 				85FF802528D4EB3000B55666 /* CreateBlockView.swift in Sources */,
 				85EF069828CF9319008D006A /* EnterTallyDataView.swift in Sources */,
 				850F5B8328EDF41E00361F3B /* LineChartView.swift in Sources */,
+				850F5BC428F077EA00361F3B /* PointArray.swift in Sources */,
 				85FF801F28D4E97100B55666 /* BlocksView.swift in Sources */,
+				850F5BC828F0787600361F3B /* LineChartStyling.swift in Sources */,
 				85FF802328D4EAD200B55666 /* BlockCardView.swift in Sources */,
 				85EF068928CE52F8008D006A /* Species.swift in Sources */,
 				85B479D928E1FECD006647B5 /* AddLoadView.swift in Sources */,
 				8545285E28CBC63B00DF64F2 /* Crew_LeaderApp.swift in Sources */,
 				851872EB28E4DDF500325800 /* AddLoadView2.swift in Sources */,
 				85A7AE8028DA6E5C00A7636D /* BlockProgressView.swift in Sources */,
+				850F5BC228F0778600361F3B /* Point.swift in Sources */,
 				853A791B28DCEC87003A2384 /* CrewView.swift in Sources */,
 				85FF802928D8D2DA00B55666 /* TallyStore.swift in Sources */,
 				85EF067828CBCA2B008D006A /* TalliesView.swift in Sources */,

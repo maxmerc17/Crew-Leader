@@ -30,8 +30,8 @@
             filePath = "Crew Leader/Models/CacheCalculator.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "111"
-            endingLineNumber = "111"
+            startingLineNumber = "110"
+            endingLineNumber = "110"
             landmarkName = "numBoxes(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -542,8 +542,8 @@
             filePath = "Crew Leader/Line Chart View/LineChartView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "281"
-            endingLineNumber = "281"
+            startingLineNumber = "24"
+            endingLineNumber = "24"
             landmarkName = "map_Data_to_array_of_objects()"
             landmarkType = "7">
          </BreakpointContent>

@@ -27,3 +27,28 @@ struct utilities {
         return numberFormatter.string(from: NSNumber(value:integer))!
     }
 }
+
+extension Formatter {
+    static let scientific: NumberFormatter = {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .scientific
+        formatter.positiveFormat = "0.#E+0"
+        formatter.exponentSymbol = "e"
+        return formatter
+    }()
+    
+    static let display : NumberFormatter = {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = NumberFormatter.Style.decimal
+        return formatter
+    }()
+}
+extension Numeric {
+    var scientificFormatted: String {
+        return Formatter.scientific.string(for: self) ?? ""
+    }
+    
+    var displayFormatted : String {
+        return Formatter.display.string(for: self) ?? ""
+    }
+}
