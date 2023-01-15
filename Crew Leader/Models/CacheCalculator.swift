@@ -79,7 +79,6 @@ struct CacheCalculator : Identifiable {
             return "0"
         }
     }
-    
 }
 
 struct Cut : Identifiable, Equatable, Codable, Hashable {

@@ -35,8 +35,25 @@ struct ContentView: View {
                 (x: "two", y: 1800),
                 (x: "three", y: 2100),
                 (x: "four", y: 2000),
-                (x: "five", y: 2200)
-            ])).frame(width: 390).tabItem { Text("Line Chart View") }.tag(6)
+                (x: "five", y: 2200),
+                (x: "six", y: 2500),
+                (x: "seven", y: 2200),
+                (x: "eight", y: 2100),
+                (x: "nine", y: 2250),
+                (x: "ten", y: 2360),
+                (x: "eleven", y: 2050),
+                (x: "twelve", y: 1910),
+                (x: "thirteen", y: 1820),
+                (x: "fourteen", y: 2800),
+                (x: "fifteen", y: 2680),
+                (x: "sixteen", y: 2330),
+                (x: "seventeen", y: 2560),
+                (x: "eighteen", y: 2720),
+                (x: "nineteen", y: 3020),
+                (x: "twenty", y: 2940),
+                (x: "twentyone", y: 2890),
+                (x: "twentytwo", y: 3120),
+            ])).frame(height: 300).tabItem { Text("Line Chart View") }.tag(6)
         }.onChange(of: scenePhase) { phase in
             if phase == .inactive {
                 saveTallies()
