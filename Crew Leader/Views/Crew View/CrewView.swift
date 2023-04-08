@@ -69,7 +69,7 @@ struct ChartContainerView: View {
             VStack{
                 switch selectedChart {
                     case "Production": ProductionChartView()
-                    case "Allocation": Text("hello")
+                    //case "Allocation": Text("Coming Soon!")
                     default: Text("Error displaying chart")
                 }
             }.frame(width: 350, height: 270)
