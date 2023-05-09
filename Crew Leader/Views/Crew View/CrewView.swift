@@ -57,7 +57,7 @@ struct CrewView: View {
 }
 
 struct ChartContainerView: View {
-    @State var charts : [String] = ["Production", "Allocation"]
+    @State var charts : [String] = ["Production"] //"Allocation"
     @State var selectedChart : String = "Production"
     
     func chartChanged(new chart: String) {
@@ -74,7 +74,7 @@ struct ChartContainerView: View {
                 }
             }.frame(width: 350, height: 270)
             
-            HStack(spacing: 25) {
+            /*HStack(spacing: 25) {
                 ForEach(charts, id: \.self) { chart in
                     Button {
                         chartChanged(new: chart)
@@ -87,7 +87,7 @@ struct ChartContainerView: View {
                                 : .gray)
                     }
                 }
-            }.padding()
+            }.padding()*/
         }
     }
 }
@@ -95,14 +95,17 @@ struct ChartContainerView: View {
 import Charts
 
 struct ProductionChartView: View {
-    @State var productionData : [(day: String, production: Int)] = []
+    @State var productionData : [(x: String, y: Int)] = []
     
     @State var noDataToView : Bool = false
     
     @EnvironmentObject var tallyStore : TallyStore
     
     func updateProductionData() {
-        productionData = tallyStore.getProductionPerDay()
+        let receiver = tallyStore.getProductionPerDay()
+        productionData = receiver.map { (day: String, production: Int) in
+            (x: day, y: production)
+        }
         if productionData.isEmpty{
             noDataToView = true
         }
@@ -121,8 +124,9 @@ struct ProductionChartView: View {
                         Label("Reload", systemImage: "arrow.clockwise")
                     }
                 } else {
-                    Text("Daily Production").font(.title3).padding()
-                    Chart{
+                    Text("Daily Production").font(.title3)
+                    LineChartView<Int>(xyData: $productionData)
+                    /*Chart{
                         ForEach(productionData, id: \.day){ item in
                             BarMark(
                                 x: .value("Day", item.day),
@@ -131,7 +135,8 @@ struct ProductionChartView: View {
                                 Text("\(item.production)").font(.caption2)
                             }
                         }
-                    }
+                    }*/ // where you put the new chart'
+                    
                 }
             }.padding()
             .onAppear(){

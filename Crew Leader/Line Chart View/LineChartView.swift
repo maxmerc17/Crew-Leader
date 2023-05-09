@@ -16,7 +16,8 @@ struct LineChartView<Val: Conforming>: View {
     @Binding var xyData: [(x: String, y: Val)] // xy data
     
     // MARK: Output
-    @State var w : W = W() // window
+    @State var w : W = W(W: 280, H: 180, O: CGPoint(x: 20,y: 200), SW: 50) // hard-coded W
+    //W() // window
     @State var pointArray : PointArray<Val> = PointArray() // xy data mapped to a point array object
     
     // MARK: Control
@@ -37,14 +38,19 @@ struct LineChartView<Val: Conforming>: View {
             let minDim = min(g.size.width, g.size.height)
             
             let SW : CGFloat = pointArray.ScaleWidth() // scale width
-            let CH = minDim * 0.8 // chart height
-            let CW = ( g.size.width * 0.9 ) - SW // chart width
-            let O = CGPoint(x: g.size.width * 0.1, y: minDim * 0.9) /// origin
+            //let CH = minDim * 0.8 // chart height
+            //let CW = ( g.size.width * 0.9 ) - SW // chart width
+            //let O = CGPoint(x: g.size.width * 0.1, y: minDim * 0.9) /// origin
             
-            let _ : () = w.update(W: CW, H: CH, O: O, SW: SW)
+            //let _ : () = w.update(W: CW, H: CH, O: O, SW: SW)
+            
+            // Can't modify state during view update. -- causes undefined error
+            // instead W is hard coded before hand
+            //
+            
             VStack{
                 ChartContentView<Val>(w: $w, pointArray: $pointArray)
-                    .frame(width: g.size.width, height: minDim).border(.blue)
+                    .frame(width: g.size.width, height: minDim)//.border(.blue)
                 
                 if !pointArray.points.isEmpty {
                     Slider(value: $zoom, in: 1...Double(pointArray.count+2), step: 1) {
@@ -198,6 +204,7 @@ struct PointView<Val: Conforming>: View {
                 .background(.ultraThickMaterial).opacity(0.75)
                 .frame(width: dim, height: 30)
                 .font(isSelectedPoint ? .headline : .caption)
+                .opacity(isSelectedPoint ? 1 : 0)
                 .foregroundColor(isSelectedPoint ? .blue : .gray)
                 .position(x: isSelectedPoint ? p.posX : p.posX,
                           y: isSelectedPoint ? w.O.y : w.O.y + 20)

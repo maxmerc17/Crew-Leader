@@ -7,6 +7,9 @@
 
 import SwiftUI
 
+let AddState: String = "AddState"
+let UpdateState: String = "UpdateState"
+
 struct MyCrewView: View {
     let savePersons: () -> Void
     
@@ -17,6 +20,8 @@ struct MyCrewView: View {
     
     @State var isShowingAlert = false
     @State var alertText = alertTextType()
+    
+    @State var PageState : String = AddState
     
     @EnvironmentObject var personStore : PersonStore
     
@@ -64,60 +69,65 @@ struct MyCrewView: View {
         inputtedType = PersonType.crewMember
     }
     
+    func updatePerson() {
+        self.PageState = UpdateState
+        return
+    }
+    
     var body: some View {
-        VStack{
-            Form{
-                Section("Input New Person"){
-                    HStack{
-                        Label("First Name", systemImage: "textformat")
-                        Spacer()
-                        TextField("John", text: $inputtedFirstName).frame(width: 148).multilineTextAlignment(.trailing)
-                    }
-                    HStack{
-                        Label("Last Name", systemImage: "textformat")
-                        Spacer()
-                        TextField("Smith", text: $inputtedLastName).frame(width: 148).multilineTextAlignment(.trailing)
-                    }
-                    
-                    HStack{
-                        Label("Email", systemImage: "at")
-                        Spacer()
-                        TextField("me@mail", text: $inputtedEmail).frame(width: 148).multilineTextAlignment(.trailing)
-                    }
-                    
-                    HStack {
-                        Label("Role", systemImage: "person")
-                        Spacer()
-                        Picker("", selection: $inputtedType){
-                            Text("Crew Leader").tag(PersonType.crewLeader)
-                            Text("Crew Member").tag(PersonType.crewMember)
-                            Text("Guest Planter").tag(PersonType.guestPlanter)
-                            Text("Supervisor").tag(PersonType.supervisor)
-                            Text("Past Crew Member").tag(PersonType.pastCrewMember)
-                        }
-                    }
-                    HStack {
-                        Spacer()
-                        Button(action: addPerson){
-                            Text("Add")
-                        }
-                        Spacer()
+        Form{
+            Section("Input New Person"){
+                HStack{
+                    Label("First Name", systemImage: "textformat")
+                    Spacer()
+                    TextField("John", text: $inputtedFirstName).frame(width: 148).multilineTextAlignment(.trailing)
+                }
+                HStack{
+                    Label("Last Name", systemImage: "textformat")
+                    Spacer()
+                    TextField("Smith", text: $inputtedLastName).frame(width: 148).multilineTextAlignment(.trailing)
+                }
+                
+                HStack{
+                    Label("Email", systemImage: "at")
+                    Spacer()
+                    TextField("me@mail", text: $inputtedEmail).frame(width: 148).multilineTextAlignment(.trailing)
+                }
+                
+                HStack {
+                    Label("Role", systemImage: "person")
+                    Spacer()
+                    Picker("", selection: $inputtedType){
+                        Text("Crew Leader").tag(PersonType.crewLeader)
+                        Text("Crew Member").tag(PersonType.crewMember)
+                        Text("Guest Planter").tag(PersonType.guestPlanter)
+                        Text("Supervisor").tag(PersonType.supervisor)
+                        Text("Past Crew Member").tag(PersonType.pastCrewMember)
                     }
                 }
-            
-                Section("People"){
-                    if personStore.persons.isEmpty {
-                        Text("No existing planters").foregroundColor(.gray)
-                    }
+                HStack {
+                    Spacer()
                     
-                    ForEach(personStore.persons){ person in
-                        HStack{
-                            Text("\(person.fullName)")
-                            Spacer()
-                            Text("\(person.type.rawValue)").foregroundColor(.gray)
-                        }
+                    Button(action: addPerson){
+                        Text("Add")
+                    }
+                    Spacer()
+                }
+            }
+        
+            Section("People"){
+                if personStore.persons.isEmpty {
+                    Text("No existing planters").foregroundColor(.gray)
+                }
+                
+                ForEach(personStore.persons){ person in
+                    HStack{
+                        Text("\(person.fullName)")
+                        Spacer()
+                        Text("\(person.type.rawValue)").foregroundColor(.gray)
                     }
                 }
+                
             }
         }
         .navigationTitle("My Crew")
