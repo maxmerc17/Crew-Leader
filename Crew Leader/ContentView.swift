@@ -24,13 +24,13 @@ struct ContentView: View {
     var body: some View {
         TabView(selection: $selectedTab) {
             CacheCalculatorView().tabItem { Label("Cache Calculator", systemImage: "plus.forwardslash.minus") }.tag(3)
-            CrewView().tabItem { Label("Crew", systemImage: "person.3")}.tag(1)
             BlocksView(blocks: $blocks, saveBlocks: saveBlocks).tabItem{ Label("Blocks", systemImage: "map")}.tag(2)
             TalliesView(tallies: $tallies, saveTallies: saveTallies).tabItem { Label("Tallies", systemImage: "square.grid.3x3.square") }.tag(4)
+            CrewView().tabItem { Label("Crew", systemImage: "person.3")}.tag(1)
             //Text("Plots tab").tabItem { Label("Plots", systemImage: "mappin.and.ellipse") }.tag(5)
             /// add plots tab tool to the block tab
             SettingsView(savePersons: savePersons, saveSpecies: saveSpecies).tabItem { Label("Settings", systemImage: "gear") }.tag(5)
-            LineChartView<Int>(xyData: .constant([
+            /*LineChartView<Int>(xyData: .constant([
                 (x: "one", y: 1500),
                 (x: "two", y: 1800),
                 (x: "three", y: 2100),
@@ -53,7 +53,7 @@ struct ContentView: View {
                 (x: "twenty", y: 2940),
                 (x: "twentyone", y: 2890),
                 (x: "twentytwo", y: 3120),
-            ])).frame(height: 300).tabItem { Text("Line Chart View") }.tag(6)
+            ]), w: W(W: 280, H: 180, O: CGPoint(x: 20,y: 180), SW: 50)).frame(height: 300).tabItem { Text("Line Chart View") }.tag(6)*/
         }.onChange(of: scenePhase) { phase in
             if phase == .inactive {
                 saveTallies()

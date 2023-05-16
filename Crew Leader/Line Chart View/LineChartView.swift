@@ -14,9 +14,10 @@ struct LineChartView<Val: Conforming>: View {
     var xaxisLabel : String? // x axis label
     var yaxisLabel : String? // y axis label
     @Binding var xyData: [(x: String, y: Val)] // xy data
+    @State var w : W //W(W: 280, H: 180, O: CGPoint(x: 20,y: 180), SW: 50) // hard-coded W
     
     // MARK: Output
-    @State var w : W = W(W: 280, H: 180, O: CGPoint(x: 20,y: 200), SW: 50) // hard-coded W
+    
     //W() // window
     @State var pointArray : PointArray<Val> = PointArray() // xy data mapped to a point array object
     
@@ -26,7 +27,7 @@ struct LineChartView<Val: Conforming>: View {
         pointArray.setPosition(w: w)
     }
     
-    @State var zoom : Double = 5
+    @State var zoom : Double = 1
     func changeZoom(_ newZoom: Double) {
         pointArray.numVisable = Int(newZoom)
         pointArray.setPosition(w: w)
@@ -198,13 +199,13 @@ struct PointView<Val: Conforming>: View {
                 .foregroundColor(.blue).position(x: p.posX, y: p.posY)
                 .onTapGesture { selectedPoint = p.id }
             
-            var dim : CGFloat = isSelectedPoint ? 100 : 30
+            let dim : CGFloat = isSelectedPoint ? 100 : 50
             
             Text("\(p.x)")
                 .background(.ultraThickMaterial).opacity(0.75)
                 .frame(width: dim, height: 30)
                 .font(isSelectedPoint ? .headline : .caption)
-                .opacity(isSelectedPoint ? 1 : 0)
+                //.opacity(isSelectedPoint ? 1 : 0)
                 .foregroundColor(isSelectedPoint ? .blue : .gray)
                 .position(x: isSelectedPoint ? p.posX : p.posX,
                           y: isSelectedPoint ? w.O.y : w.O.y + 20)
@@ -259,6 +260,6 @@ struct LineChartView_Previews: PreviewProvider {
             (x: "three", y: 1),
             (x: "four", y: 1),
             (x: "five", y: 125 )
-        ])).frame(width: 390)
+        ]), w: W(W: 280, H: 180, O: CGPoint(x: 20,y: 180), SW: 50)).frame(width: 390)
     }
 }
