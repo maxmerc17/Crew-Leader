@@ -50,7 +50,7 @@ struct CrewView: View {
                         }
                         
                     }
-                }.scrollDisabled(true).navigationTitle("My Crew").frame(height: 600)
+                }.scrollDisabled(true).navigationTitle("My Crew").frame(height: 800)
             }
         }
     }
@@ -72,7 +72,7 @@ struct ChartContainerView: View {
                     //case "Allocation": Text("Coming Soon!")
                     default: Text("Error displaying chart")
                 }
-            }.frame(width: 350, height: 270)
+            }.frame(width: 350, height: 350)
             
             /*HStack(spacing: 25) {
                 ForEach(charts, id: \.self) { chart in
@@ -125,7 +125,11 @@ struct ProductionChartView: View {
                     }
                 } else {
                     Text("Daily Production").font(.title3)
-                    LineChartView<Int>(xyData: $productionData)
+                    LineChartView<Int>(xyData: $productionData, w: W(W: 280, H: 210, O: CGPoint(x: 20,y: 210), SW: 50))
+                    Spacer()
+                    Spacer()
+                    Spacer()
+                    Spacer()
                     /*Chart{
                         ForEach(productionData, id: \.day){ item in
                             BarMark(

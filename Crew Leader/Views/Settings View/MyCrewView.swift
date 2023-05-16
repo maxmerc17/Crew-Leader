@@ -25,40 +25,46 @@ struct MyCrewView: View {
     
     @EnvironmentObject var personStore : PersonStore
     
-    func addPerson() {
+    @State var isShowingSaveAlert : Bool = false
+    
+    func validate() -> Bool {
         if inputtedFirstName.isEmpty {
             alertText.title = "Improper Input"
             alertText.message = "Enter a value for first name."
             isShowingAlert = true
-            return
+            return false
         }
         if inputtedLastName.isEmpty {
             alertText.title = "Improper Input"
             alertText.message = "Enter a value for last name."
             isShowingAlert = true
-            return
+            return false
         }
         if inputtedEmail.isEmpty {
             alertText.title = "Improper Input"
             alertText.message = "Enter a value for email."
             isShowingAlert = true
-            return
+            return false
         }
         
         if let _ = personStore.getCrewLeader(), inputtedType == .crewLeader {
             alertText.title = "Invalid Input"
             alertText.message = "There is already a crew leader."
             isShowingAlert = true
-            return
+            return false
         }
         let fullName = inputtedFirstName + " " + inputtedLastName
         if let _ = personStore.getPlanter(fullName: fullName) {
             alertText.title = "Invalid Input"
             alertText.message = "There is already a person with the same first and last name. Please update your first name or last name to make it unique. Recommended to update first name with an additional _."
             isShowingAlert = true
-            return
+            return false
         }
         
+        return true
+    }
+    
+    func add_person() {
         let newPerson = Person(firstName: inputtedFirstName, lastName: inputtedLastName, email: inputtedEmail, type: inputtedType)
         personStore.persons.append(newPerson)
         savePersons()
@@ -76,6 +82,9 @@ struct MyCrewView: View {
     
     var body: some View {
         Form{
+            Text("Reminder: Don't fuck it up. You cannot delete or update a crew member.").font(.custom(
+                "AmericanTypewriter",
+                fixedSize: 16)).padding()
             Section("Input New Person"){
                 HStack{
                     Label("First Name", systemImage: "textformat")
@@ -108,8 +117,17 @@ struct MyCrewView: View {
                 HStack {
                     Spacer()
                     
-                    Button(action: addPerson){
-                        Text("Add")
+                    Button(action: { if validate(){ isShowingSaveAlert = true } }){
+                        Text("Save")
+                    }.alert(isPresented: $isShowingSaveAlert) {
+                        Alert(
+                            title: Text("Add Crew Member?"),
+                            message: Text("You cannot update or delete a member later"),
+                            primaryButton: .default(Text("Yes! Add.")) {
+                                add_person()
+                            },
+                            secondaryButton: .cancel()
+                        )
                     }
                     Spacer()
                 }

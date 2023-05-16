@@ -24,6 +24,25 @@ struct TalliesView: View {
         return tallies.sorted(by: { $0.date > $1.date })
     }
     
+    @State private var isShowingDeleteAlert = false
+    @State private var tallyToDelete: DailyTally?
+    @State var isShowingDiscardAlert = false
+    @State var isShowingSaveAlert = false
+    
+    func add_tally(){
+        tallies.append(newTallyData)
+        isPresentingNewTallyView = false
+        newTallyData = DailyTally(data: DailyTally.Data())
+        saveTallies()
+    }
+    
+    func deleteTally(tally: DailyTally) {
+        if let index = tallies.firstIndex(where: { $0.id == tally.id }) {
+            tallies.remove(at: index)
+            saveTallies()
+        }
+    }
+    
     
     func verifyInput() -> Bool { // verify input for save
         if newTallyData.blocks.isEmpty {
@@ -45,17 +64,43 @@ struct TalliesView: View {
     
     var body: some View {
         NavigationView {
-            List {
-                if tallies.isEmpty {
-                    Text("No tallies to view.").foregroundColor(.gray)
+            VStack{
+                HStack{
+                    Text("Long-press a tally to delete it").font(.caption).padding()
+                    Spacer()
                 }
-                ForEach(sortedTallies) { tally in
-                    NavigationLink (destination: DailyTallyView(tally: tally,
-                                                                selectedBlock: tally.blocks.first!.key)){ // !! - tally must contain at least one block to be created
-                        CardView(tally: tally)
+                List {
+                    if tallies.isEmpty {
+                        Text("No tallies to view.").foregroundColor(.gray)
+                    }
+                    ForEach(sortedTallies) { tally in
+                        NavigationLink (destination: DailyTallyView(tally: tally,
+                                                                    selectedBlock: tally.blocks.first!.key)){ // !! - tally must contain at least one block to be created
+                            CardView(tally: tally)
+                                .contextMenu {
+                                Button(action: {
+                                    tallyToDelete = tally
+                                    isShowingDeleteAlert = true
+                                }) {
+                                    Label("Delete", systemImage: "trash")
+                                }
+                            }
+                        }
                     }
                 }
             }
+            
+            .alert(isPresented: $isShowingDeleteAlert) {
+                Alert(title: Text("Delete tally"),
+                      message: Text("Are you sure you want to delete this tally?"),
+                      primaryButton: .destructive(Text("Delete")) {
+                          if let tallyToDelete = tallyToDelete {
+                              deleteTally(tally: tallyToDelete)
+                          }
+                      },
+                      secondaryButton: .cancel())
+            }
+            
             .navigationTitle("Tallies")
             .toolbar {
                 Button(action: {isPresentingNewTallyView = true}){
@@ -67,21 +112,40 @@ struct TalliesView: View {
                     CreateTallyView(newTallyData: $newTallyData, isShowingAlert: $isShowingAlert, alertText: $alertText)
                         .toolbar(){
                             ToolbarItem(placement: .cancellationAction) {
-                                Button("Dismiss") {
-                                    isPresentingNewTallyView = false
-                                    newTallyData = DailyTally(data: DailyTally.Data())
+                                if !newTallyData.blocks.isEmpty {
+                                    Button("Discard") {
+                                        isShowingDiscardAlert = true
+                                    }.alert(isPresented: $isShowingDiscardAlert) {
+                                        Alert(title: Text("Discard tally"),
+                                              message: Text("Are you sure you want to discard this tally?"),
+                                              primaryButton: .destructive(Text("Discard")) {
+                                            isPresentingNewTallyView = false
+                                            newTallyData = DailyTally(data: DailyTally.Data())
+                                        },
+                                              secondaryButton: .cancel())
+                                    }
+                                } else {
+                                    Button("Dismiss") {
+                                            isPresentingNewTallyView = false
+                                            newTallyData = DailyTally(data: DailyTally.Data())
+                                        }
                                 }
                             }
                             ToolbarItem(placement: .confirmationAction) {
-                                Button("Add") {
+                                Button("Save") {
                                     if verifyInput() {
-                                        //let newTally = DailyTally(data: newTallyData)
-                                        tallies.append(newTallyData)
-                                        isPresentingNewTallyView = false
-                                        newTallyData = DailyTally(data: DailyTally.Data())
-                                        saveTallies()
+                                        isShowingSaveAlert = true
                                     }
-                                    
+                                }
+                                .alert(isPresented: $isShowingSaveAlert) {
+                                    Alert(
+                                        title: Text("Save Tally"),
+                                        message: Text("Is the date correct?"),
+                                        primaryButton: .default(Text("Yes! Please Save.")) {
+                                            add_tally()
+                                        },
+                                        secondaryButton: .cancel()
+                                    )
                                 }
                             }
                         }

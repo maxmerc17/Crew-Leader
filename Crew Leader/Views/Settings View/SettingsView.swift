@@ -15,12 +15,15 @@ struct SettingsView: View {
         NavigationView {
             VStack{
                 Form{
-                    Section("Application Data"){
+                    Section(""){//Application Data
                         NavigationLink (destination: MyCrewView(savePersons: savePersons)){
                             Text("My Crew")
                         }
                         NavigationLink (destination: SpeciesListView(saveSpecies: saveSpecies)){
                             Text("Species List")
+                        }
+                        NavigationLink(destination: DeveloperNotesView()){
+                            Text("Developer Notes")
                         }
                     }
                 }
