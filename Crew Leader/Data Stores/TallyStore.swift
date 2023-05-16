@@ -57,7 +57,7 @@ class TallyStore: ObservableObject {
                     let dayString = utilities.formatDate(date: tally.date)
                     
                     if let index = tempArray.firstIndex(where: { $0.day == dayString }) {
-                        tempArray[index].trees = indvTally.treesPlanted
+                        tempArray[index].trees = tempArray[index].trees + indvTally.treesPlanted
                     } else {
                         tempArray.append((date: tally.date, day: dayString, trees: indvTally.treesPlanted))
                     }

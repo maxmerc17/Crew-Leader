@@ -35,6 +35,21 @@ struct CreateBlockView: View {
     
     @State var requirementsNotMet : Bool = false
     
+    @State var isShowingSaveAlert: Bool = false
+    func save_block() {
+        for cut in cutsArray {
+            let newCut = Cut(species: cut.0, percent: Int(cut.1)!)
+            plantingUnits[(cut.2)-1].cuts.append(newCut)
+        }
+        
+        newBlockData.plantingUnits = plantingUnits
+        let newBlock = Block(data: newBlockData)
+        blocks.append(newBlock)
+        saveBlocks()
+        isPresentingNewBlockView = false
+        newBlockData = Block.Data()
+    }
+    
     func load() {
         if speciesStore.species.isEmpty {
             requirementsNotMet = true
@@ -159,6 +174,9 @@ struct CreateBlockView: View {
             } else {
                 Form{
                     Section(""){
+                        Text("Reminder: Don't fuck it up. You cannot delete or update blocks.").font(.custom(
+                            "AmericanTypewriter",
+                            fixedSize: 16)).padding()
                         HStack{
                             Label("Block Name: ", systemImage: "textformat")
                             Spacer()
@@ -261,20 +279,20 @@ struct CreateBlockView: View {
                 }
                 .toolbar() {
                     ToolbarItem(placement: .confirmationAction) {
-                        Button("Add") {
-                            if Validate(){
-                                for cut in cutsArray {
-                                    let newCut = Cut(species: cut.0, percent: Int(cut.1)!)
-                                    plantingUnits[(cut.2)-1].cuts.append(newCut)
-                                }
-                                
-                                newBlockData.plantingUnits = plantingUnits
-                                let newBlock = Block(data: newBlockData)
-                                blocks.append(newBlock)
-                                saveBlocks()
-                                isPresentingNewBlockView = false
-                                newBlockData = Block.Data()
+                        Button("Save") {
+                            if Validate() {
+                                isShowingSaveAlert = true
                             }
+                        }
+                        .alert(isPresented: $isShowingSaveAlert) {
+                            Alert(
+                                title: Text("Save Block"),
+                                message: Text("Is everything correct?"),
+                                primaryButton: .default(Text("Yes! Please Save.")) {
+                                    save_block()
+                                },
+                                secondaryButton: .cancel()
+                            )
                         }
                     }
                 }

@@ -34,7 +34,7 @@ struct PlanterReportView: View {
     var body: some View {
         GeometryReader { g in
             ScrollView{
-                PlanterProductionChartView(planter: planter).frame(width: g.size.width*0.95, height: g.size.height*0.6)//.border(.red)
+                PlanterProductionChartView(planter: planter).frame(width: g.size.width*0.95, height: g.size.height*0.8)//.border(.red)
                 List {
                     Section("Report"){
                         HStack{
@@ -69,14 +69,17 @@ import Charts
 struct PlanterProductionChartView: View {
     @State var planter: Person
     
-    @State var productionData : [(day: String, trees: Int)] = []
+    @State var productionData : [(x: String, y: Int)] = []
     
     @State var noDataToView : Bool = false
     
     @EnvironmentObject var tallyStore : TallyStore
     
     func updateProductionData() {
-        productionData = tallyStore.getTreesPerDay(planter: planter)
+        let receiver = tallyStore.getTreesPerDay(planter: planter)
+        productionData = receiver.map { (day: String, production: Int) in
+            (x: day, y: production)
+        }
         if productionData.isEmpty{
             noDataToView = true
         }
@@ -96,7 +99,8 @@ struct PlanterProductionChartView: View {
                 }
             } else {
                 Text("Daily Production").font(.title3).padding()
-                Chart{
+                LineChartView<Int>(xyData: $productionData, w: W(W: 300, H: 260, O: CGPoint(x: 15,y: 250), SW: 50))
+                /*Chart{
                     ForEach(productionData, id: \.day){ item in
                         BarMark(
                             x: .value("Day", item.day),
@@ -106,9 +110,10 @@ struct PlanterProductionChartView: View {
                             Text("\(item.trees)").font(.caption2)
                         }
                     }
-                }
+                }*/
             }
-        }.padding()
+        }.frame(width: 350, height: 335)
+            .padding()
             .onAppear(){
                 updateProductionData()
             }

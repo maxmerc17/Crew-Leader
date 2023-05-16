@@ -34,6 +34,11 @@ struct BlockView: View {
     var body: some View {
         ScrollView {
             ChartView3(block: block).frame(width: 350, height: 270)
+            
+            NavigationLink(destination: PlantingSummaryView(block: block)){
+                Label("Planting Summary", systemImage: "doc.plaintext.fill")
+            }
+            
             List{
                 Section("Report"){
                     HStack{
@@ -60,15 +65,15 @@ struct BlockView: View {
                     }
                 }
                 
-                Section("Data"){
+                /*Section("Data"){
                     NavigationLink(destination: LoadsView(block: $block)){
                         Label("Loads", systemImage: "box.truck")
                     }
                     NavigationLink(destination: {}){
                         Label("Plots", systemImage: "mappin.and.ellipse")
                     }
-                }
-            }.scrollDisabled(true).frame(height: 400)
+                }*/
+            }.scrollDisabled(true).frame(height: 250)
             
             PieChartHeaderView(block: $block, selectedCategory: $selectedCategory).frame(width: 350, height: 270)
             
@@ -114,10 +119,7 @@ struct BlockView: View {
                     }
                 }
                 Section("Reports"){
-                    NavigationLink(destination: PlantingSummaryView(block: block)){
-                        //Text("Planting Summary")
-                        Label("Planting Summary", systemImage: "doc.plaintext.fill")
-                    }
+                    
                     NavigationLink(destination: PlanterProgressView(block: $block)){
                         //Text("Planter Reports")
                         Label("Planter Reports", systemImage: "doc.on.doc")
