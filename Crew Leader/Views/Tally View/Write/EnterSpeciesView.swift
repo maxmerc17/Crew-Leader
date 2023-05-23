@@ -41,6 +41,7 @@ struct EnterSpeciesView: View {
     }
     //$newTallyData.blocks[block].individualTallies[planter]?.boxesPerSpecies[species]
     
+    
     var body: some View {
         Section("\(species.name) - \(totalTreesPlanted) trees planted"){
             HStack {
@@ -48,7 +49,6 @@ struct EnterSpeciesView: View {
                 Text("(\(species.treesPerBox) trees / box)").font(.caption)
                 Spacer()
                 TextField("Boxes", text: $numBoxes).multilineTextAlignment(.trailing)
-                    .keyboardType(.numberPad)
                     .onChange(of: numBoxes){
                         newTallyData.blocks[block]?.individualTallies[planter.id]?.boxesPerSpecies[species] = Int($0)
                         updateProduction()
@@ -65,14 +65,16 @@ struct EnterSpeciesView: View {
                     updateProduction()
                 }
             }
-        }.onChange(of: planter){
+        }
+        .onChange(of: planter){
             print($0)
             updateProduction()
         }
         .onChange(of: block){
             print($0)
             updateProduction()
-        }.onAppear(){
+        }
+        .onAppear(){
             updateProduction()
         }
     }

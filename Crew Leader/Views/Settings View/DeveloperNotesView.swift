@@ -15,7 +15,7 @@ struct DeveloperNotesView: View {
                 "AmericanTypewriter",
                 fixedSize: 16)).padding()
             
-            Text("Start by going to settings and adding crew members and species. Then add your first block. Once crew members, species, at least one block, and at least one tally are created the entire application will be accessible. Try clicking on the charts to view additional features. And play around to learn how everything works. Note, some graphs don't seem to work until you've entered at least two tallys.").font(.custom(
+            Text("Start by going to settings and adding crew members and species. Then add your first block. Once crew members, species, at least one block, and at least two tallies are created the entire application will be accessible. Try clicking on the charts to view additional features. And play around to learn how everything works.").font(.custom(
                 "AmericanTypewriter",
                 fixedSize: 16)).padding()
             

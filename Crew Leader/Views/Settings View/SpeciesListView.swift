@@ -97,27 +97,30 @@ struct SpeciesListView: View {
         inputtedTreesPerBundle = ""
     }
     
+    private enum Field: Int, CaseIterable { case username, password, third, fourth } // case names are random. its the function that counts
+    @FocusState private var focusedField: Field?
+    
     var body: some View {
         VStack{
             Form{
-                Text("Reminder: Don't fuck it up. You cannot delete or update a species. Sometimes the same species code can be used for boxes with different contents. If you have two of the same species code in a season then name them uniquely here. Ex: { 'PLI048': x bundles, y trees/bundle } and { 'PLI048_2': z bundles, w tree/bundle }. Keep species names short. ").font(.custom(
+                Text("Reminder: Don't fuck it up. You cannot delete or update a species. Sometimes the same species code can be used for boxes with different contents. If you have two of the same species code in a season then name them uniquely here. Ex: { 'PLI048': x bundles, y trees/bundle } and { 'PLI048_2': z bundles, w trees/bundle }. Keep species names short. ").font(.custom(
                     "AmericanTypewriter",
                     fixedSize: 16)).padding()
                 Section("Input New Species"){
                     HStack{
                         Label("Species Code:", systemImage: "textformat")
                         Spacer()
-                        TextField("ex. PLI048", text: $inputtedSpeciesCode).frame(width: 148).multilineTextAlignment(.trailing)
+                        TextField("ex. PLI048", text: $inputtedSpeciesCode).frame(width: 148).multilineTextAlignment(.trailing).focused($focusedField, equals: .username)
                     }
                     HStack{
                         Label("Trees Per Box", systemImage: "shippingbox")
                         Spacer()
-                        TextField("ex. 420", text: $inputtedTreesPerBox).frame(width: 148).multilineTextAlignment(.trailing)
+                        TextField("ex. 420", text: $inputtedTreesPerBox).frame(width: 148).multilineTextAlignment(.trailing).focused($focusedField, equals: .password)
                     }
                     HStack{
                         Label("Trees Per Bundle", systemImage: "pause.rectangle")
                         Spacer()
-                        TextField("ex. 20", text: $inputtedTreesPerBundle).frame(width: 129).multilineTextAlignment(.trailing)
+                        TextField("ex. 20", text: $inputtedTreesPerBundle).frame(width: 129).multilineTextAlignment(.trailing).focused($focusedField, equals: .third)
                     }
                     HStack {
                         Spacer()
@@ -160,6 +163,13 @@ struct SpeciesListView: View {
                 title: Text("\(alertText.title)"),
                 message: Text("\(alertText.message)")
             )
+        }
+        .toolbar {
+            ToolbarItem(placement: .keyboard) {
+                Button("Close Keyboard") {
+                    focusedField = nil
+                }
+            }
         }
     }
 }

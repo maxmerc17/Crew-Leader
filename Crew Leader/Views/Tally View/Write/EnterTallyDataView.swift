@@ -21,6 +21,9 @@ struct EnterTallyDataView: View {
     
     @EnvironmentObject var personStore : PersonStore
     
+    private enum Field: Int, CaseIterable { case username, password, third, fourth } // case names are random. its the function that counts
+    @FocusState private var focusedField: Field?
+    
     var body: some View {
         VStack {
             Picker("Planter", selection: $selectedPlanter){
@@ -33,7 +36,7 @@ struct EnterTallyDataView: View {
             Form{
                 ForEach(Array(newTallyData.blocks[selectedBlock]?.species ?? [])){
                         species in
-                    EnterSpeciesView(newTallyData: $newTallyData, planter: $selectedPlanter, species: species, block: $selectedBlock, partials: $partials)
+                    EnterSpeciesView(newTallyData: $newTallyData, planter: $selectedPlanter, species: species, block: $selectedBlock, partials: $partials).focused($focusedField, equals: .fourth)
                 }
             }
             Text("\(selectedPlanter.firstName) has planted \(newTallyData.blocks[selectedBlock]?.individualTallies[selectedPlanter.id]?.treesPlanted ?? 0) trees for \(selectedBlock)")
@@ -49,6 +52,13 @@ struct EnterTallyDataView: View {
             ToolbarItem(placement: .primaryAction){
                 Button("New Partial"){
                     isPresentingCreatePartialView = true
+                }
+            }
+        }
+        .toolbar {
+            ToolbarItem(placement: .keyboard) {
+                Button("Close Keyboard") {
+                    focusedField = nil
                 }
             }
         }

@@ -40,6 +40,9 @@ struct CacheCalculatorView: View {
 
     @State var requirementsNotMet : Bool = false
     
+    private enum Field: Int, CaseIterable { case username, password }
+    @FocusState private var focusedField: Field?
+    
     var totalPercentage : Int {
         return cutsArray.reduce(0) { tot, elem in tot + Int(elem.1)! } // !!
     }
@@ -138,7 +141,7 @@ struct CacheCalculatorView: View {
                         Section("Input"){
                             HStack{
                                 Label("Number of Trees ", systemImage: "number").frame(width: 200)
-                                TextField("0", text: $numberOfTrees).multilineTextAlignment(.trailing).keyboardType(.numberPad)
+                                TextField("0", text: $numberOfTrees).multilineTextAlignment(.trailing).keyboardType(.numberPad).focused($focusedField, equals: .username)
                             }
                         }
                         
@@ -163,7 +166,7 @@ struct CacheCalculatorView: View {
                             }
                             HStack{
                                 Label("Mix", systemImage: "percent")
-                                TextField("ex. 67", text: $mix).multilineTextAlignment(.trailing).keyboardType(.numberPad)
+                                TextField("ex. 67", text: $mix).multilineTextAlignment(.trailing).keyboardType(.numberPad).focused($focusedField, equals: .password)
                                 Text("%")
                             }
                             HStack {
@@ -206,6 +209,13 @@ struct CacheCalculatorView: View {
                                         }
                                     }
                                 }
+                            }
+                        }
+                    }
+                    .toolbar {
+                        ToolbarItem(placement: .keyboard) {
+                            Button("Close Keyboard") {
+                                focusedField = nil
                             }
                         }
                     }

@@ -80,18 +80,18 @@ struct PlanterProductionChartView: View {
         productionData = receiver.map { (day: String, production: Int) in
             (x: day, y: production)
         }
-        if productionData.isEmpty{
+        if (productionData.count < 2) {
             noDataToView = true
         }
     }
     
     var body: some View {
         VStack {
-            if productionData.isEmpty{
+            if productionData.count < 2{
                 if (noDataToView) {
                     VStack{
-                        Text("There is currently no planter data to view.").font(.headline).foregroundColor(.gray).multilineTextAlignment(.center)
-                        Text("Data may be taking longer to load. Or no tallies have been submitted for this planter.").font(.caption).foregroundColor(.gray).multilineTextAlignment(.center)
+                        Text("Cannot display Planter Production graph.").font(.headline).foregroundColor(.gray).multilineTextAlignment(.center)
+                        Text("Data may be taking longer to load. Or less than 2 tallies have been submitted. Must submit at least 2 tallies to view this graph.").font(.caption).foregroundColor(.gray).multilineTextAlignment(.center)
                     }.padding()
                 }
                 Button(action: updateProductionData){

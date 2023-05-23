@@ -80,6 +80,9 @@ struct MyCrewView: View {
         return
     }
     
+    private enum Field: Int, CaseIterable { case username, password, third, fourth } // case names are random. its the function that counts
+    @FocusState private var focusedField: Field?
+    
     var body: some View {
         Form{
             Text("Reminder: Don't fuck it up. You cannot delete or update a crew member.").font(.custom(
@@ -89,18 +92,18 @@ struct MyCrewView: View {
                 HStack{
                     Label("First Name", systemImage: "textformat")
                     Spacer()
-                    TextField("John", text: $inputtedFirstName).frame(width: 148).multilineTextAlignment(.trailing)
+                    TextField("John", text: $inputtedFirstName).frame(width: 148).multilineTextAlignment(.trailing).focused($focusedField, equals: .username)
                 }
                 HStack{
                     Label("Last Name", systemImage: "textformat")
                     Spacer()
-                    TextField("Smith", text: $inputtedLastName).frame(width: 148).multilineTextAlignment(.trailing)
+                    TextField("Smith", text: $inputtedLastName).frame(width: 148).multilineTextAlignment(.trailing).focused($focusedField, equals: .password)
                 }
                 
                 HStack{
                     Label("Email", systemImage: "at")
                     Spacer()
-                    TextField("me@mail", text: $inputtedEmail).frame(width: 148).multilineTextAlignment(.trailing)
+                    TextField("me@mail", text: $inputtedEmail).frame(width: 148).multilineTextAlignment(.trailing).focused($focusedField, equals: .third)
                 }
                 
                 HStack {
@@ -154,6 +157,13 @@ struct MyCrewView: View {
                 title: Text("\(alertText.title)"),
                 message: Text("\(alertText.message)")
             )
+        }
+        .toolbar {
+            ToolbarItem(placement: .keyboard) {
+                Button("Close Keyboard") {
+                    focusedField = nil
+                }
+            }
         }
     }
 }

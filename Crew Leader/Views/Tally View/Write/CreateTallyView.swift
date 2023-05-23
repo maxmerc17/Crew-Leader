@@ -79,7 +79,7 @@ struct CreateTallyView: View {
         if canDisplay {
             VStack(alignment: .leading, spacing: 0) {
                 VStack {
-                    Text("Reminder: Be careful. You can only delete tallies, there's no way to update them. Also you cannot update/delete blocks, species, or partials in this module. So maybe write your numbers on paper first and oh ya ... don't fuck it up. Get the DATE right!!! Also, the Partials view is a little funky-monkey. (play around with scrolling if you can't find something)").frame(height: { textToggle ? 50 : 150 }()).font(.custom(
+                    Text("Reminder: Be careful. You can only delete tallies, there's no way to update them. Also you cannot update/delete blocks, species, or partials in this module. So maybe write your numbers on paper first and oh ya ... don't fuck it up. Get the DATE right!!! (play around with scrolling if you can't find something)").frame(height: { textToggle ? 50 : 150 }()).font(.custom(
                         "AmericanTypewriter",
                         fixedSize: 16)).padding(.leading, 10)
                     Button(action: { self.textToggle = !self.textToggle }){

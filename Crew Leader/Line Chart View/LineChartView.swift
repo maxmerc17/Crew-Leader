@@ -195,7 +195,7 @@ struct PointView<Val: Conforming>: View {
             }.strokedPath(StrokeStyle(dash: [3])).foregroundColor(.blue)
             
             Circle()
-                .frame(width: isSelectedPoint ? 20 : 10)
+                .frame(width: isSelectedPoint ? 40 : 30)
                 .foregroundColor(.blue).position(x: p.posX, y: p.posY)
                 .onTapGesture { selectedPoint = p.id }
             
