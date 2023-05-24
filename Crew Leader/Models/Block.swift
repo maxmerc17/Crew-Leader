@@ -63,6 +63,75 @@ struct Block: Identifiable, Codable, Hashable, Comparable {
 }
 
 extension Block {
+    /// returns loads as an data array that can be used for a chart
+    func getLoadsData() -> [(day: String, boxesTaken: Int, boxesReturned: Int)] {
+        var returnArray : [(day: String, boxesTaken: Int, boxesReturned: Int)] = []
+        var tempArray : [(day: String, date: Date, boxesReturned: Int, boxesTaken: Int)] = []
+        for load in loads {
+            let day = utilities.formatDate(date: load.date)
+            if let index = tempArray.firstIndex(where: { $0.day == day }){
+                tempArray[index].boxesTaken += load.boxesTaken
+                tempArray[index].boxesReturned += load.boxesReturned
+            } else {
+                tempArray.append((day: day, date: load.date, boxesReturned: load.boxesReturned, boxesTaken: load.boxesTaken))
+            }
+        }
+        
+        tempArray = tempArray.sorted { $0.date < $1.date }
+        returnArray = tempArray.map{ (day: utilities.formatDate(date: $0.date), boxesTaken: $0.boxesTaken, boxesReturned: $0.boxesReturned ) }
+        
+        return returnArray
+    }
+    
+    func getBoxesPerSpeciesTaken(species: Species) -> Int{
+        loads.reduce(0) { tot, elem in
+            tot + (elem.boxesPerSpeciesTaken[species] ?? 0) - (elem.boxesPerSpeciesReturned[species] ?? 0)
+        }
+    }
+    
+    
+    // MARK: Planting Summary
+    func getBoxesToBringPerSpecies() -> [(species: Species, boxesToBring: Int)]{
+        var array : [(species: Species, boxesToBring: Int)] = []
+        
+        for plantingUnit in plantingUnits {
+            for cut in plantingUnit.cuts {
+                if let index = array.firstIndex(where: { $0.species == cut.species }){
+                    array[index].boxesToBring += cut.numBoxes(plantingUnit.TreesPU)
+                }
+                else {
+                    array.append((species: cut.species, boxesToBring: cut.numBoxes(plantingUnit.TreesPU)))
+                }
+            }
+        }
+        return array
+    }
+    
+    func getCutsPerPlantingUnit() -> [(Species, String, Int)]{
+        var array : [(Species, String, Int)] = []
+        
+        var unitNumber = 1
+        for plantingUnit in plantingUnits {
+            for cut in plantingUnit.cuts {
+                array.append((cut.species, String(cut.percent), unitNumber))
+            }
+            unitNumber+=1
+        }
+        return array
+    }
+    
+    /// given a planting unit the unit number in the block is returned
+    func getUnitNumber(_ plantingUnit: PlantingUnit) -> Int? {
+        if let index = plantingUnits.firstIndex(of: plantingUnit ){
+            return index + 1
+        }
+        else {
+            return nil
+        }
+    }
+}
+
+extension Block {
     struct Data {
         var blockNumber : String = ""
         var blockDetails : BlockDetails = BlockDetails(data: BlockDetails.Data())
@@ -178,18 +247,18 @@ struct PlantingUnit : Identifiable, Codable, Hashable{
 
 extension PlantingUnit{
     struct Data : Equatable {
-        var area: Float
-        var density: Int
-        var TreesPU: Int
-        var cuts : [Cut]
+        var area: Float = 0
+        var density: Int = 0
+        var TreesPU: Int = 0
+        var cuts : [Cut] = []
     }
     
     init(data: Data){
         self.id = UUID()
-        self.area = 0
-        self.density = 0
-        self.TreesPU = 0
-        self.cuts = []
+        self.area = data.area
+        self.density = data.density
+        self.TreesPU = data.TreesPU
+        self.cuts = data.cuts
     }
     
     mutating func upate(data: Data){
@@ -207,6 +276,14 @@ struct Load: Identifiable, Codable, Hashable {
     var boxesPerSpeciesTaken : [Species: Int]
     var boxesPerSpeciesReturned : [Species: Int]
     
+    var boxesTaken : Int {
+        boxesPerSpeciesTaken.reduce(0) { tot, elem in tot + elem.value }
+    }
+    
+    var boxesReturned : Int {
+        boxesPerSpeciesReturned.reduce(0) { tot, elem in tot + elem.value }
+    }
+    
     var treesTaken : Int {
         boxesPerSpeciesTaken.reduce(0, { x, y in x + (y.0.treesPerBox*y.1) })
     }
@@ -214,7 +291,7 @@ struct Load: Identifiable, Codable, Hashable {
         boxesPerSpeciesReturned.reduce(0, { x, y in x + (y.0.treesPerBox*y.1) })
     }
     
-    init(id: UUID, date: Date, boxesPerSpeciesTaken: [Species: Int], boxesPerSpeciesReturned: [Species: Int]) {
+    init(id: UUID = UUID(), date: Date, boxesPerSpeciesTaken: [Species: Int], boxesPerSpeciesReturned: [Species: Int]) {
         self.id = id
         self.date = date
         self.boxesPerSpeciesTaken = boxesPerSpeciesTaken
@@ -227,10 +304,20 @@ struct Load: Identifiable, Codable, Hashable {
 }
 
 extension Load {
+    func getBoxesTakenTuple() -> [(species: Species, boxes: Int)] {
+        return boxesPerSpeciesTaken.map{ ($0.key, $0.value) }
+    }
+    
+    func getBoxesReturnedTuple() -> [(species: Species, boxes: Int)] {
+        return boxesPerSpeciesReturned.map{ ($0.key, $0.value) }
+    }
+}
+
+extension Load {
     struct Data {
-        var date : Date
-        var boxesPerSpeciesTaken : [Species: Int]
-        var boxesPerSpeciesReturned : [Species: Int]
+        var date : Date = Date.now
+        var boxesPerSpeciesTaken : [Species: Int] = [:]
+        var boxesPerSpeciesReturned : [Species: Int] = [:]
     }
     
     init(data: Data){
@@ -246,9 +333,6 @@ extension Load {
         boxesPerSpeciesReturned = data.boxesPerSpeciesReturned
     }
 }
-
-
-
 
 extension Block {
     static let sampleData : [Block] =

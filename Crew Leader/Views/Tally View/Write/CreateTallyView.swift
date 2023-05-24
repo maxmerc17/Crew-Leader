@@ -28,6 +28,8 @@ struct CreateTallyView: View {
     
     @State var isShowingTallies : Bool = false
     
+    @State var canDisplay: Bool = false
+    
     var blocksList : [String] {
         get {
             return Array(newTallyData.blocks.keys)
@@ -35,11 +37,19 @@ struct CreateTallyView: View {
     }
     
     @EnvironmentObject var personStore : PersonStore
+    @EnvironmentObject var blockStore: BlockStore
+    @EnvironmentObject var speciesStore: SpeciesStore
+    @EnvironmentObject var talliesStore: TallyStore
     
     func load() {
         if selectedPlanter.fullName == " "{
-            selectedPlanter = personStore.getCrew()[0] /// FOD
-            print(selectedPlanter)
+            if personStore.persons.isEmpty || blockStore.blocks.isEmpty || speciesStore.species.isEmpty {
+                canDisplay = false
+            } else {
+                selectedPlanter = personStore.getCrew()[0] /// FOD
+                canDisplay = true
+            }
+            
         }
     }
     
@@ -58,57 +68,90 @@ struct CreateTallyView: View {
             return
         }
         
+        
         isShowingTallies = true
         return
     }
     
+    @State var textToggle : Bool = true
+    
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            Form {
-                Section("Block Information"){
-                    HStack{
-                        Label("Date", systemImage: "calendar")
-                        Spacer()
-                        DatePicker(selection: $newTallyData.date, displayedComponents: .date, label: { Text("")})
+        if canDisplay {
+            VStack(alignment: .leading, spacing: 0) {
+                VStack {
+                    Text("Reminder: Be careful. You can only delete tallies, there's no way to update them. Also you cannot update/delete blocks, species, or partials in this module. So maybe write your numbers on paper first and oh ya ... don't fuck it up. Get the DATE right!!! (play around with scrolling if you can't find something)").frame(height: { textToggle ? 50 : 150 }()).font(.custom(
+                        "AmericanTypewriter",
+                        fixedSize: 16)).padding(.leading, 10)
+                    Button(action: { self.textToggle = !self.textToggle }){
+                        Label("", systemImage: { textToggle ? "arrow.down" : "arrow.up" }() )
                     }
                 }
                 
-                AddBlocksView(newTallyData: $newTallyData, initSelectedBlock: $selectedBlock)
                 
-            }.scrollContentBackground(.hidden)
-            
-            VStack{
-                Divider()
-                if blocksList.count > 0 {
-                    AddSpeciesView(newTallyData: $newTallyData,
-                                   selectedBlock: blocksList[0],
-                                   showAlert: $isShowingAlert,
-                                   alertText: $alertText)
-                    
-                    NavigationLink(destination: EnterTallyDataView(newTallyData: $newTallyData,
-                                                                   selectedBlock: $selectedBlock,
-                                                                   selectedPlanter: $selectedPlanter,
-                                                                   partials: $partials,
-                                                                   newPartialData: $newPartialData),
-                                   isActive: $isShowingTallies){
+                Form {
+                    Section("Block Information"){
+                        HStack{
+                            Label("Date", systemImage: "calendar")
+                            Spacer()
+                            DatePicker(selection: $newTallyData.date, displayedComponents: .date, label: { Text("")})
+                        }
+                    }
+                }.frame(height: 100)
+                
+                
+                Form {
+                    AddBlocksView(newTallyData: $newTallyData, initSelectedBlock: $selectedBlock).frame(height: 5)
+                }.scrollContentBackground(.hidden)
+                
+                VStack{
+                    //Divider()
+                    if blocksList.count > 0 {
+                        AddSpeciesView(newTallyData: $newTallyData,
+                                       selectedBlock: blocksList[0],
+                                       showAlert: $isShowingAlert,
+                                       alertText: $alertText)
                         
+                        NavigationLink(destination: EnterTallyDataView(newTallyData: $newTallyData,
+                                                                       selectedBlock: $selectedBlock,
+                                                                       selectedPlanter: $selectedPlanter,
+                                                                       partials: $partials,
+                                                                       newPartialData: $newPartialData),
+                                       isActive: $isShowingTallies){
+                            EmptyView()
+                            
+                        }
                     }
-                }
+                    HStack{
+                        Spacer()
+                        Button(action: verifyInput){
+                            Text("View Crew Tallies").foregroundColor(.green)
+                        }.padding()
+                        Spacer()
+                    }
+                    
+                }.scrollContentBackground(.hidden)
+                    .frame(height: 300)
                 
-                Button(action: verifyInput){
-                    Text("Crew Tallies")
-                }.padding()
             }
+            .onAppear(){
+                load()
+            }
+            .alert(isPresented: $isShowingAlert) {
+                Alert(
+                    title: Text(alertText.title),
+                    message: Text(alertText.message)
+                )
+            }
+        }
+        else {
+            VStack{
+                Text("Cannot create tally due to lack of crew, species, or block data.").font(.headline).foregroundColor(.gray).multilineTextAlignment(.center)
+                Text("Data may be taking longer to load. Or no data exists.").font(.caption).foregroundColor(.gray).multilineTextAlignment(.center)
+                Button(action: load){
+                    Label("Reload", systemImage: "arrow.clockwise")
+                }.padding()
+            }.padding()
             
-        }
-        .onAppear(){
-            load()
-        }
-        .alert(isPresented: $isShowingAlert) {
-            Alert(
-                title: Text(alertText.title),
-                message: Text(alertText.message)
-            )
         }
     }
 }

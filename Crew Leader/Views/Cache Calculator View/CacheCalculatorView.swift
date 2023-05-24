@@ -34,8 +34,18 @@ struct CacheCalculatorView: View {
     @State var history : [CacheCalculator] = []
     
     @EnvironmentObject var speciesStore : SpeciesStore
+    
+    @State var isPresentingImportView : Bool = false
+    @State var selectedPlantingUnit : PlantingUnit = PlantingUnit.init(data: PlantingUnit.Data())
 
     @State var requirementsNotMet : Bool = false
+    
+    private enum Field: Int, CaseIterable { case username, password }
+    @FocusState private var focusedField: Field?
+    
+    var totalPercentage : Int {
+        return cutsArray.reduce(0) { tot, elem in tot + Int(elem.1)! } // !!
+    }
     
     func load() {
         if !speciesStore.species.isEmpty{
@@ -101,6 +111,13 @@ struct CacheCalculatorView: View {
             return
         }
         
+        if totalPercentage != 100 {
+            alertText.title = "Improper Input"
+            alertText.message = "The sum of all species mixes should equal 100%."
+            isShowingAlert = true
+            return
+        }
+        
         calculatedObject = CacheCalculator(desiredTrees: Int(numberOfTrees)!, cuts: cutsArray)
         history.append(calculatedObject)
         isShowingResults = true
@@ -123,11 +140,12 @@ struct CacheCalculatorView: View {
                     Form{
                         Section("Input"){
                             HStack{
-                                Label("Number of Trees ", systemImage: "number")
-                                TextField("0", text: $numberOfTrees).frame(width:80).keyboardType(.numberPad)
+                                Label("Number of Trees ", systemImage: "number").frame(width: 200)
+                                TextField("0", text: $numberOfTrees).multilineTextAlignment(.trailing).keyboardType(.numberPad).focused($focusedField, equals: .username)
                             }
                         }
-                        Section("Species"){
+                        
+                        Section(cutsArray.count > 1 ? "Species - \(totalPercentage)%" : "Species"){
                             if cutsArray.isEmpty{
                                 Text("No species entered.").foregroundColor(.gray)
                             } else {
@@ -136,18 +154,19 @@ struct CacheCalculatorView: View {
                                 }
                             }
                         }
+                        
                         Section("Add Species"){
                             HStack {
                                 Label("Species", systemImage: "leaf")
                                 Picker("", selection: $selectedSpecies){
                                     ForEach(speciesStore.species){ species in
-                                        Text("\(species.name)").tag(species)
+                                        Text("\(species.name) (\(species.treesPerBox) trees/box)").tag(species)
                                     }
                                 }
                             }
                             HStack{
                                 Label("Mix", systemImage: "percent")
-                                TextField("ex. 67", text: $mix).multilineTextAlignment(.trailing).keyboardType(.numberPad)
+                                TextField("ex. 67", text: $mix).multilineTextAlignment(.trailing).keyboardType(.numberPad).focused($focusedField, equals: .password)
                                 Text("%")
                             }
                             HStack {
@@ -157,9 +176,10 @@ struct CacheCalculatorView: View {
                                 }
                                 Spacer()
                             }
-                            
-                            
                         }
+                        
+                        
+                        
                         Section(""){
                             ZStack {
                                 NavigationLink("View Results", destination: ResultsView(calculatedObject: calculatedObject), isActive: $isShowingResults).hidden()
@@ -192,6 +212,13 @@ struct CacheCalculatorView: View {
                             }
                         }
                     }
+                    .toolbar {
+                        ToolbarItem(placement: .keyboard) {
+                            Button("Close Keyboard") {
+                                focusedField = nil
+                            }
+                        }
+                    }
                 }
             }
             .navigationTitle("Cache Calculator")
@@ -203,6 +230,33 @@ struct CacheCalculatorView: View {
                     title: Text("\(alertText.title)"),
                     message: Text("\(alertText.message)")
                 )
+            }
+            
+            .toolbar {
+                Button(action: { isPresentingImportView = true }){
+                    Image(systemName: "arrow.down.circle")
+                }
+            }
+            .sheet(isPresented: $isPresentingImportView){
+                NavigationView(){
+                    ImportPlantingUnitView(selectedPlantingUnit: $selectedPlantingUnit)
+                        .toolbar(){
+                            ToolbarItem(placement: .cancellationAction) {
+                                Button("Dismiss") {
+                                    isPresentingImportView = false
+                                }
+                            }
+                            if !selectedPlantingUnit.cuts.isEmpty{
+                                ToolbarItem(placement: .confirmationAction) {
+                                    Button("Import") {
+                                        cutsArray = selectedPlantingUnit.cuts.map { cut in (cut.species, String(cut.percent) ) }
+                                        isPresentingImportView = false
+                                    }
+                                }
+                            }
+                            
+                        }
+                }
             }
         }
             

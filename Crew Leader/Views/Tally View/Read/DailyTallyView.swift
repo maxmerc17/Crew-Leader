@@ -12,6 +12,8 @@ struct DailyTallyView: View {
     
     @EnvironmentObject var personStore: PersonStore
     
+    @State var isShowingConfirmationAlert: Bool = false
+    
     var body: some View {
         let treesPlantedPerSpecies : [Species : Int] = tally.getTreesPlantedPerSpecies(block: selectedBlock) ?? [:] // ???? - unwraps if it exists and or returns [:] if nil
         
@@ -46,13 +48,42 @@ struct DailyTallyView: View {
                         
                     }
                 }
+                /*Section(""){
+                    Button(action: { self.isShowingConfirmationAlert = true } ){
+                        HStack{
+                            Spacer()
+                            HStack{
+                                Text("DELETE").foregroundColor(.red).fontWeight(.heavy).font(.custom("Helvetica Bold", size: 18))
+                                Image(systemName: "trash.circle.fill").foregroundColor(.red)
+                            }.font(.system(size: 30))
+                            Spacer()
+                        }
+                        
+                        
+                    }.buttonStyle(PlainButtonStyle())
+                }*/
                 
             }
             
+            
             Spacer()
-        }.navigationTitle("\(utilities.formatDate(date: tally.date))")
+        }
+        .navigationTitle("\(utilities.formatDate(date: tally.date))")
+            .alert(isPresented: $isShowingConfirmationAlert) {
+            Alert(
+                title: Text("Are you sure?"),
+                message: Text("This tally will be permanently deleted."),
+                primaryButton: .destructive(Text("Delete")) {
+                    // Add your delete action here
+                },
+                secondaryButton: .cancel()
+            )
+        }
     }
 }
+
+func nil_func() -> Void {}
+
 
 struct DailyTallyView_Previews: PreviewProvider {
     static var previews: some View {

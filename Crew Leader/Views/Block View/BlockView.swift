@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct BlockView: View {
-    @State var block : Block
+    @Binding var block : Block
     @Binding var selectedCategory : String
     
     @EnvironmentObject var tallyStore : TallyStore
@@ -34,6 +34,10 @@ struct BlockView: View {
     var body: some View {
         ScrollView {
             ChartView3(block: block).frame(width: 350, height: 270)
+            
+            NavigationLink(destination: PlantingSummaryView(block: block)){
+                Label("Planting Summary", systemImage: "doc.plaintext.fill")
+            }
             
             List{
                 Section("Report"){
@@ -61,15 +65,15 @@ struct BlockView: View {
                     }
                 }
                 
-                Section("Data"){
-                    NavigationLink(destination: {}){
+                /*Section("Data"){
+                    NavigationLink(destination: LoadsView(block: $block)){
                         Label("Loads", systemImage: "box.truck")
                     }
                     NavigationLink(destination: {}){
                         Label("Plots", systemImage: "mappin.and.ellipse")
                     }
-                }
-            }.scrollDisabled(true).frame(height: 400)
+                }*/
+            }.scrollDisabled(true).frame(height: 250)
             
             PieChartHeaderView(block: $block, selectedCategory: $selectedCategory).frame(width: 350, height: 270)
             
@@ -115,10 +119,7 @@ struct BlockView: View {
                     }
                 }
                 Section("Reports"){
-                    NavigationLink(destination: PlantingSummaryView(block: block)){
-                        //Text("Planting Summary")
-                        Label("Planting Summary", systemImage: "doc.plaintext.fill")
-                    }
+                    
                     NavigationLink(destination: PlanterProgressView(block: $block)){
                         //Text("Planter Reports")
                         Label("Planter Reports", systemImage: "doc.on.doc")
@@ -323,7 +324,7 @@ struct ChartView3 : View {
                             x: .value("Day", elem.day),
                             y: .value("Trees Planted", elem.trees)
                         ).annotation{
-                            Text("\(elem.trees) trees").font(.caption2)
+                            Text("\(elem.trees)").font(.caption2)
                         }
                     }
                 }
@@ -337,7 +338,7 @@ struct ChartView3 : View {
 
 struct BlockView_Previews: PreviewProvider {
     static var previews: some View {
-        BlockView(block: Block.sampleData[0], selectedCategory: .constant("Progress")).environmentObject(TallyStore())
+        BlockView(block: .constant(Block.sampleData[0]), selectedCategory: .constant("Progress")).environmentObject(TallyStore())
     }
 }
 

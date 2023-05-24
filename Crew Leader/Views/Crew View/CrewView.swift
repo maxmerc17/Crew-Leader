@@ -20,27 +20,27 @@ struct CrewView: View {
                         HStack{
                             Text("Planting Days")
                             Spacer()
-                            Text("\(tallyStore.getNumPlantingDays())")
+                            Text("\(tallyStore.getNumPlantingDays()) days")
                         }
                         HStack{
                             Text("Crew Average")
                             Spacer()
-                            Text("\(tallyStore.getCrewAverage())")
+                            Text("\(tallyStore.getCrewAverage()) trees / day")
                         }
                         HStack{
                             Text("Crew Record")
                             Spacer()
-                            Text("\(tallyStore.getCrewPB())")
+                            Text("\(tallyStore.getCrewPB()) trees")
                         }
                         HStack{
                             Text("Season Total")
                             Spacer()
-                            Text("\(tallyStore.getSeasonTotal())")
+                            Text("\(tallyStore.getSeasonTotal()) trees")
                         }
                     }
                     Section("Planter Reports"){
                         ForEach(personStore.getCrew()){ member in
-                            NavigationLink(destination: {}) {
+                            NavigationLink(destination: PlanterReportView(planter: member)) {
                                 HStack{
                                     //Text("\(member.fullName)")
                                     Label("\(member.fullName)", systemImage: "person")
@@ -50,24 +50,18 @@ struct CrewView: View {
                         }
                         
                     }
-                }.scrollDisabled(true).navigationTitle("My Crew").frame(height: 500)
+                }.scrollDisabled(true).navigationTitle("My Crew").frame(height: 800)
             }
         }
     }
 }
 
 struct ChartContainerView: View {
-    @State var charts : [String] = ["Production", "Allocation"]
+    @State var charts : [String] = ["Production"] //"Allocation"
     @State var selectedChart : String = "Production"
     
     func chartChanged(new chart: String) {
         selectedChart = chart
-//        switch chart {
-//            case "Progress": return
-//            case "Species": return
-//            case "Date" : return
-//            default: print("error")
-//        }
     }
     
     var body: some View {
@@ -75,12 +69,12 @@ struct ChartContainerView: View {
             VStack{
                 switch selectedChart {
                     case "Production": ProductionChartView()
-                    case "Allocation": Text("hello")
-                    default: Text("bye")
+                    //case "Allocation": Text("Coming Soon!")
+                    default: Text("Error displaying chart")
                 }
-            }.frame(width: 350, height: 270)
+            }.frame(width: 350, height: 350)
             
-            HStack(spacing: 25) {
+            /*HStack(spacing: 25) {
                 ForEach(charts, id: \.self) { chart in
                     Button {
                         chartChanged(new: chart)
@@ -93,7 +87,7 @@ struct ChartContainerView: View {
                                 : .gray)
                     }
                 }
-            }.padding()
+            }.padding()*/
         }
     }
 }
@@ -101,43 +95,52 @@ struct ChartContainerView: View {
 import Charts
 
 struct ProductionChartView: View {
-    @State var productionData : [(day: String, production: Int)] = []
+    @State var productionData : [(x: String, y: Int)] = []
     
     @State var noDataToView : Bool = false
     
     @EnvironmentObject var tallyStore : TallyStore
     
     func updateProductionData() {
-        productionData = tallyStore.getProductionPerDay()
-        if productionData.isEmpty{
+        let receiver = tallyStore.getProductionPerDay()
+        productionData = receiver.map { (day: String, production: Int) in
+            (x: day, y: production)
+        }
+        if (productionData.count < 2) {
             noDataToView = true
         }
     }
     
     var body: some View {
             VStack {
-                if productionData.isEmpty{
+                if productionData.count < 2{
                     if (noDataToView) {
                         VStack{
-                            Text("There is currently no crew data to view.").font(.headline).foregroundColor(.gray).multilineTextAlignment(.center)
-                            Text("Data may be taking longer to load. Or no tallies have been submitted.").font(.caption).foregroundColor(.gray).multilineTextAlignment(.center)
+                            Text("Data taking longer to load, or less than 2 planting days have been completed. ").font(.headline).foregroundColor(.gray).multilineTextAlignment(.center).padding()
+                            Text("Complete 2 planting days of tallies or click retry. ").font(.caption).foregroundColor(.gray).multilineTextAlignment(.center)
                         }.padding()
                     }
                     Button(action: updateProductionData){
                         Label("Reload", systemImage: "arrow.clockwise")
                     }
                 } else {
-                    Text("Daily Production").font(.title3).padding()
-                    Chart{
+                    Text("Daily Production").font(.title3)
+                    LineChartView<Int>(xyData: $productionData, w: W(W: 280, H: 210, O: CGPoint(x: 20,y: 210), SW: 50))
+                    Spacer()
+                    Spacer()
+                    Spacer()
+                    Spacer()
+                    /*Chart{
                         ForEach(productionData, id: \.day){ item in
                             BarMark(
                                 x: .value("Day", item.day),
                                 y: .value("Trees Planted", item.production)
                             ).annotation{
-                                Text("\(item.production) trees").font(.caption2)
+                                Text("\(item.production)").font(.caption2)
                             }
                         }
-                    }
+                    }*/ // where you put the new chart'
+                    
                 }
             }.padding()
             .onAppear(){

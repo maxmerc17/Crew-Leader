@@ -35,6 +35,24 @@ struct CreateBlockView: View {
     
     @State var requirementsNotMet : Bool = false
     
+    private enum Field: Int, CaseIterable { case username, password, third, fourth } // case names are random. its the function that counts
+    @FocusState private var focusedField: Field?
+    
+    @State var isShowingSaveAlert: Bool = false
+    func save_block() {
+        for cut in cutsArray {
+            let newCut = Cut(species: cut.0, percent: Int(cut.1)!)
+            plantingUnits[(cut.2)-1].cuts.append(newCut)
+        }
+        
+        newBlockData.plantingUnits = plantingUnits
+        let newBlock = Block(data: newBlockData)
+        blocks.append(newBlock)
+        saveBlocks()
+        isPresentingNewBlockView = false
+        newBlockData = Block.Data()
+    }
+    
     func load() {
         if speciesStore.species.isEmpty {
             requirementsNotMet = true
@@ -84,6 +102,12 @@ struct CreateBlockView: View {
             isShowingAlert = true
             return
         }
+        if !isStringOnlyInteger(selectedBlockArea) {
+            alertText.title = "Improper Input"
+            alertText.message = "Area must be an decimal value. ex: 9, 24.4, 44"
+            isShowingAlert = true
+            return
+        }
         if selectedTreesPU == ""{
             alertText.title = "Improper Input"
             alertText.message = "Enter a value for trees / unit."
@@ -94,6 +118,10 @@ struct CreateBlockView: View {
         
         let newPlantingUnit = PlantingUnit(area: Float(selectedBlockArea)!, density: selectedDensity, TreesPU: Int(selectedTreesPU)!)
         plantingUnits.append(newPlantingUnit)
+    }
+    
+    func isStringOnlyInteger(_ str: String) -> Bool {
+        return (Int(str) != nil) || (Double(str) != nil)
     }
     
     func addSpecies() {
@@ -159,10 +187,13 @@ struct CreateBlockView: View {
             } else {
                 Form{
                     Section(""){
+                        Text("Reminder: Don't fuck it up. You cannot delete or update blocks.").font(.custom(
+                            "AmericanTypewriter",
+                            fixedSize: 16)).padding()
                         HStack{
                             Label("Block Name: ", systemImage: "textformat")
                             Spacer()
-                            TextField("ex. BUCK0059", text: $newBlockData.blockNumber).multilineTextAlignment(.trailing)
+                            TextField("ex. BUCK0059", text: $newBlockData.blockNumber).multilineTextAlignment(.trailing).focused($focusedField, equals: .fourth)
                         }
                         HStack{
                             Label("Start Date", systemImage: "calendar")
@@ -185,7 +216,7 @@ struct CreateBlockView: View {
                     Section("Add Planting Unit"){
                         HStack {
                             Label("Area", systemImage: "skew")
-                            TextField("ex. 27.1", text: $selectedBlockArea).multilineTextAlignment(.trailing).keyboardType(.numberPad)
+                            TextField("ex. 27.1", text: $selectedBlockArea).multilineTextAlignment(.trailing).focused($focusedField, equals: .third)
                         }
                         HStack {
                             Label("Density", systemImage: "circle.hexagongrid")
@@ -196,7 +227,7 @@ struct CreateBlockView: View {
                         }
                         HStack{
                             Label("Trees / Unit", systemImage: "leaf")
-                            TextField("ex. 38000", text: $selectedTreesPU).multilineTextAlignment(.trailing).keyboardType(.numberPad)
+                            TextField("ex. 38000", text: $selectedTreesPU).multilineTextAlignment(.trailing).keyboardType(.numberPad).focused($focusedField, equals: .username)
                         }
                         HStack {
                             Spacer()
@@ -237,7 +268,7 @@ struct CreateBlockView: View {
                         }
                         HStack{
                             Label("Mix", systemImage: "percent")
-                            TextField("ex. 67", text: $mix).multilineTextAlignment(.trailing).keyboardType(.numberPad)
+                            TextField("ex. 67", text: $mix).multilineTextAlignment(.trailing).keyboardType(.numberPad).focused($focusedField, equals: .password)
                             Text("%")
                         }
                         HStack {
@@ -259,22 +290,29 @@ struct CreateBlockView: View {
                         message: Text("\(alertText.message)")
                     )
                 }
+                .toolbar {
+                    ToolbarItem(placement: .keyboard) {
+                        Button("Close Keyboard") {
+                            focusedField = nil
+                        }
+                    }
+                }
                 .toolbar() {
                     ToolbarItem(placement: .confirmationAction) {
-                        Button("Add") {
-                            if Validate(){
-                                for cut in cutsArray {
-                                    let newCut = Cut(species: cut.0, percent: Int(cut.1)!)
-                                    plantingUnits[(cut.2)-1].cuts.append(newCut)
-                                }
-                                
-                                newBlockData.plantingUnits = plantingUnits
-                                let newBlock = Block(data: newBlockData)
-                                blocks.append(newBlock)
-                                saveBlocks()
-                                isPresentingNewBlockView = false
-                                newBlockData = Block.Data()
+                        Button("Save") {
+                            if Validate() {
+                                isShowingSaveAlert = true
                             }
+                        }
+                        .alert(isPresented: $isShowingSaveAlert) {
+                            Alert(
+                                title: Text("Save Block"),
+                                message: Text("Is everything correct?"),
+                                primaryButton: .default(Text("Yes! Please Save.")) {
+                                    save_block()
+                                },
+                                secondaryButton: .cancel()
+                            )
                         }
                     }
                 }

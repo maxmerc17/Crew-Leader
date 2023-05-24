@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		850F5B8328EDF41E00361F3B /* LineChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850F5B8228EDF41E00361F3B /* LineChartView.swift */; };
+		850F5BBF28F076D200361F3B /* LineChartProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850F5BBE28F076D200361F3B /* LineChartProtocols.swift */; };
+		850F5BC228F0778600361F3B /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850F5BC128F0778600361F3B /* Point.swift */; };
+		850F5BC428F077EA00361F3B /* PointArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850F5BC328F077EA00361F3B /* PointArray.swift */; };
+		850F5BC828F0787600361F3B /* LineChartStyling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850F5BC728F0787600361F3B /* LineChartStyling.swift */; };
+		850F5BCC28F078EF00361F3B /* Window.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850F5BCB28F078EF00361F3B /* Window.swift */; };
+		851872E928E39F3E00325800 /* LoadsView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851872E828E39F3E00325800 /* LoadsView2.swift */; };
+		851872EB28E4DDF500325800 /* AddLoadView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851872EA28E4DDF500325800 /* AddLoadView2.swift */; };
 		853A791B28DCEC87003A2384 /* CrewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853A791A28DCEC87003A2384 /* CrewView.swift */; };
 		8545285E28CBC63B00DF64F2 /* Crew_LeaderApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8545285D28CBC63B00DF64F2 /* Crew_LeaderApp.swift */; };
 		8545286028CBC63B00DF64F2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8545285F28CBC63B00DF64F2 /* ContentView.swift */; };
@@ -16,6 +24,8 @@
 		8545287928CBC63C00DF64F2 /* Crew_LeaderUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8545287828CBC63C00DF64F2 /* Crew_LeaderUITests.swift */; };
 		8545287B28CBC63C00DF64F2 /* Crew_LeaderUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8545287A28CBC63C00DF64F2 /* Crew_LeaderUITestsLaunchTests.swift */; };
 		854DE9B828D269AC0099C722 /* CacheCalculatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 854DE9B728D269AC0099C722 /* CacheCalculatorTests.swift */; };
+		8581185428DE1BF500C6D0B7 /* ImportPlantingUnitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8581185328DE1BF500C6D0B7 /* ImportPlantingUnitView.swift */; };
+		8581185728DE3C1A00C6D0B7 /* LoadsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8581185628DE3C1A00C6D0B7 /* LoadsView.swift */; };
 		8581321C28DB659D006102FB /* SpeciesStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8581321B28DB659D006102FB /* SpeciesStore.swift */; };
 		8581321E28DB6693006102FB /* PersonStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8581321D28DB6693006102FB /* PersonStore.swift */; };
 		8581322128DB6A41006102FB /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8581322028DB6A41006102FB /* SettingsView.swift */; };
@@ -27,9 +37,12 @@
 		85A7AE7C28DA28F800A7636D /* PieChartParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A7AE7B28DA28F800A7636D /* PieChartParameters.swift */; };
 		85A7AE7E28DA6DF300A7636D /* PlanterProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A7AE7D28DA6DF300A7636D /* PlanterProgressView.swift */; };
 		85A7AE8028DA6E5C00A7636D /* BlockProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A7AE7F28DA6E5C00A7636D /* BlockProgressView.swift */; };
+		85B479D928E1FECD006647B5 /* AddLoadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B479D828E1FECD006647B5 /* AddLoadView.swift */; };
+		85B479DB28E33F5F006647B5 /* PlanterReportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B479DA28E33F5F006647B5 /* PlanterReportView.swift */; };
 		85C6306928D2493100A5066F /* TrailingIconLabelStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85C6306828D2493100A5066F /* TrailingIconLabelStyle.swift */; };
 		85C6306B28D24C2800A5066F /* CacheCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85C6306A28D24C2800A5066F /* CacheCalculator.swift */; };
 		85C6306E28D257C400A5066F /* ResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85C6306D28D257C400A5066F /* ResultsView.swift */; };
+		85EB9D222A09FFBC00D63CD6 /* DeveloperNotesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EB9D212A09FFBC00D63CD6 /* DeveloperNotesView.swift */; };
 		85EF067828CBCA2B008D006A /* TalliesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EF067728CBCA2B008D006A /* TalliesView.swift */; };
 		85EF067A28CBCA49008D006A /* template_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EF067928CBCA49008D006A /* template_view.swift */; };
 		85EF067D28CBCD86008D006A /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EF067C28CBCD86008D006A /* Person.swift */; };
@@ -80,6 +93,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		850F5B8228EDF41E00361F3B /* LineChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartView.swift; sourceTree = "<group>"; };
+		850F5BBE28F076D200361F3B /* LineChartProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartProtocols.swift; sourceTree = "<group>"; };
+		850F5BC128F0778600361F3B /* Point.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Point.swift; sourceTree = "<group>"; };
+		850F5BC328F077EA00361F3B /* PointArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointArray.swift; sourceTree = "<group>"; };
+		850F5BC728F0787600361F3B /* LineChartStyling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartStyling.swift; sourceTree = "<group>"; };
+		850F5BCB28F078EF00361F3B /* Window.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Window.swift; sourceTree = "<group>"; };
+		851872E828E39F3E00325800 /* LoadsView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadsView2.swift; sourceTree = "<group>"; };
+		851872EA28E4DDF500325800 /* AddLoadView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddLoadView2.swift; sourceTree = "<group>"; };
 		853A791A28DCEC87003A2384 /* CrewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrewView.swift; sourceTree = "<group>"; };
 		8545285A28CBC63B00DF64F2 /* Crew Leader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Crew Leader.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8545285D28CBC63B00DF64F2 /* Crew_LeaderApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Crew_LeaderApp.swift; sourceTree = "<group>"; };
@@ -92,6 +113,8 @@
 		8545287828CBC63C00DF64F2 /* Crew_LeaderUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Crew_LeaderUITests.swift; sourceTree = "<group>"; };
 		8545287A28CBC63C00DF64F2 /* Crew_LeaderUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Crew_LeaderUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		854DE9B728D269AC0099C722 /* CacheCalculatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheCalculatorTests.swift; sourceTree = "<group>"; };
+		8581185328DE1BF500C6D0B7 /* ImportPlantingUnitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportPlantingUnitView.swift; sourceTree = "<group>"; };
+		8581185628DE3C1A00C6D0B7 /* LoadsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadsView.swift; sourceTree = "<group>"; };
 		8581321B28DB659D006102FB /* SpeciesStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeciesStore.swift; sourceTree = "<group>"; };
 		8581321D28DB6693006102FB /* PersonStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonStore.swift; sourceTree = "<group>"; };
 		8581322028DB6A41006102FB /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -103,9 +126,12 @@
 		85A7AE7B28DA28F800A7636D /* PieChartParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieChartParameters.swift; sourceTree = "<group>"; };
 		85A7AE7D28DA6DF300A7636D /* PlanterProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanterProgressView.swift; sourceTree = "<group>"; };
 		85A7AE7F28DA6E5C00A7636D /* BlockProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockProgressView.swift; sourceTree = "<group>"; };
+		85B479D828E1FECD006647B5 /* AddLoadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddLoadView.swift; sourceTree = "<group>"; };
+		85B479DA28E33F5F006647B5 /* PlanterReportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanterReportView.swift; sourceTree = "<group>"; };
 		85C6306828D2493100A5066F /* TrailingIconLabelStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrailingIconLabelStyle.swift; sourceTree = "<group>"; };
 		85C6306A28D24C2800A5066F /* CacheCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheCalculator.swift; sourceTree = "<group>"; };
 		85C6306D28D257C400A5066F /* ResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsView.swift; sourceTree = "<group>"; };
+		85EB9D212A09FFBC00D63CD6 /* DeveloperNotesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeveloperNotesView.swift; sourceTree = "<group>"; };
 		85EF067728CBCA2B008D006A /* TalliesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TalliesView.swift; sourceTree = "<group>"; };
 		85EF067928CBCA49008D006A /* template_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = template_view.swift; sourceTree = "<group>"; };
 		85EF067C28CBCD86008D006A /* Person.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
@@ -163,10 +189,32 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		850F5B8428EDF42400361F3B /* Line Chart View */ = {
+			isa = PBXGroup;
+			children = (
+				850F5BC028F0776600361F3B /* Models */,
+				850F5B8228EDF41E00361F3B /* LineChartView.swift */,
+				850F5BBE28F076D200361F3B /* LineChartProtocols.swift */,
+				850F5BC728F0787600361F3B /* LineChartStyling.swift */,
+			);
+			path = "Line Chart View";
+			sourceTree = "<group>";
+		};
+		850F5BC028F0776600361F3B /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				850F5BC128F0778600361F3B /* Point.swift */,
+				850F5BC328F077EA00361F3B /* PointArray.swift */,
+				850F5BCB28F078EF00361F3B /* Window.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		853A791928DCEC76003A2384 /* Crew View */ = {
 			isa = PBXGroup;
 			children = (
 				853A791A28DCEC87003A2384 /* CrewView.swift */,
+				85B479DA28E33F5F006647B5 /* PlanterReportView.swift */,
 			);
 			path = "Crew View";
 			sourceTree = "<group>";
@@ -206,6 +254,7 @@
 				85FF802A28D8D4AE00B55666 /* ErrorWrapper.swift */,
 				85FF802C28D8D5A600B55666 /* ErrorView.swift */,
 				85896DC328DA03B6007FA1ED /* PieChartView.swift */,
+				850F5B8428EDF42400361F3B /* Line Chart View */,
 			);
 			path = "Crew Leader";
 			sourceTree = "<group>";
@@ -236,14 +285,33 @@
 			path = "Crew LeaderUITests";
 			sourceTree = "<group>";
 		};
+		8581185528DE3C0700C6D0B7 /* Loads View */ = {
+			isa = PBXGroup;
+			children = (
+				8581185628DE3C1A00C6D0B7 /* LoadsView.swift */,
+				85B479D828E1FECD006647B5 /* AddLoadView.swift */,
+			);
+			path = "Loads View";
+			sourceTree = "<group>";
+		};
 		8581321F28DB6A27006102FB /* Settings View */ = {
 			isa = PBXGroup;
 			children = (
 				8581322028DB6A41006102FB /* SettingsView.swift */,
 				8581322228DB6C44006102FB /* MyCrewView.swift */,
 				8581322428DB6CC0006102FB /* SpeciesListView.swift */,
+				85EB9D212A09FFBC00D63CD6 /* DeveloperNotesView.swift */,
 			);
 			path = "Settings View";
+			sourceTree = "<group>";
+		};
+		85B479DC28E39F01006647B5 /* Loads View 2 */ = {
+			isa = PBXGroup;
+			children = (
+				851872E828E39F3E00325800 /* LoadsView2.swift */,
+				851872EA28E4DDF500325800 /* AddLoadView2.swift */,
+			);
+			path = "Loads View 2";
 			sourceTree = "<group>";
 		};
 		85C6306C28D2579B00A5066F /* Cache Calculator View */ = {
@@ -251,6 +319,7 @@
 			children = (
 				85EF06A728D21ECE008D006A /* CacheCalculatorView.swift */,
 				85C6306D28D257C400A5066F /* ResultsView.swift */,
+				8581185328DE1BF500C6D0B7 /* ImportPlantingUnitView.swift */,
 			);
 			path = "Cache Calculator View";
 			sourceTree = "<group>";
@@ -274,6 +343,7 @@
 		85EF069628CF895B008D006A /* Tally View */ = {
 			isa = PBXGroup;
 			children = (
+				85EF067728CBCA2B008D006A /* TalliesView.swift */,
 				85EF06A428D00863008D006A /* Write */,
 				85EF06A328D0082B008D006A /* Read */,
 			);
@@ -283,7 +353,6 @@
 		85EF06A328D0082B008D006A /* Read */ = {
 			isa = PBXGroup;
 			children = (
-				85EF067728CBCA2B008D006A /* TalliesView.swift */,
 				85EF068A28CE5C45008D006A /* DailyTallyView.swift */,
 				85EF068428CE402C008D006A /* PlanterTallyView.swift */,
 				85EF068628CE4467008D006A /* CardView.swift */,
@@ -308,6 +377,8 @@
 		85FF801D28D4E96000B55666 /* Block View */ = {
 			isa = PBXGroup;
 			children = (
+				85B479DC28E39F01006647B5 /* Loads View 2 */,
+				8581185528DE3C0700C6D0B7 /* Loads View */,
 				85EF069F28CFBCCE008D006A /* PopupView.swift */,
 				85FF801E28D4E97100B55666 /* BlocksView.swift */,
 				85FF802028D4EA2C00B55666 /* BlockView.swift */,
@@ -486,10 +557,12 @@
 				85EF068D28CE6462008D006A /* BlockSwitchView.swift in Sources */,
 				85A7AE7E28DA6DF300A7636D /* PlanterProgressView.swift in Sources */,
 				85EF067D28CBCD86008D006A /* Person.swift in Sources */,
+				850F5BBF28F076D200361F3B /* LineChartProtocols.swift in Sources */,
 				85EF068B28CE5C45008D006A /* DailyTallyView.swift in Sources */,
 				85EF06A828D21ECE008D006A /* CacheCalculatorView.swift in Sources */,
 				85EF068328CBD68E008D006A /* DailyTally.swift in Sources */,
 				85EF069128CE8B2F008D006A /* CreateTallyView.swift in Sources */,
+				850F5BCC28F078EF00361F3B /* Window.swift in Sources */,
 				8581322128DB6A41006102FB /* SettingsView.swift in Sources */,
 				8581321E28DB6693006102FB /* PersonStore.swift in Sources */,
 				85A7AE7C28DA28F800A7636D /* PieChartParameters.swift in Sources */,
@@ -500,25 +573,36 @@
 				85EF067A28CBCA49008D006A /* template_view.swift in Sources */,
 				85EF068728CE4467008D006A /* CardView.swift in Sources */,
 				85EF06A628D1097E008D006A /* AddBlocksView.swift in Sources */,
+				8581185728DE3C1A00C6D0B7 /* LoadsView.swift in Sources */,
 				85C6306928D2493100A5066F /* TrailingIconLabelStyle.swift in Sources */,
 				85EF06A028CFBCCE008D006A /* PopupView.swift in Sources */,
 				85EF069E28CFB54E008D006A /* PartialCardView.swift in Sources */,
 				85EF068528CE402C008D006A /* PlanterTallyView.swift in Sources */,
+				851872E928E39F3E00325800 /* LoadsView2.swift in Sources */,
 				85EF067F28CBD054008D006A /* Crew.swift in Sources */,
 				85896DC028D8FD46007FA1ED /* PlantingSummaryView.swift in Sources */,
+				85B479DB28E33F5F006647B5 /* PlanterReportView.swift in Sources */,
 				85FF802D28D8D5A600B55666 /* ErrorView.swift in Sources */,
 				85896DC428DA03B6007FA1ED /* PieChartView.swift in Sources */,
+				85EB9D222A09FFBC00D63CD6 /* DeveloperNotesView.swift in Sources */,
 				85EF069328CEA95A008D006A /* AddSpeciesView.swift in Sources */,
 				85EF069C28CFB055008D006A /* EnterSpeciesView.swift in Sources */,
+				8581185428DE1BF500C6D0B7 /* ImportPlantingUnitView.swift in Sources */,
 				85FF802128D4EA2C00B55666 /* BlockView.swift in Sources */,
 				8545286028CBC63B00DF64F2 /* ContentView.swift in Sources */,
 				85FF802528D4EB3000B55666 /* CreateBlockView.swift in Sources */,
 				85EF069828CF9319008D006A /* EnterTallyDataView.swift in Sources */,
+				850F5B8328EDF41E00361F3B /* LineChartView.swift in Sources */,
+				850F5BC428F077EA00361F3B /* PointArray.swift in Sources */,
 				85FF801F28D4E97100B55666 /* BlocksView.swift in Sources */,
+				850F5BC828F0787600361F3B /* LineChartStyling.swift in Sources */,
 				85FF802328D4EAD200B55666 /* BlockCardView.swift in Sources */,
 				85EF068928CE52F8008D006A /* Species.swift in Sources */,
+				85B479D928E1FECD006647B5 /* AddLoadView.swift in Sources */,
 				8545285E28CBC63B00DF64F2 /* Crew_LeaderApp.swift in Sources */,
+				851872EB28E4DDF500325800 /* AddLoadView2.swift in Sources */,
 				85A7AE8028DA6E5C00A7636D /* BlockProgressView.swift in Sources */,
+				850F5BC228F0778600361F3B /* Point.swift in Sources */,
 				853A791B28DCEC87003A2384 /* CrewView.swift in Sources */,
 				85FF802928D8D2DA00B55666 /* TallyStore.swift in Sources */,
 				85EF067828CBCA2B008D006A /* TalliesView.swift in Sources */,
@@ -678,6 +762,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Crew Leader/Preview Content\"";
@@ -707,6 +792,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Crew Leader/Preview Content\"";
