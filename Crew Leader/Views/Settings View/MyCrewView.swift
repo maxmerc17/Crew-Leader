@@ -40,12 +40,6 @@ struct MyCrewView: View {
             isShowingAlert = true
             return false
         }
-        if inputtedEmail.isEmpty {
-            alertText.title = "Improper Input"
-            alertText.message = "Enter a value for email."
-            isShowingAlert = true
-            return false
-        }
         
         if let _ = personStore.getCrewLeader(), inputtedType == .crewLeader {
             alertText.title = "Invalid Input"
@@ -71,7 +65,6 @@ struct MyCrewView: View {
         
         inputtedFirstName = ""
         inputtedLastName = ""
-        inputtedEmail = ""
         inputtedType = PersonType.crewMember
     }
     
@@ -100,12 +93,6 @@ struct MyCrewView: View {
                     TextField("Smith", text: $inputtedLastName).frame(width: 148).multilineTextAlignment(.trailing).focused($focusedField, equals: .password)
                 }
                 
-                HStack{
-                    Label("Email", systemImage: "at")
-                    Spacer()
-                    TextField("me@mail", text: $inputtedEmail).frame(width: 148).multilineTextAlignment(.trailing).focused($focusedField, equals: .third)
-                }
-                
                 HStack {
                     Label("Role", systemImage: "person")
                     Spacer()
@@ -113,8 +100,6 @@ struct MyCrewView: View {
                         Text("Crew Leader").tag(PersonType.crewLeader)
                         Text("Crew Member").tag(PersonType.crewMember)
                         Text("Guest Planter").tag(PersonType.guestPlanter)
-                        Text("Supervisor").tag(PersonType.supervisor)
-                        Text("Past Crew Member").tag(PersonType.pastCrewMember)
                     }
                 }
                 HStack {

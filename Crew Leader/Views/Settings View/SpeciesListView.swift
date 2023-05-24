@@ -103,14 +103,14 @@ struct SpeciesListView: View {
     var body: some View {
         VStack{
             Form{
-                Text("Reminder: Don't fuck it up. You cannot delete or update a species. Sometimes the same species code can be used for boxes with different contents. If you have two of the same species code in a season then name them uniquely here. Ex: { 'PLI048': x bundles, y trees/bundle } and { 'PLI048_2': z bundles, w trees/bundle }. Keep species names short. ").font(.custom(
+                Text("Reminder: Don't fuck it up. You cannot delete or update a species. Sometimes the same species code can be used for boxes with different contents. If you have two of the same species code in a season then name them uniquely here. Ex: { 'PINE_1': x bundles, y trees/bundle } and { 'PINE_2': z bundles, w trees/bundle }. Keep species names short. ").font(.custom(
                     "AmericanTypewriter",
                     fixedSize: 16)).padding()
                 Section("Input New Species"){
                     HStack{
                         Label("Species Code:", systemImage: "textformat")
                         Spacer()
-                        TextField("ex. PLI048", text: $inputtedSpeciesCode).frame(width: 148).multilineTextAlignment(.trailing).focused($focusedField, equals: .username)
+                        TextField("ex. PINE_1", text: $inputtedSpeciesCode).frame(width: 148).multilineTextAlignment(.trailing).focused($focusedField, equals: .username)
                     }
                     HStack{
                         Label("Trees Per Box", systemImage: "shippingbox")

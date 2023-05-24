@@ -11,11 +11,11 @@ struct DeveloperNotesView: View {
     var body: some View {
         ScrollView{
             Text("Crew Wut??").font(.title)
-            Text("Whaddup whaddup!! Welcome to Crew Leader 0.1 BANG BANG!! If you're looking for a hype tree planting application filled with convienent tools and infested with bugs (wait .. what?) then you have come to the right place! Crew Leader is for Crew Leaders made by a past Crew Leader. Crew Leader consists of 4 modules: Cache Calculator, Blocks, Tallies, and Crew.").font(.custom(
+            Text("Whaddup whaddup!! Welcome to Crew Leader 0.1 BANG BANG!! If you're looking for a hype tree planting iphone app filled with convienent tools and infested with bugs (wait .. what?) then you have come to the right place! Crew Leader is for crew leaders made by a past crew leader. Crew Leader consists of 4 modules: Cache Calculator, Blocks, Tallies, and Crew.").font(.custom(
                 "AmericanTypewriter",
                 fixedSize: 16)).padding()
             
-            Text("Start by going to settings and adding crew members and species. Then add your first block. Once crew members, species, at least one block, and at least two tallies are created the entire application will be accessible. Try clicking on the charts to view additional features. And play around to learn how everything works.").font(.custom(
+            Text("Start by going to settings and adding crew members and species. Then add your first block. Once crew members, species, at least one block, and at least two tallies are created the entire application will be accessible. Try clicking on the charts to view additional features. Play around to learn how everything works.").font(.custom(
                 "AmericanTypewriter",
                 fixedSize: 16)).padding()
             
