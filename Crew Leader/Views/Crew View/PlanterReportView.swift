@@ -91,7 +91,7 @@ struct PlanterProductionChartView: View {
                 if (noDataToView) {
                     VStack{
                         Text("Data taking longer to load, or less than 2 planting days have been completed. ").font(.headline).foregroundColor(.gray).multilineTextAlignment(.center).padding()
-                        Text("Complete 2 planting days of tallies or click retry. ").font(.caption).foregroundColor(.gray).multilineTextAlignment(.center)
+                        Text("Complete 2 planting days of tallies or click retry to view this chart. ").font(.caption).foregroundColor(.gray).multilineTextAlignment(.center)
                     }.padding()
                 }
                 Button(action: updateProductionData){
